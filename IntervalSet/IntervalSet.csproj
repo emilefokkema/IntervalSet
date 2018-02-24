@@ -7,8 +7,8 @@
     <ProjectGuid>80a5fc57-87bf-4b24-86ae-c9ac682d7bbe</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>IntervalSet</RootNamespace>
+    <AssemblyName>IntervalSet</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

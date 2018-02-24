@@ -1,4 +1,4 @@
-﻿namespace ClassLibrary1
+﻿namespace IntervalSet
 {
     public class Class1
     {

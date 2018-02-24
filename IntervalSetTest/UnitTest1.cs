@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ClassLibrary1;
+using IntervalSet;
 
-namespace UnitTestProject1
+namespace IntervalSetTest
 {
     [TestClass]
     public class UnitTest1
