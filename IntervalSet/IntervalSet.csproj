@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>80a5fc57-87bf-4b24-86ae-c9ac682d7bbe</ProjectGuid>
+    <ProjectGuid>{80A5FC57-87BF-4B24-86AE-C9AC682D7BBE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>IntervalSet</RootNamespace>
@@ -30,24 +30,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="PeriodSet\BoundedPeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
+    <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />
+    <Compile Include="PeriodSet\INonEmptyPeriod.cs" />
+    <Compile Include="PeriodSet\IPeriod.cs" />
+    <Compile Include="PeriodSet\IPeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\IPeriodSet.cs" />
+    <Compile Include="PeriodSet\NonEmptyBoundedPeriodSet.cs" />
+    <Compile Include="PeriodSet\NonEmptyOpenPeriodSet.cs" />
+    <Compile Include="PeriodSet\NonEmptyPeriodSet.cs" />
+    <Compile Include="PeriodSet\OpenPeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\OpenPeriodSet.cs" />
+    <Compile Include="PeriodSet\Period.cs" />
+    <Compile Include="PeriodSet\PeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\PeriodSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>
