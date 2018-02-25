@@ -213,16 +213,22 @@ namespace IntervalSet.PeriodSet
         }
         
 
-        /// <inheritdoc cref="IPeriodSet.IsEmpty"/>
+        /// <inheritdoc />
         public virtual bool IsEmpty => !PeriodList.Any();
 
-        /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.PeriodCount"/>
+        /// <inheritdoc />
         public virtual int PeriodCount => PeriodList.Count;
 
-        /// <inheritdoc cref="IPeriodSet.ContainsDate"/>
+        /// <inheritdoc />
         public bool ContainsDate(DateTime date)
         {
             return PeriodList.Any(p => p.ContainsDate(date));
+        }
+
+        /// <inheritdoc />
+        public BoundaryKind Cross(DateTime date)
+        {
+            return PeriodList.Aggregate(BoundaryKind.None, (b, p) => b | p.Cross(date));
         }
 
         /// <inheritdoc cref="IPeriodSet.ContainsPeriod"/>

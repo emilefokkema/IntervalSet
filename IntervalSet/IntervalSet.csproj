@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PeriodSet\Boundary.cs" />
     <Compile Include="PeriodSet\BoundedPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
     <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />

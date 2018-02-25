@@ -70,6 +70,13 @@ namespace IntervalSet.PeriodSet
         bool ContainsDate(DateTime date);
 
         /// <summary>
+        /// Returns whether <paramref name="date"/> is a start, an end, both or neither of this <see cref="IPeriodSet"/>
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        BoundaryKind Cross(DateTime date);
+
+        /// <summary>
         /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>
         /// </summary>
         IEnumerable<DateTime> Boundaries { get; }

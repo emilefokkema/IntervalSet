@@ -104,9 +104,27 @@ namespace IntervalSet.PeriodSet
             }
         }
 
-        bool IPeriodSet.ContainsDate(DateTime date)
+        /// <inheritdoc />
+        public bool ContainsDate(DateTime date)
         {
             return date >= Earliest && date < _to;
+        }
+
+        BoundaryKind IPeriodSet.Cross(DateTime date)
+        {
+            if (ContainsDate(date))
+            {
+                return BoundaryKind.Start;
+            }
+            if (Earliest == _to && date == Earliest)
+            {
+                return BoundaryKind.Start | BoundaryKind.End;
+            }
+            if (date == _to)
+            {
+                return BoundaryKind.End;
+            }
+            return BoundaryKind.None;
         }
 
         bool IPeriodSet.ContainsPeriod(DateTime from, DateTime to)
