@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntervalSet.Period;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet"/> not all of the <see cref="INonEmptyPeriod" />s of which can be assumed to have an end date
     /// </summary>
-    public class OpenPeriodSet : PeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod>
+    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)

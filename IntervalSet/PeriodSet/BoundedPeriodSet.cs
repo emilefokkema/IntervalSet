@@ -1,3 +1,4 @@
+using IntervalSet.Period;
 using System;
 using System.Collections.Generic;
 
@@ -7,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet" /> that contains only periods that have an end date
     /// </summary>
-    public class BoundedPeriodSet : PeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod>
+    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)

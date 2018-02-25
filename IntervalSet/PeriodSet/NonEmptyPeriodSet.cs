@@ -5,13 +5,13 @@ using System.Linq;
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
-    /// A <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
+    /// A <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
     /// </summary>
     /// <typeparam name="TSet"></typeparam>
     /// <typeparam name="TNonEmptySet"></typeparam>
     /// <typeparam name="TPeriod"></typeparam>
     /// <typeparam name="TListBuilder"></typeparam>
-    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>, INonEmptyPeriod
+    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>, INonEmptyPeriod
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
         where TPeriod : INonEmptyPeriod

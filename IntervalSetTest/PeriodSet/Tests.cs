@@ -1,4 +1,5 @@
-﻿using IntervalSet.PeriodSet;
+﻿using IntervalSet.Period;
+using IntervalSet.PeriodSet;
 using NUnit.Framework;
 using System;
 

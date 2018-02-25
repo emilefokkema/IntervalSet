@@ -1,7 +1,8 @@
-﻿using System;
+﻿using IntervalSet.PeriodSet;
+using System;
 using System.Collections.Generic;
 
-namespace IntervalSet.PeriodSet
+namespace IntervalSet.Period
 {
     /// <summary>
     /// An implementation of <see cref="IOpenPeriod"/> and <see cref="IBoundedPeriod"/> at once

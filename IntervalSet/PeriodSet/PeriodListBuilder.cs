@@ -73,10 +73,7 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public void Add(IList<TPeriod> list, DateTime from, DateTime to)
         {
-            if (from != to)
-            {
-                list.Add(MakePeriod(from, to));
-            }
+            list.Add(MakePeriod(from, to));
         }
 
         /// <inheritdoc />

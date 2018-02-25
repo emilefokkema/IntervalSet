@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IntervalSet.Period;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
