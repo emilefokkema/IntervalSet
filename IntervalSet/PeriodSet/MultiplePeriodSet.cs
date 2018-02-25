@@ -11,7 +11,7 @@ namespace IntervalSet.PeriodSet
     public abstract class MultiplePeriodSet<TSet,TNonEmptySet,TListBuilder,TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
+        where TPeriod : IPeriodSet
     {
         /// <summary>
         /// The list of <typeparamref name="TPeriod"/>s for this instance

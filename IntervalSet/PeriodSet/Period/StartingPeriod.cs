@@ -6,29 +6,28 @@ namespace IntervalSet.PeriodSet.Period
     public abstract class StartingPeriod<TSet, TListBuilder, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TPeriod>, INonEmptyPeriod
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
     {
         protected abstract TPeriod GetPeriod();
-        protected DateTime From { get; }
+        public DateTime Earliest { get; }
 
         protected StartingPeriod(DateTime from)
         {
-            From = from;
+            Earliest = from;
         }
 
         public override bool ContainsDate(DateTime date)
         {
-            return date >= From;
+            return date >= Earliest;
         }
 
         public override bool ContainsPeriod(DateTime from, DateTime to)
         {
-            return from >= From;
+            return from >= Earliest;
         }
 
         public override IEnumerable<DateTime> Boundaries
         {
-            get { yield return From; }
+            get { yield return Earliest; }
         }
 
         public override bool IsNonEmpty(out TPeriod nonEmpty)
@@ -43,7 +42,7 @@ namespace IntervalSet.PeriodSet.Period
 
         public override BoundaryKind Cross(DateTime date)
         {
-            if (date >= From)
+            if (date >= Earliest)
             {
                 return BoundaryKind.Start;
             }
@@ -63,9 +62,7 @@ namespace IntervalSet.PeriodSet.Period
 
         public override int GetHashCode()
         {
-            return From.GetHashCode();
+            return Earliest.GetHashCode();
         }
-
-        DateTime INonEmptyPeriod.Earliest => From;
     }
 }

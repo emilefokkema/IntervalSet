@@ -24,6 +24,8 @@ namespace IntervalSetTest.PeriodSet
 
             (new OpenPeriodSet(startTwo) - new OpenPeriodSet(startOne)).Should().Be(empty);
 
+            (new OpenPeriodSet(startOne) - two).Should().Be(one + new OpenPeriodSet(startThree));
+
             (empty - one).Should().Be(empty);
 
             (new OpenPeriodSet(startOne, startThree) + new OpenPeriodSet(startTwo, startFour))
@@ -209,10 +211,16 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_periods()
         {
-            IPeriodSet boundedStartingOne = new StartingBoundedPeriod(startOne);
-            IPeriodSet boundedStartingTwo = new StartingBoundedPeriod(startTwo);
-            IPeriodSet difference = boundedStartingOne.Minus(boundedStartingTwo);
-            difference.Should().Be(new BoundedPeriodSet(startOne, startTwo));
+            StartingBoundedPeriod start1 = new StartingBoundedPeriod(startOne);
+            StartingBoundedPeriod start2 = new StartingBoundedPeriod(startTwo);
+
+
+            BoundedPeriodSet difference = start1.Minus(start2);
+            difference.Should().Be(one);
+
+            IBoundedPeriod period;
+            start1.IsNonEmpty(out period).Should().BeTrue();
+            period.Should().Be(start1);
         }
     }
 }

@@ -9,13 +9,13 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override IOpenPeriod MakePeriod(DateTime from)
         {
-            return new Period.Period(from);
+            return new StartingOpenPeriod(from);
         }
 
         /// <inheritdoc />
         public override IOpenPeriod MakePeriod(DateTime from, DateTime to)
         {
-            return new Period.Period(from, to);
+            return new StartEndingOpenPeriod(from, to);
         }
     }
 }

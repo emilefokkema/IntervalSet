@@ -7,7 +7,6 @@ namespace IntervalSet.PeriodSet
     public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
     {
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TPeriod"/>s

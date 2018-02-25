@@ -23,10 +23,10 @@ namespace IntervalSetTest.PeriodSet
             startSix = new DateTime(2016, 6, 1);
             startSeven = new DateTime(2016, 7, 1);
             startEight = new DateTime(2016, 8, 1);
-            one = new Period(startOne, startTwo);
-            two = new Period(startTwo, startThree);
-            three = new Period(startThree, startFour);
-            four = new Period(startFour, startFive);
+            one = new OpenPeriodSet(startOne, startTwo);
+            two = new OpenPeriodSet(startTwo, startThree);
+            three = new OpenPeriodSet(startThree, startFour);
+            four = new OpenPeriodSet(startFour, startFive);
             empty = OpenPeriodSet.Empty;
         }
     }

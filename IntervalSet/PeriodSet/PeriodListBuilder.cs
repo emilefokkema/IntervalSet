@@ -5,19 +5,12 @@ using System.Linq;
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    /// <typeparam name="TPeriod">the type of period to add to a list</typeparam>
     public abstract class PeriodListBuilder<TPeriod> : IPeriodListBuilder<TPeriod>
     {
-        /// <summary>
-        /// Given <see cref="DateTime"/>s <paramref name="from"/> and <paramref name="to"/>, returns a <typeparamref name="TPeriod"/> starting
-        /// at <paramref name="from"/> and ending at <paramref name="to"/>
-        /// </summary>
+        /// <inheritdoc />
         public abstract TPeriod MakePeriod(DateTime from, DateTime to);
 
-        /// <summary>
-        /// Given <see cref="DateTime"/> <paramref name="from"/>, returns a <typeparamref name="TPeriod"/> starting
-        /// at <paramref name="from"/>
-        /// </summary>
+        /// <inheritdoc />
         public abstract TPeriod MakePeriod(DateTime from);
         
         /// <inheritdoc />
@@ -50,7 +43,7 @@ namespace IntervalSet.PeriodSet
             DateTime? beginningBoundary = null;
             foreach (DateTime change in changes.OrderBy(d => d))
             {
-                if (predicate(change) && change != DateTime.MaxValue)
+                if (predicate(change))
                 {
                     if (!currentlyTrue)
                     {
