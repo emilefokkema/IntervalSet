@@ -88,6 +88,16 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override int GetHashCode()
         {
+            if (PeriodList.Count == 0)
+            {
+                return 0;
+            }
+
+            if (PeriodList.Count == 1)
+            {
+                return PeriodList.ElementAt(0).GetHashCode();
+            }
+
             unchecked
             {
                 int result = 17;

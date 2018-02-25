@@ -60,11 +60,21 @@ namespace IntervalSetTest.PeriodSet
             OpenPeriodSet.Empty.IsNonEmpty(out nonEmpty).Should().BeFalse();
             nonEmpty.Should().BeNull();
 
-            new BoundedPeriodSet(startOne, startOne).Should().Be(BoundedPeriodSet.Empty);
-            new OpenPeriodSet(startOne, startOne).Should().Be(OpenPeriodSet.Empty);
-
             (OpenPeriodSet.Empty + OpenPeriodSet.Empty).Should().Be(OpenPeriodSet.Empty);
             (BoundedPeriodSet.Empty + BoundedPeriodSet.Empty).Should().Be(BoundedPeriodSet.Empty);
+        }
+
+        [Ignore("doing this now")]
+        [Test]
+        public void Test_degenerate()
+        {
+            BoundedPeriodSet degenerate = new BoundedPeriodSet(startOne,startOne);
+            degenerate.Should().NotBe(BoundedPeriodSet.Empty);
+            degenerate.Should().NotBe(OpenPeriodSet.Empty);
+            degenerate.IsEmpty.Should().BeFalse();
+
+            (degenerate * one).Should().Be(degenerate);
+            (degenerate + two).ContainsDate(startOne).Should().BeTrue();
         }
 
         [Test]
@@ -196,9 +206,14 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_collision()
         {
-            Dictionary<IPeriodSet,string> dictionary = new Dictionary<IPeriodSet, string>();
-            dictionary.Add(one,"one");
+            Dictionary<IPeriodSet,string> dictionary = new Dictionary<IPeriodSet, string>
+            {
+                { one, "one"},
+                { BoundedPeriodSet.Empty, "empty"}
+            };
             dictionary.ContainsKey((BoundedPeriodSet)one).Should().BeTrue();
+            dictionary.ContainsKey(new StartEndingBoundedPeriod(startOne, startTwo)).Should().BeTrue();
+            dictionary.ContainsKey(OpenPeriodSet.Empty).Should().BeTrue();
         }
 
         [Test]
