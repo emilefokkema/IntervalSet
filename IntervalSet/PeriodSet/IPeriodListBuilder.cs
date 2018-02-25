@@ -34,11 +34,15 @@ namespace IntervalSet.PeriodSet
         /// <summary>
         /// Adds to a given list of periods a period starting at <paramref name="from"/> and ending at <paramref name="to"/>
         /// </summary>
-        void Add(IList<TPeriod> list, DateTime from, DateTime to);
+        //void Add(IList<TPeriod> list, DateTime from, DateTime to);
 
         /// <summary>
         /// Adds to a given list of periods a period starting at <paramref name="from"/>
         /// </summary>
-        void Add(IList<TPeriod> list, DateTime from);
+        //void Add(IList<TPeriod> list, DateTime from);
+
+        TPeriod MakePeriod(DateTime from, DateTime to);
+
+        TPeriod MakePeriod(DateTime from);
     }
 }

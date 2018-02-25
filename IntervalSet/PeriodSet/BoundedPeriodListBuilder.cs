@@ -7,13 +7,13 @@ namespace IntervalSet.PeriodSet
     public class BoundedPeriodListBuilder : PeriodListBuilder<IBoundedPeriod>
     {
         /// <inheritdoc />
-        protected override IBoundedPeriod MakePeriod(DateTime from)
+        public override IBoundedPeriod MakePeriod(DateTime from)
         {
             return new Period.Period(from);
         }
 
         /// <inheritdoc />
-        protected override IBoundedPeriod MakePeriod(DateTime from, DateTime to)
+        public override IBoundedPeriod MakePeriod(DateTime from, DateTime to)
         {
             return new Period.Period(from, to);
         }

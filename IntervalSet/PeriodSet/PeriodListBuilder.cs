@@ -12,13 +12,13 @@ namespace IntervalSet.PeriodSet
         /// Given <see cref="DateTime"/>s <paramref name="from"/> and <paramref name="to"/>, returns a <typeparamref name="TPeriod"/> starting
         /// at <paramref name="from"/> and ending at <paramref name="to"/>
         /// </summary>
-        protected abstract TPeriod MakePeriod(DateTime from, DateTime to);
+        public abstract TPeriod MakePeriod(DateTime from, DateTime to);
 
         /// <summary>
         /// Given <see cref="DateTime"/> <paramref name="from"/>, returns a <typeparamref name="TPeriod"/> starting
         /// at <paramref name="from"/>
         /// </summary>
-        protected abstract TPeriod MakePeriod(DateTime from);
+        public abstract TPeriod MakePeriod(DateTime from);
         
         /// <inheritdoc />
         public void InverseOfBoolean(IList<TPeriod> list, IEnumerable<DateTime> changes,
@@ -68,18 +68,6 @@ namespace IntervalSet.PeriodSet
             {
                 list.Add(MakePeriod(beginningBoundary.Value));
             }
-        }
-
-        /// <inheritdoc />
-        public void Add(IList<TPeriod> list, DateTime from, DateTime to)
-        {
-            list.Add(MakePeriod(from, to));
-        }
-
-        /// <inheritdoc />
-        public void Add(IList<TPeriod> list, DateTime from)
-        {
-            list.Add(MakePeriod(from));
         }
     }
 }

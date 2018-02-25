@@ -7,13 +7,13 @@ namespace IntervalSet.PeriodSet
     public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod>
     {
         /// <inheritdoc />
-        protected override IOpenPeriod MakePeriod(DateTime from)
+        public override IOpenPeriod MakePeriod(DateTime from)
         {
             return new Period.Period(from);
         }
 
         /// <inheritdoc />
-        protected override IOpenPeriod MakePeriod(DateTime from, DateTime to)
+        public override IOpenPeriod MakePeriod(DateTime from, DateTime to)
         {
             return new Period.Period(from, to);
         }

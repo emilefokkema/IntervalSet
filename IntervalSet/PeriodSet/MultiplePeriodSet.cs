@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
@@ -49,7 +48,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         protected MultiplePeriodSet(DateTime from, DateTime to) : this()
         {
-            new TListBuilder().Add(PeriodList, from, to);
+            PeriodList.Add(new TListBuilder().MakePeriod(from, to));
         }
 
         /// <summary>
@@ -59,11 +58,11 @@ namespace IntervalSet.PeriodSet
         {
             if (to.HasValue)
             {
-                new TListBuilder().Add(PeriodList, from, to.Value);
+                PeriodList.Add(new TListBuilder().MakePeriod(from, to.Value));
             }
             else
             {
-                new TListBuilder().Add(PeriodList, from);
+                PeriodList.Add(new TListBuilder().MakePeriod(from));
             }
         }
 
@@ -72,7 +71,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         protected MultiplePeriodSet(DateTime from) : this()
         {
-            new TListBuilder().Add(PeriodList, from);
+            PeriodList.Add(new TListBuilder().MakePeriod(from));
         }
 
         /// <summary>
