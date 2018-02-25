@@ -47,7 +47,7 @@
     <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />
     <Compile Include="PeriodSet\INonEmptyPeriod.cs" />
     <Compile Include="PeriodSet\PeriodSet.cs" />
-    <Compile Include="PeriodSet\Period\Class1.cs" />
+    <Compile Include="PeriodSet\Period\StartingBoundedPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartingPeriod.cs" />
     <Compile Include="PeriodSet\Period\IPeriod.cs" />
     <Compile Include="PeriodSet\IPeriodListBuilder.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FluentAssertions;
 using IntervalSet.PeriodSet;
+using IntervalSet.PeriodSet.Period;
 using NUnit.Framework;
 
 namespace IntervalSetTest.PeriodSet
@@ -203,6 +204,15 @@ namespace IntervalSetTest.PeriodSet
         {
             new BoundedPeriodSet(startOne, startTwo).Intersects(new BoundedPeriodSet(startTwo, startThree)).Should()
                 .BeFalse();
+        }
+
+        [Test]
+        public void Test_periods()
+        {
+            IPeriodSet boundedStartingOne = new StartingBoundedPeriod(startOne);
+            IPeriodSet boundedStartingTwo = new StartingBoundedPeriod(startTwo);
+            IPeriodSet difference = boundedStartingOne.Minus(boundedStartingTwo);
+            difference.Should().Be(new BoundedPeriodSet(startOne, startTwo));
         }
     }
 }
