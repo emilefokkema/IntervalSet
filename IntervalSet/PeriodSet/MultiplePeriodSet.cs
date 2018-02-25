@@ -1,7 +1,7 @@
-﻿using IntervalSet.Period;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
@@ -81,11 +81,6 @@ namespace IntervalSet.PeriodSet
         /// <param name="list"></param>
         /// <returns></returns>
         protected abstract TNonEmptySet MakeNonEmptySet(IList<TPeriod> list);
-
-        /// <inheritdoc />
-        
-
-        /// <inheritdoc />
         
 
         /// <inheritdoc />
@@ -101,11 +96,6 @@ namespace IntervalSet.PeriodSet
                 return result;
             }
         }
-
-
-        
-
-        
 
         /// <inheritdoc />
         public override bool IsNonEmpty(out TNonEmptySet nonEmpty)
@@ -144,12 +134,6 @@ namespace IntervalSet.PeriodSet
             return PeriodList.Any(p => p.ContainsPeriod(from, to));
         }
 
-        /// <inheritdoc />
-        public override bool Intersects(IPeriodSet other)
-        {
-            return !other.Cross(this).IsEmpty;
-        }
-
         /// <inheritdoc cref="IPeriodSet.Boundaries"/>
         public override IEnumerable<DateTime> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
 
@@ -160,7 +144,7 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.ForEach"/>
-        public void ForEach(Action<TPeriod> what)
+        public override void ForEach(Action<TPeriod> what)
         {
             foreach (TPeriod period in PeriodList)
             {

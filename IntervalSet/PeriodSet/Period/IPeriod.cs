@@ -1,8 +1,6 @@
-﻿using IntervalSet.PeriodSet;
-using System;
+﻿using System;
 
-
-namespace IntervalSet.Period
+namespace IntervalSet.PeriodSet.Period
 {
     /// <summary>
     /// An <see cref="INonEmptyPeriod"/> with a (possible) end date

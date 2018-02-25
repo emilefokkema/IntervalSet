@@ -1,7 +1,7 @@
-﻿using IntervalSet.Period;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {

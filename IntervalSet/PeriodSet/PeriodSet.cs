@@ -1,9 +1,8 @@
-﻿using IntervalSet.PeriodSet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace IntervalSet.Period
+namespace IntervalSet.PeriodSet
 {
     public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
         where TSet : IPeriodSet
@@ -68,29 +67,20 @@ namespace IntervalSet.Period
             return Where(trueFrom, changes);
         }
 
-
-
         IPeriodSet IPeriodSet.Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes)
         {
             return Where(trueEverywhereBetween, changes);
         }
-
-
 
         IPeriodSet IPeriodSet.Minus(IPeriodSet other)
         {
             return Minus(other);
         }
 
-
-
-
         IPeriodSet IPeriodSet.Plus(IPeriodSet other)
         {
             return Plus(other);
         }
-
-
 
         IPeriodSet IPeriodSet.Cross(IPeriodSet other)
         {
@@ -112,9 +102,9 @@ namespace IntervalSet.Period
             return BoundaryKind.None;
         }
 
-        public virtual bool Intersects(IPeriodSet other)
+        public bool Intersects(IPeriodSet other)
         {
-            return false;
+            return !other.Cross(this).IsEmpty;
         }
 
         public virtual IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector) where TT : class

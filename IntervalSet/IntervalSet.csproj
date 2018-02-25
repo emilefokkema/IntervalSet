@@ -46,8 +46,10 @@
     <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
     <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />
     <Compile Include="PeriodSet\INonEmptyPeriod.cs" />
-    <Compile Include="Period\PeriodSet.cs" />
-    <Compile Include="Period\IPeriod.cs" />
+    <Compile Include="PeriodSet\PeriodSet.cs" />
+    <Compile Include="PeriodSet\Period\Class1.cs" />
+    <Compile Include="PeriodSet\Period\StartingPeriod.cs" />
+    <Compile Include="PeriodSet\Period\IPeriod.cs" />
     <Compile Include="PeriodSet\IPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\IPeriodSet.cs" />
     <Compile Include="PeriodSet\NonEmptyBoundedPeriodSet.cs" />
@@ -55,7 +57,7 @@
     <Compile Include="PeriodSet\NonEmptyPeriodSet.cs" />
     <Compile Include="PeriodSet\OpenPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\OpenPeriodSet.cs" />
-    <Compile Include="Period\Period.cs" />
+    <Compile Include="PeriodSet\Period\Period.cs" />
     <Compile Include="PeriodSet\PeriodListBuilder.cs" />
     <Compile Include="PeriodSet\MultiplePeriodSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

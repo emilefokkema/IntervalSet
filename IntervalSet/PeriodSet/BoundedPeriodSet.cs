@@ -1,6 +1,6 @@
-using IntervalSet.Period;
 using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
