@@ -11,10 +11,10 @@ namespace IntervalSet.PeriodSet
     /// <typeparam name="TNonEmptySet"></typeparam>
     /// <typeparam name="TPeriod"></typeparam>
     /// <typeparam name="TListBuilder"></typeparam>
-    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>, INonEmptyPeriod
+    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
+        where TPeriod : IPeriodSet
     {
         /// <inheritdoc/>
         protected NonEmptyPeriodSet(IList<TPeriod> list):base(list)
@@ -42,11 +42,7 @@ namespace IntervalSet.PeriodSet
             }
         }
 
-        /// <inheritdoc/>
-        public DateTime Earliest => PeriodList.OrderBy(p => p.Earliest).First().Earliest;
-
         /// <inheritdoc cref="IPeriodSet.IsEmpty"/>
         public override bool IsEmpty => false;
-       
     }
 }

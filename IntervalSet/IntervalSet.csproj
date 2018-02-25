@@ -45,7 +45,6 @@
     <Compile Include="PeriodSet\BoundedPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
     <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />
-    <Compile Include="PeriodSet\INonEmptyPeriod.cs" />
     <Compile Include="PeriodSet\PeriodSet.cs" />
     <Compile Include="PeriodSet\Period\IOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />

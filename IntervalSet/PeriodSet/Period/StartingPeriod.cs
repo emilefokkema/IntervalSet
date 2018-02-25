@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace IntervalSet.PeriodSet.Period
 {
-    public abstract class StartingPeriod<TSet, TListBuilder, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TPeriod>, INonEmptyPeriod
+    public abstract class StartingPeriod<TSet, TListBuilder, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TPeriod>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
     {

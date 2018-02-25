@@ -74,20 +74,20 @@ namespace IntervalSetTest.PeriodSet
             NonEmptyOpenPeriodSet nonEmpty;
             set.IsNonEmpty(out nonEmpty);
             nonEmpty.Earliest.Should().Be(startOne);
-            nonEmpty.Last.Should().Be(startFour);
+            nonEmpty.To.Should().Be(startFour);
 
             
 
             NonEmptyBoundedPeriodSet nonEmptyBounded = new NonEmptyBoundedPeriodSet(startOne);
             DateTime earliest = nonEmptyBounded.Earliest;
-            DateTime last = nonEmptyBounded.Last;
+            DateTime last = nonEmptyBounded.To;
             earliest.Should().Be(startOne);
             last.Should().Be(DateTime.MaxValue);
             nonEmptyBounded.PeriodCount.Should().Be(1);
 
             NonEmptyOpenPeriodSet nonEmptyOpen = new NonEmptyOpenPeriodSet(startOne);
             earliest = nonEmptyOpen.Earliest;
-            DateTime? lastIfAny = nonEmptyOpen.Last;
+            DateTime? lastIfAny = nonEmptyOpen.To;
             earliest.Should().Be(startOne);
             lastIfAny.Should().Be(null);
 
@@ -188,7 +188,7 @@ namespace IntervalSetTest.PeriodSet
 
             bounded = new OpenPeriodSet(startOne);
             NonEmptyBoundedPeriodSet nonEmptyBounded = (NonEmptyBoundedPeriodSet) bounded;
-            nonEmptyBounded.Last.Should().Be(DateTime.MaxValue);
+            nonEmptyBounded.To.Should().Be(DateTime.MaxValue);
             nonEmptyBounded.Should().Be(new BoundedPeriodSet(startOne));
             new BoundedPeriodSet(startOne).Should().Be(nonEmptyBounded);
         }
