@@ -31,7 +31,10 @@ namespace IntervalSet.PeriodSet
         public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
         {
             IList<TPeriod> list = new List<TPeriod>();
-            new TListBuilder().InverseOfBoolean(list, Boundaries.Concat(changes ?? new List<DateTime>()).ToList(), b => ContainsDate(b) && trueFrom(b));
+            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(Boundaries.Concat(changes ?? new List<DateTime>()).ToList(), b => ContainsDate(b) && trueFrom(b)))
+            {
+                list.Add(period);
+            }
             return MakeSet(list);
         }
 
@@ -39,8 +42,11 @@ namespace IntervalSet.PeriodSet
         public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes = null)
         {
             IList<TPeriod> list = new List<TPeriod>();
-            new TListBuilder().InverseOfBoolean(list, Boundaries.Concat(changes ?? new List<DateTime>()).ToList(),
-                (a, b) => ContainsPeriod(a, b) && trueEverywhereBetween(a, b));
+            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(Boundaries.Concat(changes ?? new List<DateTime>()).ToList(),
+                (a, b) => ContainsPeriod(a, b) && trueEverywhereBetween(a, b)))
+            {
+                list.Add(period);
+            }
             return MakeSet(list);
         }
 
@@ -53,7 +59,10 @@ namespace IntervalSet.PeriodSet
         {
             IList<TPeriod> list = new List<TPeriod>();
             IList<DateTime> changes = Boundaries.Concat(other.Boundaries).ToList();
-            new TListBuilder().InverseOfBoolean(list, changes, d => ContainsDate(d) || other.ContainsDate(d));
+            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(changes, d => ContainsDate(d) || other.ContainsDate(d)))
+            {
+                list.Add(period);
+            }
             return MakeSet(list);
         }
 

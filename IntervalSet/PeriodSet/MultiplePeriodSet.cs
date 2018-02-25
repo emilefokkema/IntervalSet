@@ -31,7 +31,10 @@ namespace IntervalSet.PeriodSet
         /// <param name="set"></param>
         protected MultiplePeriodSet(IPeriodSet set):this()
         {
-            new TListBuilder().InverseOfBoolean(PeriodList, set.Boundaries.ToList(), set.ContainsDate);
+            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(set.Boundaries.ToList(), set.ContainsDate))
+            {
+                PeriodList.Add(period);
+            }
         }
 
         /// <summary>
