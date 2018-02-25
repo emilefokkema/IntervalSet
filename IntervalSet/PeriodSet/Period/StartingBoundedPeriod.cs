@@ -3,22 +3,32 @@ using System.Collections.Generic;
 
 namespace IntervalSet.PeriodSet.Period
 {
+    /// <summary>
+    /// Represents a period of time with a start date and <see cref="DateTime.MaxValue"/> as end date (i.e. no end date)
+    /// </summary>
     public class StartingBoundedPeriod : StartingPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod>, IBoundedPeriod
     {
+        /// <inheritdoc />
         public StartingBoundedPeriod(DateTime from):base(from)
         {
         }
 
+        /// <inheritdoc />
         protected override IBoundedPeriod GetPeriod()
         {
             return this;
         }
 
+        /// <inheritdoc />
         protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> list)
         {
             return new BoundedPeriodSet(list);
         }
 
+        /// <inheritdoc />
+        /// <summary>
+        /// Positive infinity represted as a <see cref="DateTime"/>
+        /// </summary>
         public DateTime To => DateTime.MaxValue;
     }
 }

@@ -4,6 +4,13 @@ using System.Linq;
 
 namespace IntervalSet.PeriodSet
 {
+    /// <summary>
+    /// A base class for implementations of <see cref="IPeriodSet"/>
+    /// </summary>
+    /// <typeparam name="TSet">the type of this implementation</typeparam>
+    /// <typeparam name="TNonEmptySet">the non-empty version of this implementation</typeparam>
+    /// <typeparam name="TListBuilder">the type of <see cref="IPeriodListBuilder{TPeriod}"/> for this implementation</typeparam>
+    /// <typeparam name="TPeriod">the kind of connected period of time for this implementation</typeparam>
     public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod>, new()
@@ -15,18 +22,22 @@ namespace IntervalSet.PeriodSet
         /// <returns></returns>
         protected abstract TSet MakeSet(IList<TPeriod> list);
 
+        /// <inheritdoc />
         public virtual bool ContainsDate(DateTime date)
         {
             return false;
         }
 
+        /// <inheritdoc />
         public virtual bool ContainsPeriod(DateTime from, DateTime to)
         {
             return false;
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<DateTime> Boundaries { get { yield break; } }
 
+        /// <inheritdoc />
         public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
         {
             IList<TPeriod> list = new List<TPeriod>();
@@ -49,11 +60,13 @@ namespace IntervalSet.PeriodSet
             return MakeSet(list);
         }
 
+        /// <inheritdoc />
         public TSet Minus(IPeriodSet other)
         {
             return Where(b => !other.ContainsDate(b), other.Boundaries.ToList());
         }
 
+        /// <inheritdoc />
         public TSet Plus(IPeriodSet other)
         {
             IList<TPeriod> list = new List<TPeriod>();
@@ -65,6 +78,7 @@ namespace IntervalSet.PeriodSet
             return MakeSet(list);
         }
 
+        /// <inheritdoc />
         public TSet Cross(IPeriodSet other)
         {
             return Where(other.ContainsDate, other.Boundaries.ToList());
@@ -95,35 +109,43 @@ namespace IntervalSet.PeriodSet
             return Cross(other);
         }
 
+        /// <inheritdoc />
         public virtual bool IsNonEmpty(out TNonEmptySet nonEmpty)
         {
             nonEmpty = default(TNonEmptySet);
             return false;
         }
 
+        /// <inheritdoc />
         public virtual bool IsEmpty => true;
 
+        /// <inheritdoc />
         public virtual int PeriodCount => 0;
 
+        /// <inheritdoc />
         public virtual BoundaryKind Cross(DateTime date)
         {
             return BoundaryKind.None;
         }
 
+        /// <inheritdoc />
         public bool Intersects(IPeriodSet other)
         {
             return !other.Cross(this).IsEmpty;
         }
 
+        /// <inheritdoc />
         public virtual IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector) where TT : class
         {
             yield break;
         }
 
+        /// <inheritdoc />
         public virtual void ForEach(Action<TPeriod> what)
         {
         }
 
+        /// <inheritdoc />
         public bool Equals(IPeriodSet other)
         {
             if (other == null)
@@ -133,6 +155,7 @@ namespace IntervalSet.PeriodSet
             return Minus(other).IsEmpty && other.Minus(this).IsEmpty;
         }
 
+        /// <inheritdoc />
         public override bool Equals(object other)
         {
             if (other is IPeriodSet)
@@ -142,6 +165,7 @@ namespace IntervalSet.PeriodSet
             return false;
         }
 
+        /// <inheritdoc />
         public override int GetHashCode()
         {
             return 0;

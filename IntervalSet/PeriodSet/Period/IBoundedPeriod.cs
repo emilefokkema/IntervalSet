@@ -3,10 +3,13 @@
 namespace IntervalSet.PeriodSet.Period
 {
     /// <summary>
-    /// An <see cref="INonEmptyPeriod"/> with an end date
+    /// A connected period of time with a start date and an end date
     /// </summary>
     public interface IBoundedPeriod : IPeriodSet
     {
+        /// <summary>
+        /// The start date of this period
+        /// </summary>
         DateTime Earliest { get; }
 
         /// <summary>
