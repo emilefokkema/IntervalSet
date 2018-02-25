@@ -1,7 +1,7 @@
 # IntervalSet
 ### Some base classes for performing algebra on sets of disjoint intervals of the IComparable&lt;T&gt; line
 
-The defining characteristic of `IComparable<Thing>`s is that they form a line. [Intervals](https://en.wikipedia.org/wiki/Interval_(mathematics)) are subsets of this line,
+The defining characteristic of `IComparable<Thing>`s is that they form a line. [Intervals](http://mathworld.wolfram.com/Interval.html) are subsets of this line,
 as are sets consisting of a single `Thing`.
 
 This project considers interval sets. An example of an interval set is
