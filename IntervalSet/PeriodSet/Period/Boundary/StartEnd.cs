@@ -4,7 +4,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
 {
     public class StartEnd : Boundary
     {
-        public StartEnd(DateTime date) : base(date, BoundaryKind.Start | BoundaryKind.End, Inclusivity.Inclusive)
+        public StartEnd(DateTime date) : base(date, new BoundaryKind(BoundaryDirection.Start | BoundaryDirection.End, Inclusivity.Inclusive))
         {
         }
     }

@@ -4,17 +4,14 @@ namespace IntervalSet.PeriodSet.Period.Boundary
 {
     public abstract class Boundary : IEquatable<Boundary>
     {
-        public Inclusivity Inclusivity { get; }
+        public BoundaryKind Kind { get; }
 
         public DateTime Date { get; }
 
-        public BoundaryKind Kind { get; }
-
-        protected Boundary(DateTime date, BoundaryKind kind, Inclusivity inclusivity)
+        protected Boundary(DateTime date, BoundaryKind kind)
         {
             Date = date;
             Kind = kind;
-            Inclusivity = inclusivity;
         }
 
         public bool Equals(Boundary other)
@@ -24,7 +21,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
                 return false;
             }
 
-            return other.Date == Date && other.Inclusivity == Inclusivity && other.Kind == Kind;
+            return other.Date == Date && other.Kind.Equals(Kind);
         }
 
         public override bool Equals(object other)
@@ -41,10 +38,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
         {
             unchecked
             {
-                var hashCode = (int) Inclusivity;
-                hashCode = (hashCode * 397) ^ Date.GetHashCode();
-                hashCode = (hashCode * 397) ^ (int) Kind;
-                return hashCode;
+                return ((Kind != null ? Kind.GetHashCode() : 0) * 397) ^ Date.GetHashCode();
             }
         }
     }

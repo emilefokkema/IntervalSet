@@ -21,5 +21,24 @@ namespace IntervalSetTest.PeriodSet
 
             new BoundedPeriodSet(startOne, startOne).Cross(startOne).Should().Be(new StartEnd(startOne));
         }
+
+        [Test]
+        public void Test_boundary_kind()
+        {
+            BoundaryKind degenerate = new BoundaryKind(BoundaryDirection.Start | BoundaryDirection.End, Inclusivity.Inclusive);
+            BoundaryKind inclusiveStart = new BoundaryKind(BoundaryDirection.Start, Inclusivity.Inclusive);
+            BoundaryKind exclusiveStart = new BoundaryKind(BoundaryDirection.Start, Inclusivity.Exclusive);
+            BoundaryKind inclusiveEnd = new BoundaryKind(BoundaryDirection.End, Inclusivity.Inclusive);
+            BoundaryKind exclusiveEnd = new BoundaryKind(BoundaryDirection.End, Inclusivity.Exclusive);
+
+            inclusiveStart.Minus(exclusiveStart).Should().Be(degenerate);
+            inclusiveEnd.Minus(exclusiveEnd).Should().Be(degenerate);
+
+            inclusiveStart.Minus(inclusiveEnd).Should().Be(exclusiveStart);
+            inclusiveStart.Minus(exclusiveEnd).Should().Be(inclusiveStart);
+
+            inclusiveEnd.Minus(inclusiveStart).Should().Be(exclusiveEnd);
+            inclusiveEnd.Minus(exclusiveStart).Should().Be(inclusiveEnd);
+        }
     }
 }
