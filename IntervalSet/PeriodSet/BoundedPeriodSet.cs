@@ -28,8 +28,17 @@ namespace IntervalSet.PeriodSet
         { }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from, DateTime? to = null) : base(from, to)
-        { }
+        public BoundedPeriodSet(DateTime from, DateTime? to = null)
+        {
+            if (to.HasValue)
+            {
+                PeriodList.Add(new StartEndingBoundedPeriod(from, to.Value));
+            }
+            else
+            {
+                PeriodList.Add(new StartingBoundedPeriod(from));
+            }
+        }
 
         /// <inheritdoc />
         public BoundedPeriodSet()

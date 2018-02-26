@@ -56,21 +56,6 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
-        /// </summary>
-        protected MultiplePeriodSet(DateTime from, DateTime? to) : this()
-        {
-            if (to.HasValue)
-            {
-                PeriodList.Add(new TListBuilder().MakePeriod(from, to.Value));
-            }
-            else
-            {
-                PeriodList.Add(new TListBuilder().MakePeriod(from));
-            }
-        }
-
-        /// <summary>
         /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
         /// </summary>
         protected MultiplePeriodSet(DateTime from) : this()

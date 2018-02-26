@@ -1,17 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public abstract class PeriodListBuilder<TPeriod> : IPeriodListBuilder<TPeriod>
+    public abstract class PeriodListBuilder<TPeriod, TStartingPeriod> : IPeriodListBuilder<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
         /// <inheritdoc />
-        public abstract TPeriod MakePeriod(DateTime from, DateTime to);
+        public TPeriod MakePeriod(DateTime from, DateTime to)
+        {
+            return MakeStartingPeriod(from).End(to);
+        }
 
         /// <inheritdoc />
-        public abstract TPeriod MakePeriod(DateTime from);
+        public TPeriod MakePeriod(DateTime from)
+        {
+            return MakeStartingPeriod(from);
+        }
+
+        protected abstract TStartingPeriod MakeStartingPeriod(DateTime from);
         
         /// <inheritdoc />
         public IEnumerable<TPeriod> InverseOfBoolean(IEnumerable<DateTime> changes,
@@ -39,31 +49,28 @@ namespace IntervalSet.PeriodSet
             Func<DateTime, bool> predicate)
         {
             List<TPeriod> result = new List<TPeriod>();
-            bool currentlyTrue = false;
-            DateTime? beginningBoundary = null;
+            TStartingPeriod start = null;
             foreach (DateTime change in changes.OrderBy(d => d))
             {
                 if (predicate(change))
                 {
-                    if (!currentlyTrue)
+                    if (start == null)
                     {
-                        beginningBoundary = change;
+                        start = MakeStartingPeriod(change);
                     }
-                    currentlyTrue = true;
                 }
                 else
                 {
-                    if (currentlyTrue)
+                    if (start != null)
                     {
-                        result.Add(MakePeriod(beginningBoundary.Value, change));
-                        beginningBoundary = null;
+                        result.Add(start.End(change));
+                        start = null;
                     }
-                    currentlyTrue = false;
                 }
             }
-            if (currentlyTrue)
+            if (start != null)
             {
-                result.Add(MakePeriod(beginningBoundary.Value));
+                result.Add(start);
             }
 
             return result;

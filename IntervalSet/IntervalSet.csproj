@@ -51,6 +51,7 @@
     <Compile Include="PeriodSet\Period\Boundary\StartEnd.cs" />
     <Compile Include="PeriodSet\Period\Boundary\Start.cs" />
     <Compile Include="PeriodSet\Period\Boundary\Inclusivity.cs" />
+    <Compile Include="PeriodSet\Period\IStartingPeriod.cs" />
     <Compile Include="PeriodSet\Period\IOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartingOpenPeriod.cs" />

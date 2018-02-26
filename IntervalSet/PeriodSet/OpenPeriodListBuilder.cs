@@ -4,18 +4,11 @@ using IntervalSet.PeriodSet.Period;
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod>
+    public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod, StartingOpenPeriod>
     {
-        /// <inheritdoc />
-        public override IOpenPeriod MakePeriod(DateTime from)
+        protected override StartingOpenPeriod MakeStartingPeriod(DateTime from)
         {
             return new StartingOpenPeriod(from);
-        }
-
-        /// <inheritdoc />
-        public override IOpenPeriod MakePeriod(DateTime from, DateTime to)
-        {
-            return new StartEndingOpenPeriod(from, to);
         }
     }
 }

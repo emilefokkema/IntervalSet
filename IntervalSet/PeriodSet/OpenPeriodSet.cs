@@ -38,9 +38,16 @@ namespace IntervalSet.PeriodSet
         { }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from, DateTime? to) : base(from, to)
+        public OpenPeriodSet(DateTime from, DateTime? to)
         {
-           
+            if (to.HasValue)
+            {
+                PeriodList.Add(new StartEndingOpenPeriod(from, to.Value));
+            }
+            else
+            {
+                PeriodList.Add(new StartingOpenPeriod(from));
+            }
         }
 
         /// <summary>
