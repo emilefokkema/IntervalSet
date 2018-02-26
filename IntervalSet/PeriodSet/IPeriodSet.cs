@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet
 {
@@ -74,7 +75,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        BoundaryKind Cross(DateTime date);
+        Boundary Cross(DateTime date);
 
         /// <summary>
         /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>

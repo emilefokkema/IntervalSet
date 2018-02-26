@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet
 {
@@ -135,9 +136,9 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public override BoundaryKind Cross(DateTime date)
+        public override Boundary Cross(DateTime date)
         {
-            return PeriodList.Aggregate(BoundaryKind.None, (b, p) => b | p.Cross(date));
+            return PeriodList.Select(p => p.Cross(date)).FirstOrDefault(b => b != null);
         }
 
         /// <inheritdoc cref="IPeriodSet.ContainsPeriod"/>

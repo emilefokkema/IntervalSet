@@ -41,11 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PeriodSet\Boundary.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\Boundary.cs" />
     <Compile Include="PeriodSet\BoundedPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
     <Compile Include="PeriodSet\IEnumerablePeriodSet.cs" />
     <Compile Include="PeriodSet\PeriodSet.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\BoundaryKind.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\End.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\StartEnd.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\Start.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\Inclusivity.cs" />
     <Compile Include="PeriodSet\Period\IOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartingOpenPeriod.cs" />

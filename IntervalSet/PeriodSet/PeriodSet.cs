@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet
 {
@@ -123,9 +124,9 @@ namespace IntervalSet.PeriodSet
         public virtual int PeriodCount => 0;
 
         /// <inheritdoc />
-        public virtual BoundaryKind Cross(DateTime date)
+        public virtual Boundary Cross(DateTime date)
         {
-            return BoundaryKind.None;
+            return null;
         }
 
         /// <inheritdoc />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet.Period
 {
@@ -69,14 +70,14 @@ namespace IntervalSet.PeriodSet.Period
         public override int PeriodCount => 1;
 
         /// <inheritdoc />
-        public override BoundaryKind Cross(DateTime date)
+        public override Boundary.Boundary Cross(DateTime date)
         {
             if (date >= Earliest)
             {
-                return BoundaryKind.Start;
+                return new Start(date, Inclusivity.Inclusive);
             }
 
-            return BoundaryKind.None;
+            return null;
         }
 
         /// <inheritdoc />

@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using IntervalSet.PeriodSet;
+using IntervalSet.PeriodSet.Period.Boundary;
 using NUnit.Framework;
 
 namespace IntervalSetTest.PeriodSet
@@ -11,14 +12,14 @@ namespace IntervalSetTest.PeriodSet
         {
             OpenPeriodSet set = one + three + four;
 
-            set.Cross(startOne).Should().Be(BoundaryKind.Start);
-            set.Cross(startTwo).Should().Be(BoundaryKind.End);
-            set.Cross(startThree).Should().Be(BoundaryKind.Start);
-            set.Cross(startFour).Should().Be(BoundaryKind.Start);
-            set.Cross(startFive).Should().Be(BoundaryKind.End);
-            set.Cross(startSix).Should().Be(BoundaryKind.None);
+            set.Cross(startOne).Should().Be(new Start(startOne, Inclusivity.Inclusive));
+            set.Cross(startTwo).Should().Be(new End(startTwo, Inclusivity.Exclusive));
+            set.Cross(startThree).Should().Be(new Start(startThree, Inclusivity.Inclusive));
+            set.Cross(startFour).Should().Be(new Start(startFour, Inclusivity.Inclusive));
+            set.Cross(startFive).Should().Be(new End(startFive, Inclusivity.Exclusive));
+            set.Cross(startSix).Should().Be(null);
 
-            new BoundedPeriodSet(startOne, startOne).Cross(startOne).Should().Be(BoundaryKind.Start | BoundaryKind.End);
+            new BoundedPeriodSet(startOne, startOne).Cross(startOne).Should().Be(new StartEnd(startOne));
         }
     }
 }
