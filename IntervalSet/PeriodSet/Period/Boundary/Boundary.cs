@@ -2,44 +2,30 @@
 
 namespace IntervalSet.PeriodSet.Period.Boundary
 {
-    public abstract class Boundary : IEquatable<Boundary>
+    /// <summary>
+    /// Represents the boundary of a connected period of time in a <see cref="IPeriodSet"/>
+    /// </summary>
+    public class Boundary
     {
+        /// <summary>
+        /// This <see cref="Boundary"/>'s <see cref="BoundaryKind"/>
+        /// </summary>
         public BoundaryKind Kind { get; }
 
+        /// <summary>
+        /// The location of this <see cref="Boundary"/>
+        /// </summary>
         public DateTime Date { get; }
 
-        protected Boundary(DateTime date, BoundaryKind kind)
+        /// <summary>
+        /// Initializes a new <see cref="Boundary"/> on a given <see cref="DateTime"/> and a given <see cref="BoundaryKind"/>
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="kind"></param>
+        public Boundary(DateTime date, BoundaryKind kind)
         {
             Date = date;
             Kind = kind;
-        }
-
-        public bool Equals(Boundary other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return other.Date == Date && other.Kind.Equals(Kind);
-        }
-
-        public override bool Equals(object other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return Equals(other as Boundary);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return ((Kind != null ? Kind.GetHashCode() : 0) * 397) ^ Date.GetHashCode();
-            }
         }
     }
 }
