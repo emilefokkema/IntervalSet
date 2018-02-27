@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
     public class BoundaryKind : IEquatable<BoundaryKind>
     {
         /// <summary>
-        /// The <see cref="Inclusivity"/> of this kind
+        /// The <see cref="Period.Boundary.Inclusivity"/> of this kind
         /// </summary>
         public Inclusivity Inclusivity { get; }
 
@@ -18,7 +18,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
         public BoundaryDirection Direction { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="BoundaryKind"/> with a given <see cref="BoundaryDirection"/> and <see cref="Inclusivity"/>
+        /// Initializes a new <see cref="BoundaryKind"/> with a given <see cref="BoundaryDirection"/> and <see cref="Period.Boundary.Inclusivity"/>
         /// </summary>
         protected BoundaryKind(BoundaryDirection direction, Inclusivity inclusivity)
         {
@@ -30,7 +30,6 @@ namespace IntervalSet.PeriodSet.Period.Boundary
         /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of subtracting another <see cref="IPeriodSet"/>
         /// with a <see cref="Boundary"/> at d from an <see cref="IPeriodSet"/> with this kind of <see cref="Boundary"/> at d
         /// </summary>
-        /// <param name="other"></param>
         /// <returns></returns>
         public BoundaryKind Minus(BoundaryKind other)
         {
@@ -38,33 +37,33 @@ namespace IntervalSet.PeriodSet.Period.Boundary
             {
                 return null;
             }
-            return new BoundaryKind(MinusDirection(other.Direction), MinusInclusivity(other.Inclusivity));
+            return new BoundaryKind(Direction & ~other.Direction, Inclusivity & ~other.Inclusivity);
         }
 
-        private Inclusivity MinusInclusivity(Inclusivity other)
+        /// <summary>
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of adding another <see cref="IPeriodSet"/>
+        /// with a <see cref="Boundary"/> at d to an <see cref="IPeriodSet"/> with this kind of <see cref="Boundary"/> at d
+        /// </summary>
+        /// <returns></returns>
+        public BoundaryKind Plus(BoundaryKind other)
         {
-            if (Inclusivity == Inclusivity.Inclusive && other == Inclusivity.Inclusive)
-            {
-                return Inclusivity.Exclusive;
-            }
-
-            return Inclusivity;
+            return new BoundaryKind(Direction | other.Direction, Inclusivity | other.Inclusivity);
         }
 
-        private BoundaryDirection MinusDirection(BoundaryDirection other)
+        /// <summary>
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of intersecting another <see cref="IPeriodSet"/>
+        /// with a <see cref="Boundary"/> at d with an <see cref="IPeriodSet"/> with this kind of <see cref="Boundary"/> at d
+        /// </summary>
+        /// <returns></returns>
+        public BoundaryKind Cross(BoundaryKind other)
         {
-            BoundaryDirection result = Direction;
-            if (Direction.HasFlag(BoundaryDirection.Start) && other.HasFlag(BoundaryDirection.Start))
+            BoundaryDirection crossDirection = Direction & other.Direction;
+            Inclusivity crossInclusivity = Inclusivity & other.Inclusivity;
+            if (crossDirection == BoundaryDirection.None && crossInclusivity == Inclusivity.Exclusive)
             {
-                result ^= BoundaryDirection.Start;
+                return null;
             }
-
-            if (Direction.HasFlag(BoundaryDirection.End) && other.HasFlag(BoundaryDirection.End))
-            {
-                result ^= BoundaryDirection.End;
-            }
-
-            return  result;
+            return new BoundaryKind(crossDirection, crossInclusivity);
         }
 
         /// <inheritdoc />

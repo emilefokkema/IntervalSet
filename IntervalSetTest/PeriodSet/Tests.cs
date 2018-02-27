@@ -13,7 +13,7 @@ namespace IntervalSetTest.PeriodSet
         protected OpenPeriodSet one, two, three, four, empty;
 
         [OneTimeSetUp]
-        public void FixtureSetup()
+        public virtual void FixtureSetup()
         {
             startOne = new DateTime(2016, 1, 1);
             startTwo = new DateTime(2016, 2, 1);
