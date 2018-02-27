@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, IBoundedPeriod>, IBoundedPeriod
+    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, StartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IPeriodSet set):base(set)

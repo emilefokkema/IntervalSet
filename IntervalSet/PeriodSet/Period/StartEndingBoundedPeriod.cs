@@ -6,7 +6,7 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and an end date
     /// </summary>
-    public class StartEndingBoundedPeriod : StartEndingPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod>, IBoundedPeriod
+    public class StartEndingBoundedPeriod : StartEndingPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, StartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
         public StartEndingBoundedPeriod(DateTime from, DateTime to):base(from, to)

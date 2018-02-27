@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
-    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod>
+    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,StartingOpenPeriod,IOpenPeriod>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)

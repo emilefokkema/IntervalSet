@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet
@@ -9,10 +10,11 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="IPeriodSet"/>s
     /// </summary>
-    public abstract class MultiplePeriodSet<TSet,TNonEmptySet,TListBuilder,TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>
+    public abstract class MultiplePeriodSet<TSet,TNonEmptySet,TListBuilder, TStartingPeriod,TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
         where TPeriod : IPeriodSet
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// The list of <typeparamref name="TPeriod"/>s for this instance
@@ -52,7 +54,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         protected MultiplePeriodSet(DateTime from, DateTime to) : this()
         {
-            PeriodList.Add(new TListBuilder().MakePeriod(from, to));
+            PeriodList.Add(new TListBuilder().MakeStartingPeriod(from).End(to));
         }
 
         /// <summary>
@@ -60,7 +62,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         protected MultiplePeriodSet(DateTime from) : this()
         {
-            PeriodList.Add(new TListBuilder().MakePeriod(from));
+            PeriodList.Add(new TListBuilder().MakeStartingPeriod(from));
         }
 
         /// <summary>

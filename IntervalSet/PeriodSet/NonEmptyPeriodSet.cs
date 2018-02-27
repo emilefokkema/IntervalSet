@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
@@ -11,10 +12,11 @@ namespace IntervalSet.PeriodSet
     /// <typeparam name="TNonEmptySet"></typeparam>
     /// <typeparam name="TPeriod"></typeparam>
     /// <typeparam name="TListBuilder"></typeparam>
-    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>
+    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
         where TPeriod : IPeriodSet
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <inheritdoc/>
         protected NonEmptyPeriodSet(IList<TPeriod> list):base(list)

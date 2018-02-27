@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 using IntervalSet.PeriodSet.Period.Boundary;
 
 namespace IntervalSet.PeriodSet
@@ -12,9 +13,10 @@ namespace IntervalSet.PeriodSet
     /// <typeparam name="TNonEmptySet">the non-empty version of this implementation</typeparam>
     /// <typeparam name="TListBuilder">the type of <see cref="IPeriodListBuilder{TPeriod}"/> for this implementation</typeparam>
     /// <typeparam name="TPeriod">the kind of connected period of time for this implementation</typeparam>
-    public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
+    public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TPeriod"/>s

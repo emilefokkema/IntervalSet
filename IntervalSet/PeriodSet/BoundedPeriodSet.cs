@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
-    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod>
+    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,StartingBoundedPeriod, IBoundedPeriod>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)

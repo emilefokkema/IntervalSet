@@ -7,9 +7,10 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing a single period of time with a start date and an end date
     /// </summary>
-    public abstract class StartEndingPeriod<TSet, TListBuilder, TPeriod> : StartingPeriod<TSet, TListBuilder, TPeriod>
+    public abstract class StartEndingPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod> : StartingPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// The end date of this period

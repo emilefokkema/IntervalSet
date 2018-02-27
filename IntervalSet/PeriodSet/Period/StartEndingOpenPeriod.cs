@@ -6,7 +6,7 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and an actual end date
     /// </summary>
-    public class StartEndingOpenPeriod : StartEndingPeriod<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod>, IOpenPeriod
+    public class StartEndingOpenPeriod : StartEndingPeriod<OpenPeriodSet, OpenPeriodListBuilder, StartingOpenPeriod,IOpenPeriod>, IOpenPeriod
     {
         /// <inheritdoc />
         public StartEndingOpenPeriod(DateTime from, DateTime to):base(from, to)

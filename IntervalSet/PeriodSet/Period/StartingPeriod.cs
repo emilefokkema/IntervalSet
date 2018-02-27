@@ -10,9 +10,10 @@ namespace IntervalSet.PeriodSet.Period
     /// <typeparam name="TSet">the kind of <see cref="IPeriodSet"/> that contains this kind of period</typeparam>
     /// <typeparam name="TListBuilder">the kind of <see cref="IPeriodListBuilder{TPeriod}"/> that will produce this kind of period</typeparam>
     /// <typeparam name="TPeriod">the type of this period</typeparam>
-    public abstract class StartingPeriod<TSet, TListBuilder, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TPeriod>
+    public abstract class StartingPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// returns a typed version of this instance

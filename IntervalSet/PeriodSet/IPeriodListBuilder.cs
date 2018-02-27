@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
@@ -7,7 +8,9 @@ namespace IntervalSet.PeriodSet
     /// Builds up a list of periods
     /// </summary>
     /// <typeparam name="TPeriod"></typeparam>
-    public interface IPeriodListBuilder<out TPeriod>
+    /// <typeparam name="TStartingPeriod"></typeparam>
+    public interface IPeriodListBuilder<TPeriod, TStartingPeriod>
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// Given a list of boundaries, returns a period for every two <see cref="DateTime"/>s
@@ -30,18 +33,10 @@ namespace IntervalSet.PeriodSet
             Func<DateTime, bool> predicate);
 
         /// <summary>
-        /// Returns a <typeparamref name="TPeriod"/> starting at <paramref name="from"/> and ending at <paramref name="to"/>
-        /// </summary>
-        /// <param name="from"></param>
-        /// <param name="to"></param>
-        /// <returns></returns>
-        TPeriod MakePeriod(DateTime from, DateTime to);
-
-        /// <summary>
-        /// Returns a <typeparamref name="TPeriod"/> starting at <paramref name="from"/>
+        /// Returns a <typeparamref name="TStartingPeriod"/> starting at <paramref name="from"/>
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        TPeriod MakePeriod(DateTime from);
+        TStartingPeriod MakeStartingPeriod(DateTime from);
     }
 }
