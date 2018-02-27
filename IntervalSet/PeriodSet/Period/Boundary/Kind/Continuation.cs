@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntervalSet.PeriodSet.Period.Boundary
+namespace IntervalSet.PeriodSet.Period.Boundary.Kind
 {
     /// <summary>
     /// A <see cref="BoundaryKind"/> of a <see cref="DateTime"/> that is a member of an open subset of an <see cref="IPeriodSet"/>

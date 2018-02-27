@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntervalSet.PeriodSet.Period.Boundary
+namespace IntervalSet.PeriodSet.Period.Boundary.Kind
 {
     /// <summary>
     /// A kind of <see cref="Boundary"/> of an <see cref="IPeriodSet"/>
@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
     public class BoundaryKind : IEquatable<BoundaryKind>
     {
         /// <summary>
-        /// The <see cref="Period.Boundary.Inclusivity"/> of this kind
+        /// The <see cref="Kind.Inclusivity"/> of this kind
         /// </summary>
         public Inclusivity Inclusivity { get; }
 
@@ -18,7 +18,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
         public BoundaryDirection Direction { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="BoundaryKind"/> with a given <see cref="BoundaryDirection"/> and <see cref="Period.Boundary.Inclusivity"/>
+        /// Initializes a new <see cref="BoundaryKind"/> with a given <see cref="BoundaryDirection"/> and <see cref="Kind.Inclusivity"/>
         /// </summary>
         protected BoundaryKind(BoundaryDirection direction, Inclusivity inclusivity)
         {

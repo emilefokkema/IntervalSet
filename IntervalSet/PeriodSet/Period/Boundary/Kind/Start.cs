@@ -1,4 +1,4 @@
-﻿namespace IntervalSet.PeriodSet.Period.Boundary
+﻿namespace IntervalSet.PeriodSet.Period.Boundary.Kind
 {
     /// <summary>
     /// Represents the <see cref="BoundaryKind"/> of a <see cref="Boundary"/> at the start of a connected period of time in an <see cref="IPeriodSet"/>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
 using IntervalSet.PeriodSet.Period.Boundary;
+using IntervalSet.PeriodSet.Period.Boundary.Kind;
 
 namespace IntervalSet.PeriodSet
 {

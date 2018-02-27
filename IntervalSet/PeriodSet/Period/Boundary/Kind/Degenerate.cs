@@ -1,4 +1,4 @@
-﻿namespace IntervalSet.PeriodSet.Period.Boundary
+﻿namespace IntervalSet.PeriodSet.Period.Boundary.Kind
 {
     /// <summary>
     /// Represents the <see cref="BoundaryKind"/> of a member of an <see cref="IPeriodSet"/> that is not a limit point of that set

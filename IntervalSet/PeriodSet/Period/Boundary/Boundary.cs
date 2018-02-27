@@ -1,11 +1,12 @@
 ﻿using System;
+using IntervalSet.PeriodSet.Period.Boundary.Kind;
 
 namespace IntervalSet.PeriodSet.Period.Boundary
 {
     /// <summary>
     /// Represents the boundary of a connected period of time in a <see cref="IPeriodSet"/>
     /// </summary>
-    public class Boundary
+    public abstract class Boundary
     {
         /// <summary>
         /// This <see cref="Boundary"/>'s <see cref="BoundaryKind"/>
@@ -22,7 +23,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
         /// </summary>
         /// <param name="date"></param>
         /// <param name="kind"></param>
-        public Boundary(DateTime date, BoundaryKind kind)
+        protected Boundary(DateTime date, BoundaryKind kind)
         {
             Date = date;
             Kind = kind;

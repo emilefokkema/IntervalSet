@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntervalSet.PeriodSet.Period.Boundary;
+using IntervalSet.PeriodSet.Period.Boundary.Kind;
 
 namespace IntervalSet.PeriodSet.Period
 {

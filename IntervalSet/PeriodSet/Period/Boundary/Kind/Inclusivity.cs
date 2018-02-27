@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntervalSet.PeriodSet.Period.Boundary
+namespace IntervalSet.PeriodSet.Period.Boundary.Kind
 {
     /// <summary>
     /// Whether the location of a given <see cref="Boundary"/> is a member of the <see cref="IPeriodSet"/>
