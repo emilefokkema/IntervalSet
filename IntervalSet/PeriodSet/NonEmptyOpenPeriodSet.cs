@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Permissions;
 using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
@@ -9,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="OpenPeriodSet"/> that contains at least one <see cref="IOpenPeriod"/>
     /// </summary>
-    public class NonEmptyOpenPeriodSet : NonEmptyPeriodSet<OpenPeriodSet, IOpenPeriod, OpenPeriodListBuilder, StartingOpenPeriod, IOpenPeriod>, IOpenPeriod
+    public class NonEmptyOpenPeriodSet : NonEmptyPeriodSet<OpenPeriodSet, IOpenPeriod, OpenPeriodListBuilder, IOpenPeriod>, IOpenPeriod
     {
         /// <inheritdoc />
         public NonEmptyOpenPeriodSet(IPeriodSet set):base(set)
@@ -53,6 +52,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         public DateTime? To => PeriodList.Last().To;
 
+        /// <inheritdoc />
         public DateTime Earliest => PeriodList.First().Earliest;
     }
 }

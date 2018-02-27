@@ -6,7 +6,7 @@ using IntervalSet.PeriodSet.Period;
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
-    /// An <see cref="IPeriodSet"/> not all of the <see cref="INonEmptyPeriod" />s of which can be assumed to have an end date
+    /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
     public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod>
     {

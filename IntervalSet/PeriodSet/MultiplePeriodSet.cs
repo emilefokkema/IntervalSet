@@ -7,7 +7,7 @@ namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc cref="PeriodSet{TSet, TNonEmptySet, TListBuilder, TPeriod}"/>
     /// <summary>
-    /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="INonEmptyPeriod" />s
+    /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="IPeriodSet"/>s
     /// </summary>
     public abstract class MultiplePeriodSet<TSet,TNonEmptySet,TListBuilder,TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>
         where TSet : IPeriodSet
@@ -126,13 +126,13 @@ namespace IntervalSet.PeriodSet
             return PeriodList.Select(p => p.Cross(date)).FirstOrDefault(b => b != null);
         }
 
-        /// <inheritdoc cref="IPeriodSet.ContainsPeriod"/>
+        /// <inheritdoc />
         public override bool ContainsPeriod(DateTime from, DateTime to)
         {
             return PeriodList.Any(p => p.ContainsPeriod(from, to));
         }
 
-        /// <inheritdoc cref="IPeriodSet.Boundaries"/>
+        /// <inheritdoc />
         public override IEnumerable<DateTime> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
 
         /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.Select{TT}(Func{TPeriod,TT})"/>
@@ -141,7 +141,7 @@ namespace IntervalSet.PeriodSet
             return PeriodList.Select(selector);
         }
 
-        /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.ForEach"/>
+        /// <inheritdoc />
         public override void ForEach(Action<TPeriod> what)
         {
             foreach (TPeriod period in PeriodList)

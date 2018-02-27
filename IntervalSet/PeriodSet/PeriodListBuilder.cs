@@ -20,7 +20,12 @@ namespace IntervalSet.PeriodSet
         {
             return MakeStartingPeriod(from);
         }
-
+        
+        /// <summary>
+        /// Returns a <typeparamref name="TStartingPeriod"/> starting at <paramref name="from"/>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
         protected abstract TStartingPeriod MakeStartingPeriod(DateTime from);
         
         /// <inheritdoc />

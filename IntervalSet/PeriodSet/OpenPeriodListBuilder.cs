@@ -6,6 +6,7 @@ namespace IntervalSet.PeriodSet
     /// <inheritdoc />
     public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod, StartingOpenPeriod>
     {
+        /// <inheritdoc />
         protected override StartingOpenPeriod MakeStartingPeriod(DateTime from)
         {
             return new StartingOpenPeriod(from);

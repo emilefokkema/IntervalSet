@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, StartingBoundedPeriod, IBoundedPeriod>, IBoundedPeriod
+    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IPeriodSet set):base(set)
@@ -51,6 +51,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         public DateTime To => PeriodList.Last().To;
 
+        /// <inheritdoc />
         public DateTime Earliest => PeriodList.First().Earliest;
     }
 }

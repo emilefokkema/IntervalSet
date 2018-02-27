@@ -19,6 +19,11 @@ namespace IntervalSet.PeriodSet.Period
             return this;
         }
 
+        /// <summary>
+        /// Creates an <see cref="IOpenPeriod"/> that represents the result of ending this <see cref="StartingOpenPeriod"/>
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public IOpenPeriod End(DateTime date)
         {
             return new StartEndingOpenPeriod(Earliest, date);

@@ -19,6 +19,11 @@ namespace IntervalSet.PeriodSet.Period
             return this;
         }
 
+        /// <summary>
+        /// Creates an <see cref="IBoundedPeriod"/> that represents the result of ending this <see cref="StartingBoundedPeriod"/>
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public IBoundedPeriod End(DateTime date)
         {
             return new StartEndingBoundedPeriod(Earliest, date);

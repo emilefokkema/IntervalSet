@@ -6,7 +6,7 @@ namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IPeriodSet" /> that contains only periods that have an end date
+    /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
     public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod>
     {
