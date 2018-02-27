@@ -121,7 +121,7 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public override Boundary Cross(DateTime date)
+        public override BoundaryKind Cross(DateTime date)
         {
             return PeriodList.Select(p => p.Cross(date)).FirstOrDefault(b => b != null);
         }

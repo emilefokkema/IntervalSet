@@ -8,7 +8,7 @@ namespace IntervalSet.PeriodSet.Period.Boundary
 
         public BoundaryDirection Direction { get; }
 
-        public BoundaryKind(BoundaryDirection direction, Inclusivity inclusivity)
+        protected BoundaryKind(BoundaryDirection direction, Inclusivity inclusivity)
         {
             Direction = direction;
             Inclusivity = inclusivity;
@@ -35,18 +35,18 @@ namespace IntervalSet.PeriodSet.Period.Boundary
 
         private BoundaryDirection MinusDirection(BoundaryDirection other)
         {
-            BoundaryDirection result = BoundaryDirection.None;
+            BoundaryDirection result = Direction;
             if (Direction.HasFlag(BoundaryDirection.Start) && other.HasFlag(BoundaryDirection.Start))
             {
-                result |= BoundaryDirection.End;
+                result ^= BoundaryDirection.Start;
             }
 
             if (Direction.HasFlag(BoundaryDirection.End) && other.HasFlag(BoundaryDirection.End))
             {
-                result |= BoundaryDirection.Start;
+                result ^= BoundaryDirection.End;
             }
 
-            return Direction | result;
+            return  result;
         }
 
         public bool Equals(BoundaryKind other)

@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace IntervalSet.PeriodSet.Period.Boundary
+﻿namespace IntervalSet.PeriodSet.Period.Boundary
 {
-    public class Start : Boundary
+    public class Start : BoundaryKind
     {
-        public Start(DateTime date, Inclusivity inclusivity) : base(date, new BoundaryKind(BoundaryDirection.Start, inclusivity))
+        public Start(Inclusivity inclusivity):base(BoundaryDirection.Start, inclusivity)
         {
         }
     }

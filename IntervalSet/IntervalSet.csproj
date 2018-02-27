@@ -48,8 +48,9 @@
     <Compile Include="PeriodSet\PeriodSet.cs" />
     <Compile Include="PeriodSet\Period\Boundary\BoundaryDirection.cs" />
     <Compile Include="PeriodSet\Period\Boundary\BoundaryKind.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\Degenerate.cs" />
+    <Compile Include="PeriodSet\Period\Boundary\Continuation.cs" />
     <Compile Include="PeriodSet\Period\Boundary\End.cs" />
-    <Compile Include="PeriodSet\Period\Boundary\StartEnd.cs" />
     <Compile Include="PeriodSet\Period\Boundary\Start.cs" />
     <Compile Include="PeriodSet\Period\Boundary\Inclusivity.cs" />
     <Compile Include="PeriodSet\Period\IStartingPeriod.cs" />

@@ -49,21 +49,25 @@ namespace IntervalSet.PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public override Boundary.Boundary Cross(DateTime date)
+        public override BoundaryKind Cross(DateTime date)
         {
-            if (ContainsDate(date))
+            if (date == Earliest && Latest == Earliest)
             {
-                return new Start(date, Inclusivity.Inclusive);
+                return new Degenerate();
+            }
+            if (date == Earliest)
+            {
+                return new Start(Inclusivity.Inclusive);
             }
 
-            if (Earliest == Latest && date == Latest)
+            if (date > Earliest && date < Latest)
             {
-                return new StartEnd(date);
+                return new Continuation();
             }
 
             if (date == Latest)
             {
-                return new End(date, Inclusivity.Exclusive);
+                return new End(Inclusivity.Exclusive);
             }
 
             return null;

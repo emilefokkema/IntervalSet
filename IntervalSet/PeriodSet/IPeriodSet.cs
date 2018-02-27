@@ -75,7 +75,7 @@ namespace IntervalSet.PeriodSet
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        Boundary Cross(DateTime date);
+        BoundaryKind Cross(DateTime date);
 
         /// <summary>
         /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>

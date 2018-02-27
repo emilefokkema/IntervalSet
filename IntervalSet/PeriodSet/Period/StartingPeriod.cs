@@ -70,11 +70,15 @@ namespace IntervalSet.PeriodSet.Period
         public override int PeriodCount => 1;
 
         /// <inheritdoc />
-        public override Boundary.Boundary Cross(DateTime date)
+        public override BoundaryKind Cross(DateTime date)
         {
-            if (date >= Earliest)
+            if (date == Earliest)
             {
-                return new Start(date, Inclusivity.Inclusive);
+                return new Start(Inclusivity.Inclusive);
+            }
+            if (date > Earliest)
+            {
+                return new Continuation();
             }
 
             return null;

@@ -124,7 +124,7 @@ namespace IntervalSet.PeriodSet
         public virtual int PeriodCount => 0;
 
         /// <inheritdoc />
-        public virtual Boundary Cross(DateTime date)
+        public virtual BoundaryKind Cross(DateTime date)
         {
             return null;
         }
