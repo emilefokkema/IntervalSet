@@ -6,12 +6,13 @@ using IntervalSet.PeriodSet.Period;
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
-    /// A <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
+    /// A <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
     /// </summary>
     /// <typeparam name="TSet"></typeparam>
     /// <typeparam name="TNonEmptySet"></typeparam>
     /// <typeparam name="TPeriod"></typeparam>
     /// <typeparam name="TListBuilder"></typeparam>
+    /// <typeparam name="TStartingPeriod"></typeparam>
     public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()

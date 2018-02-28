@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IntervalSet.PeriodSet.Period.Boundary;
 using IntervalSet.PeriodSet.Period.Boundary.Kind;
 
 namespace IntervalSet.PeriodSet.Period
@@ -19,7 +18,7 @@ namespace IntervalSet.PeriodSet.Period
         protected DateTime Latest { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="StartEndingPeriod{TSet,TListBuilder,TPeriod}"/> with a given start date and end date
+        /// Initializes a new <see cref="StartEndingPeriod{TSet,TListBuilder,TStartingPeriod,TPeriod}"/> with a given start date and end date
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>

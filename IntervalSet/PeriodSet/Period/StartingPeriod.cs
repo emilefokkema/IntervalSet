@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IntervalSet.PeriodSet.Period.Boundary;
 using IntervalSet.PeriodSet.Period.Boundary.Kind;
 
 namespace IntervalSet.PeriodSet.Period
@@ -9,8 +8,9 @@ namespace IntervalSet.PeriodSet.Period
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing a single period of time with a start date
     /// </summary>
     /// <typeparam name="TSet">the kind of <see cref="IPeriodSet"/> that contains this kind of period</typeparam>
-    /// <typeparam name="TListBuilder">the kind of <see cref="IPeriodListBuilder{TPeriod}"/> that will produce this kind of period</typeparam>
+    /// <typeparam name="TListBuilder">the kind of <see cref="IPeriodListBuilder{TPeriod,TStartingPeriod}"/> that will produce this kind of period</typeparam>
     /// <typeparam name="TPeriod">the type of this period</typeparam>
+    /// <typeparam name="TStartingPeriod"></typeparam>
     public abstract class StartingPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
@@ -28,7 +28,7 @@ namespace IntervalSet.PeriodSet.Period
         public DateTime Earliest { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="StartingPeriod{TSet,TListBuilder,TPeriod}"/> with a given start date
+        /// Initializes a new <see cref="StartingPeriod{TSet,TListBuilder,TStartingPeriod,TPeriod}"/> with a given start date
         /// </summary>
         /// <param name="from"></param>
         protected StartingPeriod(DateTime from)
