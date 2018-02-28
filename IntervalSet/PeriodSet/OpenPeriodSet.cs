@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -29,24 +32,25 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from) : base(from)
+        public OpenPeriodSet(DateTime from) : base(new Start(from, Inclusivity.Inclusive))
         {
         }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from, DateTime to) : base(from, to)
+        public OpenPeriodSet(DateTime from, DateTime to) : base(new Start(from, Inclusivity.Inclusive), new End(to, Inclusivity.Exclusive))
         { }
 
         /// <inheritdoc />
         public OpenPeriodSet(DateTime from, DateTime? to)
         {
+            Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                PeriodList.Add(new StartEndingOpenPeriod(from, to.Value));
+                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
             }
             else
             {
-                PeriodList.Add(new StartingOpenPeriod(from));
+                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start));
             }
         }
 
@@ -82,7 +86,11 @@ namespace IntervalSet.PeriodSet
             return new OpenPeriodSet(list);
         }
 
-        
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("d", CultureInfo.CurrentCulture);
+        }
 
         /// <summary>
         /// Returns an <see cref="OpenPeriodSet"/> representing the relative complement of <paramref name="other"/> in <paramref name="one"/>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -27,11 +29,12 @@ namespace IntervalSet.PeriodSet
 
         private static IBoundedPeriod MakePeriod(DateTime from, DateTime? to)
         {
+            Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                return new StartEndingBoundedPeriod(from, to.Value);
+                return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive));
             }
-            return new StartingBoundedPeriod(from);
+            return new BoundedPeriodListBuilder().MakeStartingPeriod(start);
         }
 
         /// <inheritdoc />

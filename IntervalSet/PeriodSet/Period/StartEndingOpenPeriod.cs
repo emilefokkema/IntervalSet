@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period.Boundaries;
 
 namespace IntervalSet.PeriodSet.Period
 {
     /// <summary>
     /// Represents a period of time with a start date and an actual end date
     /// </summary>
-    public class StartEndingOpenPeriod : StartEndingPeriod<OpenPeriodSet, OpenPeriodListBuilder, StartingOpenPeriod,IOpenPeriod>, IOpenPeriod
+    public class StartEndingOpenPeriod : DoubleBoundedPeriod<OpenPeriodSet, OpenPeriodListBuilder, StartingOpenPeriod,IOpenPeriod>, IOpenPeriod
     {
         /// <inheritdoc />
-        public StartEndingOpenPeriod(DateTime from, DateTime to):base(from, to)
+        public StartEndingOpenPeriod(Boundary from, Boundary to):base(from, to)
         {
         }
 
@@ -29,6 +30,9 @@ namespace IntervalSet.PeriodSet.Period
         /// <summary>
         /// This <see cref="IOpenPeriod"/> does have an end date
         /// </summary>
-        public DateTime? To => Latest;
+        public DateTime? To => Max.Date;
+
+        /// <inheritdoc />
+        public DateTime Earliest => Min.Date;
     }
 }

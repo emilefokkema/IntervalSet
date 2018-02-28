@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -9,57 +11,75 @@ namespace IntervalSet.PeriodSet
     public abstract class PeriodListBuilder<TPeriod, TStartingPeriod> : IPeriodListBuilder<TPeriod, TStartingPeriod>
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
-        /// <summary>
-        /// Returns a <typeparamref name="TStartingPeriod"/> starting at <paramref name="from"/>
-        /// </summary>
-        /// <param name="from"></param>
-        /// <returns></returns>
-        public abstract TStartingPeriod MakeStartingPeriod(DateTime from);
-        
+       
         /// <inheritdoc />
-        public IEnumerable<TPeriod> InverseOfBoolean(IEnumerable<DateTime> changes,
-            Func<DateTime, DateTime, bool> trueEverywhereBetween)
+        public abstract Start MakeStartingBoundary(DateTime from);
+
+        /// <inheritdoc />
+        public abstract End MakeEndingBoundary(DateTime to);
+
+        /// <inheritdoc />
+        public abstract TStartingPeriod MakeStartingPeriod(Boundary from);
+
+        /// <inheritdoc />
+        public abstract TPeriod MakeDegenerate(Degenerate degenerate);
+
+        private List<Boundary> OrderBoundaries(IList<Boundary> boundaries)
         {
-            changes = changes.OrderBy(d => d).ToList();
-            if (changes.Count() < 2)
-            {
-                yield break;
-            }
-            foreach (Tuple<DateTime, DateTime> fromTo in changes.Zip(changes.Skip(1), (f, t) => new Tuple<DateTime, DateTime>(f, t)))
-            {
-                if (trueEverywhereBetween(fromTo.Item1, fromTo.Item2))
-                {
-                    yield return MakeStartingPeriod(fromTo.Item1).End(fromTo.Item2);
-                }
-            }
+            return boundaries
+                .GroupBy(b => b.Date)
+                .Select(g => new Boundary(g.Key, g.Select(b => b.Kind).Aggregate((k1, k2) => k1.Plus(k2))))
+                .Distinct()
+                .OrderBy(b => b.Date)
+                .ToList();
         }
 
         /// <inheritdoc />
-        public IEnumerable<TPeriod> InverseOfBoolean(IList<DateTime> changes,
-            Func<DateTime, bool> predicate)
+        public IEnumerable<TPeriod> Build(IList<Boundary> boundaries)
         {
-            TStartingPeriod start = null;
-            foreach (DateTime change in changes.OrderBy(d => d))
+            TStartingPeriod currentPeriod = null;
+            foreach (Boundary boundary in OrderBoundaries(boundaries))
             {
-                if (predicate(change))
+                if (boundary.IsStart)
                 {
-                    if (start == null)
+                    if (currentPeriod == null)
                     {
-                        start = MakeStartingPeriod(change);
+                        currentPeriod = MakeStartingPeriod(boundary);
+                    }
+                    else
+                    {
+                        if (boundary.IsEnd && !boundary.Inclusive)
+                        {
+                            BoundaryKind startKind = new StartKind(Inclusivity.Exclusive);
+                            BoundaryKind endKind = new EndKind(Inclusivity.Exclusive);
+                            yield return currentPeriod.End(new Boundary(boundary.Date, endKind));
+                            currentPeriod = MakeStartingPeriod(new Boundary(boundary.Date, startKind));
+                        }
                     }
                 }
                 else
                 {
-                    if (start != null)
+                    if (currentPeriod == null)
                     {
-                        yield return start.End(change);
-                        start = null;
+                        if (!boundary.IsEnd)
+                        {
+                            yield return MakeDegenerate(new Degenerate(boundary.Date));
+                        }
+                    }
+                    else
+                    {
+                        if (boundary.IsEnd)
+                        {
+                            yield return currentPeriod.End(boundary);
+                            currentPeriod = null;
+                        }
                     }
                 }
             }
-            if (start != null)
+
+            if (currentPeriod != null)
             {
-                yield return start;
+                yield return currentPeriod;
             }
         }
     }

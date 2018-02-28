@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
-using IntervalSet.PeriodSet.Period.Boundary.Kind;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -39,53 +40,103 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<DateTime> Boundaries { get { yield break; } }
+        public virtual IEnumerable<Boundary> Boundaries { get { yield break; } }
 
         /// <inheritdoc />
         public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
         {
-            IList<TPeriod> list = new List<TPeriod>();
-            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(Boundaries.Concat(changes ?? new List<DateTime>()).ToList(), b => ContainsDate(b) && trueFrom(b)))
+            TListBuilder builder = new TListBuilder();
+            if (changes != null && changes.Count > 0)
             {
-                list.Add(period);
+                List<Boundary> whereBoundaries = changes.Select(c =>
+                    trueFrom(c) && ContainsDate(c) ? (Boundary)new Start(c, Inclusivity.Inclusive) : new End(c, Inclusivity.Exclusive)).ToList();
+                TSet where = MakeSet(builder.Build(whereBoundaries).ToList());
+                return Cross(where);
             }
-            return MakeSet(list);
+
+            return MakeSet(builder.Build(Boundaries.ToList()).ToList());
         }
 
         /// <inheritdoc />
-        public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes = null)
+        public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null)
         {
-            IList<TPeriod> list = new List<TPeriod>();
-            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(Boundaries.Concat(changes ?? new List<DateTime>()).ToList(),
-                (a, b) => ContainsPeriod(a, b) && trueEverywhereBetween(a, b)))
-            {
-                list.Add(period);
-            }
-            return MakeSet(list);
+            TListBuilder builder = new TListBuilder();
+            changes = (changes ?? new List<DateTime>()).Concat(Boundaries.Select(b => b.Date)).OrderBy(d => d).ToList();
+            
+                List<Boundary> boundaries = new List<Boundary>();
+                foreach (Tuple<DateTime,DateTime> tuple in changes.Zip(changes.Skip(1), (d1,d2)=>new Tuple<DateTime,DateTime>(d1,d2)))
+                {
+                    if (trueEverywhereBetween(tuple.Item1,tuple.Item2) && ContainsPeriod(tuple.Item1,tuple.Item2))
+                    {
+                        boundaries.Add(new Start(tuple.Item1, Inclusivity.Inclusive));
+                        boundaries.Add(new End(tuple.Item2, Inclusivity.Exclusive));
+                    }
+                }
+                return MakeSet(builder.Build(boundaries).ToList());
+           
         }
 
         /// <inheritdoc />
         public TSet Minus(IPeriodSet other)
         {
-            return Where(b => !other.ContainsDate(b), other.Boundaries.ToList());
+            List<Boundary> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Date))
+                .Concat(MinusBoundaries(other)).ToList();
+            return MakeSet(new TListBuilder().Build(minusBoundaries).ToList());
+        }
+
+        private IEnumerable<Boundary> MinusBoundaries(IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind minusKind = Cross(otherBoundary.Date)?.Minus(otherBoundary.Kind);
+                if (minusKind != null)
+                {
+                    yield return new Boundary(otherBoundary.Date, minusKind);
+                }
+            }
+        }
+
+        private static IEnumerable<Boundary> PlusBoundaries(IPeriodSet one, IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind cross = one.Cross(otherBoundary.Date);
+                if (cross == null)
+                {
+                    yield return otherBoundary;
+                }
+                else
+                {
+                    BoundaryKind plusKind = cross.Plus(otherBoundary.Kind);
+                    yield return new Boundary(otherBoundary.Date, plusKind);
+                }
+            }
+        }
+
+        private static IEnumerable<Boundary> CrossBoundaries(IPeriodSet one, IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind cross = one.Cross(otherBoundary.Date)?.Cross(otherBoundary.Kind);
+                if (cross != null)
+                {
+                    yield return new Boundary(otherBoundary.Date, cross);
+                }
+            }
         }
 
         /// <inheritdoc />
         public TSet Plus(IPeriodSet other)
         {
-            IList<TPeriod> list = new List<TPeriod>();
-            IList<DateTime> changes = Boundaries.Concat(other.Boundaries).ToList();
-            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(changes, d => ContainsDate(d) || other.ContainsDate(d)))
-            {
-                list.Add(period);
-            }
-            return MakeSet(list);
+            List<Boundary> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
+            return MakeSet(new TListBuilder().Build(plusBoundaries).ToList());
         }
 
         /// <inheritdoc />
         public TSet Cross(IPeriodSet other)
         {
-            return Where(other.ContainsDate, other.Boundaries.ToList());
+            List<Boundary> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
+            return MakeSet(new TListBuilder().Build(crossBoundaries).ToList());
         }
 
         IPeriodSet IPeriodSet.Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes)
@@ -93,7 +144,7 @@ namespace IntervalSet.PeriodSet
             return Where(trueFrom, changes);
         }
 
-        IPeriodSet IPeriodSet.Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes)
+        IPeriodSet IPeriodSet.Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes)
         {
             return Where(trueEverywhereBetween, changes);
         }
@@ -173,6 +224,12 @@ namespace IntervalSet.PeriodSet
         public override int GetHashCode()
         {
             return 0;
+        }
+
+        /// <inheritdoc />
+        public virtual string ToString(string format, IFormatProvider provider)
+        {
+            return "(empty)";
         }
     }
 }

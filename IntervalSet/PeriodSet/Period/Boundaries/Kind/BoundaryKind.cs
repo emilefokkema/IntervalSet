@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace IntervalSet.PeriodSet.Period.Boundary.Kind
+namespace IntervalSet.PeriodSet.Period.Boundaries.Kind
 {
     /// <summary>
     /// A kind of <see cref="Boundary"/> of an <see cref="IPeriodSet"/>

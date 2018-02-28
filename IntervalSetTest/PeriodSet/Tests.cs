@@ -10,7 +10,7 @@ namespace IntervalSetTest.PeriodSet
     {
         protected DateTime startOne, startTwo, startThree, startFour, startFive, startSix, startSeven, startEight;
 
-        protected OpenPeriodSet one, two, three, four, empty;
+        protected OpenPeriodSet one, two, three, four, five, empty;
 
         [OneTimeSetUp]
         public virtual void FixtureSetup()
@@ -27,6 +27,7 @@ namespace IntervalSetTest.PeriodSet
             two = new OpenPeriodSet(startTwo, startThree);
             three = new OpenPeriodSet(startThree, startFour);
             four = new OpenPeriodSet(startFour, startFive);
+            five = new OpenPeriodSet(startFive, startSix);
             empty = OpenPeriodSet.Empty;
         }
     }

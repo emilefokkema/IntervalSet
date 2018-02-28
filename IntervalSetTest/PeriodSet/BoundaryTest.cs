@@ -1,33 +1,32 @@
 ﻿using FluentAssertions;
 using IntervalSet.PeriodSet;
-using IntervalSet.PeriodSet.Period.Boundary;
-using IntervalSet.PeriodSet.Period.Boundary.Kind;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 using NUnit.Framework;
 
 namespace IntervalSetTest.PeriodSet
 {
     public class BoundaryTest : Tests
     {
-        private BoundaryKind degenerate = new Degenerate();
-        private BoundaryKind inclusiveStart = new Start(Inclusivity.Inclusive);
-        private BoundaryKind exclusiveStart = new Start(Inclusivity.Exclusive);
-        private BoundaryKind inclusiveEnd = new End(Inclusivity.Inclusive);
-        private BoundaryKind exclusiveEnd = new End(Inclusivity.Exclusive);
-        private BoundaryKind continuation = new Continuation();
+        private BoundaryKind degenerate = new DegenerateKind();
+        private BoundaryKind inclusiveStart = new StartKind(Inclusivity.Inclusive);
+        private BoundaryKind exclusiveStart = new StartKind(Inclusivity.Exclusive);
+        private BoundaryKind inclusiveEnd = new EndKind(Inclusivity.Inclusive);
+        private BoundaryKind exclusiveEnd = new EndKind(Inclusivity.Exclusive);
+        private BoundaryKind continuation = new ContinuationKind();
 
         [Test]
         public void Test_cross()
         {
             OpenPeriodSet set = one + three + four;
 
-            set.Cross(startOne).Should().Be(new Start(Inclusivity.Inclusive));
-            set.Cross(startTwo).Should().Be(new End(Inclusivity.Exclusive));
-            set.Cross(startThree).Should().Be(new Start(Inclusivity.Inclusive));
-            set.Cross(startFour).Should().Be(new Continuation());
-            set.Cross(startFive).Should().Be(new End(Inclusivity.Exclusive));
+            set.Cross(startOne).Should().Be(new StartKind(Inclusivity.Inclusive));
+            set.Cross(startTwo).Should().Be(new EndKind(Inclusivity.Exclusive));
+            set.Cross(startThree).Should().Be(new StartKind(Inclusivity.Inclusive));
+            set.Cross(startFour).Should().Be(new ContinuationKind());
+            set.Cross(startFive).Should().Be(new EndKind(Inclusivity.Exclusive));
             set.Cross(startSix).Should().Be(null);
 
-            new BoundedPeriodSet(startOne, startOne).Cross(startOne).Should().Be(new Degenerate());
+            new BoundedPeriodSet(startOne,startOne).Cross(startOne).Should().Be(new DegenerateKind());
         }
 
         [Test]
@@ -79,6 +78,16 @@ namespace IntervalSetTest.PeriodSet
             continuation.Cross(exclusiveStart).Should().Be(exclusiveStart);
             continuation.Cross(inclusiveEnd).Should().Be(inclusiveEnd);
             continuation.Cross(exclusiveEnd).Should().Be(exclusiveEnd);
+        }
+
+        [Test]
+        public void Test_building_with_boundaries()
+        {
+            BoundedPeriodSet set1 = one + two + three + four;
+            BoundedPeriodSet set2 = two + four + five;
+            (set1 - set2).Should().Be(one + three);
+            (set1 * set2).Should().Be(two + four);
+
         }
     }
 }

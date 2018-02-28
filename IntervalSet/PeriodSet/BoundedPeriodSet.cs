@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -24,19 +27,20 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from, DateTime to) : base(from, to)
+        public BoundedPeriodSet(DateTime from, DateTime to) : base(new Start(from, Inclusivity.Inclusive), new End(to, Inclusivity.Exclusive))
         { }
 
         /// <inheritdoc />
         public BoundedPeriodSet(DateTime from, DateTime? to = null)
         {
+            Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                PeriodList.Add(new StartEndingBoundedPeriod(from, to.Value));
+                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
             }
             else
             {
-                PeriodList.Add(new StartingBoundedPeriod(from));
+                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start));
             }
         }
 
@@ -46,7 +50,7 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from) : base(from)
+        public BoundedPeriodSet(DateTime from) : base(new Start(from, Inclusivity.Inclusive))
         {
         }
 
@@ -84,7 +88,11 @@ namespace IntervalSet.PeriodSet
             return new BoundedPeriodSet(list);
         }
 
-        
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("d", CultureInfo.CurrentCulture);
+        }
 
         /// <summary>
         /// Returns a <see cref="BoundedPeriodSet"/> representing the relative complement of <paramref name="other"/> in <paramref name="one"/>

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FluentAssertions;
 using IntervalSet.PeriodSet;
 using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 using NUnit.Framework;
 
 namespace IntervalSetTest.PeriodSet
@@ -64,7 +66,6 @@ namespace IntervalSetTest.PeriodSet
             (BoundedPeriodSet.Empty + BoundedPeriodSet.Empty).Should().Be(BoundedPeriodSet.Empty);
         }
 
-        [Ignore("doing this now")]
         [Test]
         public void Test_degenerate()
         {
@@ -74,7 +75,14 @@ namespace IntervalSetTest.PeriodSet
             degenerate.IsEmpty.Should().BeFalse();
 
             (degenerate * one).Should().Be(degenerate);
-            (degenerate + two).ContainsDate(startOne).Should().BeTrue();
+            (one - degenerate).Cross(degenerate).Should().Be(empty);
+            (degenerate + two).Cross(degenerate).Should().NotBe(empty);
+
+            degenerate = new BoundedPeriodSet(startTwo, startTwo);
+            BoundedPeriodSet set = one + two;
+            BoundedPeriodSet difference = set - degenerate;
+            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.Cross(degenerate).Should().Be(empty);
         }
 
         [Test]
@@ -123,7 +131,7 @@ namespace IntervalSetTest.PeriodSet
             ValidCast(() =>
             {
                 NonEmptyBoundedPeriodSet x = (NonEmptyBoundedPeriodSet)new BoundedPeriodSet(startOne, startOne);
-            },false);
+            },true);
             ValidCast(() =>
             {
                 NonEmptyBoundedPeriodSet x = (NonEmptyBoundedPeriodSet)new BoundedPeriodSet();
@@ -135,7 +143,7 @@ namespace IntervalSetTest.PeriodSet
             ValidCast(() =>
             {
                 NonEmptyOpenPeriodSet x = (NonEmptyOpenPeriodSet)new OpenPeriodSet(startOne, startOne);
-            }, false);
+            }, true);
             ValidCast(() =>
             {
                 NonEmptyOpenPeriodSet x = (NonEmptyOpenPeriodSet)new OpenPeriodSet();
@@ -212,7 +220,6 @@ namespace IntervalSetTest.PeriodSet
                 { BoundedPeriodSet.Empty, "empty"}
             };
             dictionary.ContainsKey((BoundedPeriodSet)one).Should().BeTrue();
-            dictionary.ContainsKey(new StartEndingBoundedPeriod(startOne, startTwo)).Should().BeTrue();
             dictionary.ContainsKey(OpenPeriodSet.Empty).Should().BeTrue();
         }
 
@@ -226,8 +233,8 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_periods()
         {
-            StartingBoundedPeriod start1 = new StartingBoundedPeriod(startOne);
-            StartingBoundedPeriod start2 = new StartingBoundedPeriod(startTwo);
+            StartingBoundedPeriod start1 = new BoundedPeriodListBuilder().MakeStartingPeriod(new Start(startOne, Inclusivity.Inclusive));
+            StartingBoundedPeriod start2 = new BoundedPeriodListBuilder().MakeStartingPeriod(new Start(startTwo, Inclusivity.Inclusive));
 
 
             BoundedPeriodSet difference = start1.Minus(start2);

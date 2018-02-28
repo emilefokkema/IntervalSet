@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
-using IntervalSet.PeriodSet.Period.Boundary.Kind;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -34,10 +35,7 @@ namespace IntervalSet.PeriodSet
         /// <param name="set"></param>
         protected MultiplePeriodSet(IPeriodSet set):this()
         {
-            foreach (TPeriod period in new TListBuilder().InverseOfBoolean(set.Boundaries.ToList(), set.ContainsDate))
-            {
-                PeriodList.Add(period);
-            }
+            PeriodList = new TListBuilder().Build(set.Boundaries.ToList()).ToList();
         }
 
         /// <summary>
@@ -52,17 +50,26 @@ namespace IntervalSet.PeriodSet
         /// <summary>
         /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
         /// </summary>
-        protected MultiplePeriodSet(DateTime from, DateTime to) : this()
+        protected MultiplePeriodSet(Start from, End to) : this()
         {
-            PeriodList.Add(new TListBuilder().MakeStartingPeriod(from).End(to));
+            TListBuilder builder = new TListBuilder();
+            if (from.Date == to.Date)
+            {
+                PeriodList.Add(builder.MakeDegenerate(new Degenerate(from.Date)));
+            }
+            else
+            {
+                PeriodList.Add(builder.MakeStartingPeriod(from).End(to));
+            }
         }
 
         /// <summary>
         /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
         /// </summary>
-        protected MultiplePeriodSet(DateTime from) : this()
+        protected MultiplePeriodSet(Boundary from) : this()
         {
-            PeriodList.Add(new TListBuilder().MakeStartingPeriod(from));
+            IPeriodListBuilder<TPeriod, TStartingPeriod> builder = new TListBuilder();
+            PeriodList.Add(builder.MakeStartingPeriod(from));
         }
 
         /// <summary>
@@ -95,6 +102,12 @@ namespace IntervalSet.PeriodSet
                 }
                 return result;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString(string format, IFormatProvider provider)
+        {
+            return string.Join(" + ", PeriodList.Select(p => p.ToString(format, provider)));
         }
 
         /// <inheritdoc />
@@ -135,7 +148,7 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public override IEnumerable<DateTime> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
+        public override IEnumerable<Boundary> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
 
         /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.Select{TT}(Func{TPeriod,TT})"/>
         public override IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector)
