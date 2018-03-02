@@ -11,7 +11,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
-    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,StartingBoundedPeriod, IBoundedPeriod>
+    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder,StartingBoundedPeriod, IBoundedPeriod>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
@@ -36,11 +36,11 @@ namespace IntervalSet.PeriodSet
             Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+                PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
             }
             else
             {
-                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start));
+                PeriodList.Add(Builder.MakeStartingPeriod(start));
             }
         }
 
@@ -74,18 +74,6 @@ namespace IntervalSet.PeriodSet
         public IEnumerable<T> Select<T>(Func<DateTime, DateTime, T> selector) where T : class
         {
             return Select(p => selector(p.Earliest, p.To));
-        }
-
-        /// <inheritdoc />
-        protected override NonEmptyBoundedPeriodSet MakeNonEmptySet(IList<IBoundedPeriod> list)
-        {
-            return new NonEmptyBoundedPeriodSet(list);
-        }
-
-        /// <inheritdoc />
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> list)
-        {
-            return new BoundedPeriodSet(list);
         }
 
         /// <inheritdoc />

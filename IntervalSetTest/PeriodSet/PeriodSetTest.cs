@@ -58,7 +58,7 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_empty()
         {
-            NonEmptyOpenPeriodSet nonEmpty;
+            IOpenPeriod nonEmpty;
             OpenPeriodSet.Empty.IsNonEmpty(out nonEmpty).Should().BeFalse();
             nonEmpty.Should().BeNull();
 
@@ -89,7 +89,7 @@ namespace IntervalSetTest.PeriodSet
         public void Test_nonempty()
         {
             OpenPeriodSet set = new OpenPeriodSet(startOne,startTwo) + new OpenPeriodSet(startThree,startFour);
-            NonEmptyOpenPeriodSet nonEmpty;
+            IOpenPeriod nonEmpty;
             set.IsNonEmpty(out nonEmpty);
             nonEmpty.Earliest.Should().Be(startOne);
             nonEmpty.To.Should().Be(startFour);

@@ -1,5 +1,4 @@
-﻿using System;
-using IntervalSet.PeriodSet.Period.Boundaries;
+﻿using IntervalSet.PeriodSet.Period.Boundaries;
 
 namespace IntervalSet.PeriodSet.Period
 {
@@ -14,6 +13,6 @@ namespace IntervalSet.PeriodSet.Period
         /// </summary>
         /// <param name="end"></param>
         /// <returns></returns>
-        TEndingPeriod End(Boundary end);
+        TEndingPeriod End(End end);
     }
 }

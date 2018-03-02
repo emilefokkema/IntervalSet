@@ -65,14 +65,14 @@
     <Compile Include="PeriodSet\Period\StartingBoundedPeriod.cs" />
     <Compile Include="PeriodSet\Period\SingleBoundedPeriod.cs" />
     <Compile Include="PeriodSet\Period\IBoundedPeriod.cs" />
-    <Compile Include="PeriodSet\IPeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\IBuilder.cs" />
     <Compile Include="PeriodSet\IPeriodSet.cs" />
     <Compile Include="PeriodSet\NonEmptyBoundedPeriodSet.cs" />
     <Compile Include="PeriodSet\NonEmptyOpenPeriodSet.cs" />
     <Compile Include="PeriodSet\NonEmptyPeriodSet.cs" />
     <Compile Include="PeriodSet\OpenPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\OpenPeriodSet.cs" />
-    <Compile Include="PeriodSet\PeriodListBuilder.cs" />
+    <Compile Include="PeriodSet\Builder.cs" />
     <Compile Include="PeriodSet\MultiplePeriodSet.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

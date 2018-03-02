@@ -10,7 +10,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, StartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
+    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder, StartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IPeriodSet set):base(set)
@@ -35,18 +35,6 @@ namespace IntervalSet.PeriodSet
                 return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive));
             }
             return new BoundedPeriodListBuilder().MakeStartingPeriod(start);
-        }
-
-        /// <inheritdoc />
-        protected override IBoundedPeriod MakeNonEmptySet(IList<IBoundedPeriod> list)
-        {
-            return new NonEmptyBoundedPeriodSet(list);
-        }
-
-        /// <inheritdoc />
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> list)
-        {
-            return new BoundedPeriodSet(list);
         }
 
         /// <summary>

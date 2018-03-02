@@ -11,7 +11,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
-    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,StartingOpenPeriod,IOpenPeriod>
+    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet, OpenPeriodListBuilder,StartingOpenPeriod,IOpenPeriod>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)
@@ -46,11 +46,11 @@ namespace IntervalSet.PeriodSet
             Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+                PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
             }
             else
             {
-                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start));
+                PeriodList.Add(Builder.MakeStartingPeriod(start));
             }
         }
 
@@ -72,18 +72,6 @@ namespace IntervalSet.PeriodSet
         public List<T> Select<T>(Func<DateTime, DateTime?, T> selector) where T : class
         {
             return Select(p => selector(p.Earliest, p.To)).ToList();
-        }
-
-        /// <inheritdoc />
-        protected override NonEmptyOpenPeriodSet MakeNonEmptySet(IList<IOpenPeriod> list)
-        {
-            return new NonEmptyOpenPeriodSet(list);
-        }
-
-        /// <inheritdoc />
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> list)
-        {
-            return new OpenPeriodSet(list);
         }
 
         /// <inheritdoc />

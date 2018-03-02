@@ -1,25 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
 using IntervalSet.PeriodSet.Period.Boundaries;
-using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public abstract class PeriodListBuilder<TPeriod, TStartingPeriod> : IPeriodListBuilder<TPeriod, TStartingPeriod>
+    public abstract class Builder<TSet, TPeriod, TStartingPeriod> : IBuilder<TSet, TPeriod, TStartingPeriod>
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
-       
         /// <inheritdoc />
-        public abstract Start MakeStartingBoundary(DateTime from);
+        public abstract TPeriod MakeNonEmptySet(IList<TPeriod> periods);
 
         /// <inheritdoc />
-        public abstract End MakeEndingBoundary(DateTime to);
+        public abstract TSet MakeSet(IList<TPeriod> periods);
 
         /// <inheritdoc />
-        public abstract TStartingPeriod MakeStartingPeriod(Boundary from);
+        public abstract TStartingPeriod MakeStartingPeriod(Start from);
 
         /// <inheritdoc />
         public abstract TPeriod MakeDegenerate(Degenerate degenerate);
@@ -44,16 +41,14 @@ namespace IntervalSet.PeriodSet
                 {
                     if (currentPeriod == null)
                     {
-                        currentPeriod = MakeStartingPeriod(boundary);
+                        currentPeriod = MakeStartingPeriod(new Start(boundary));
                     }
                     else
                     {
                         if (boundary.IsEnd && !boundary.Inclusive)
                         {
-                            BoundaryKind startKind = new StartKind(Inclusivity.Exclusive);
-                            BoundaryKind endKind = new EndKind(Inclusivity.Exclusive);
-                            yield return currentPeriod.End(new Boundary(boundary.Date, endKind));
-                            currentPeriod = MakeStartingPeriod(new Boundary(boundary.Date, startKind));
+                            yield return currentPeriod.End(new End(boundary));
+                            currentPeriod = MakeStartingPeriod(new Start(boundary));
                         }
                     }
                 }
@@ -70,7 +65,7 @@ namespace IntervalSet.PeriodSet
                     {
                         if (boundary.IsEnd)
                         {
-                            yield return currentPeriod.End(boundary);
+                            yield return currentPeriod.End(new End(boundary));
                             currentPeriod = null;
                         }
                     }

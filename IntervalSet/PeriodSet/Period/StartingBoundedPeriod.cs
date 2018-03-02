@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using IntervalSet.PeriodSet.Period.Boundaries;
-using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet.Period
 {
@@ -22,21 +20,9 @@ namespace IntervalSet.PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public IBoundedPeriod End(DateTime date)
-        {
-            return new StartEndingBoundedPeriod(Boundary, new Boundary(date, new EndKind(Inclusivity.Exclusive)));
-        }
-
-        /// <inheritdoc />
-        public IBoundedPeriod End(Boundary end)
+        public IBoundedPeriod End(End end)
         {
             return new StartEndingBoundedPeriod(Boundary, end);
-        }
-
-        /// <inheritdoc />
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> list)
-        {
-            return new BoundedPeriodSet(list);
         }
 
         /// <inheritdoc />

@@ -7,13 +7,13 @@ using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
-    /// <inheritdoc cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/>
+    /// <inheritdoc cref="PeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/>
     /// <summary>
     /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="IPeriodSet"/>s
     /// </summary>
-    public abstract class MultiplePeriodSet<TSet,TNonEmptySet,TListBuilder, TStartingPeriod,TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod>
+    public abstract class MultiplePeriodSet<TSet,TBuilder, TStartingPeriod,TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TBuilder : IBuilder<TSet,TPeriod, TStartingPeriod>, new()
         where TPeriod : IPeriodSet
         where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
@@ -23,23 +23,23 @@ namespace IntervalSet.PeriodSet
         protected IList<TPeriod> PeriodList { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/>
+        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/>
         /// </summary>
         protected MultiplePeriodSet():this(new List<TPeriod>())
         {
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> based on a given <see cref="IPeriodSet"/>
+        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> based on a given <see cref="IPeriodSet"/>
         /// </summary>
         /// <param name="set"></param>
         protected MultiplePeriodSet(IPeriodSet set):this()
         {
-            PeriodList = new TListBuilder().Build(set.Boundaries.ToList()).ToList();
+            PeriodList = Builder.Build(set.Boundaries.ToList()).ToList();
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> based on a given list of <typeparamref name="TPeriod"/>s
+        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> based on a given list of <typeparamref name="TPeriod"/>s
         /// </summary>
         /// <param name="list"></param>
         protected MultiplePeriodSet(IList<TPeriod> list)
@@ -48,38 +48,28 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
+        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
         /// </summary>
         protected MultiplePeriodSet(Start from, End to) : this()
         {
-            TListBuilder builder = new TListBuilder();
             if (from.Date == to.Date)
             {
-                PeriodList.Add(builder.MakeDegenerate(new Degenerate(from.Date)));
+                PeriodList.Add(Builder.MakeDegenerate(new Degenerate(from.Date)));
             }
             else
             {
-                PeriodList.Add(builder.MakeStartingPeriod(from).End(to));
+                PeriodList.Add(Builder.MakeStartingPeriod(from).End(to));
             }
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
+        /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
         /// </summary>
-        protected MultiplePeriodSet(Boundary from) : this()
+        protected MultiplePeriodSet(Start from) : this()
         {
-            IPeriodListBuilder<TPeriod, TStartingPeriod> builder = new TListBuilder();
-            PeriodList.Add(builder.MakeStartingPeriod(from));
+            PeriodList.Add(Builder.MakeStartingPeriod(from));
         }
-
-        /// <summary>
-        /// Returns a <typeparamref name="TNonEmptySet"/> based on a given non-empty list of <typeparamref name="TPeriod"/>s
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        protected abstract TNonEmptySet MakeNonEmptySet(IList<TPeriod> list);
         
-
         /// <inheritdoc />
         public override int GetHashCode()
         {
@@ -111,14 +101,14 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public override bool IsNonEmpty(out TNonEmptySet nonEmpty)
+        public override bool IsNonEmpty(out TPeriod nonEmpty)
         {
             if (PeriodList.Any())
             {
-                nonEmpty = MakeNonEmptySet(PeriodList);
+                nonEmpty = Builder.MakeNonEmptySet(PeriodList);
                 return true;
             }
-            nonEmpty = default(TNonEmptySet);
+            nonEmpty = default(TPeriod);
             return false;
         }
         

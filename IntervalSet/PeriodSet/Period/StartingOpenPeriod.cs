@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using IntervalSet.PeriodSet.Period.Boundaries;
 
 namespace IntervalSet.PeriodSet.Period
@@ -21,15 +20,9 @@ namespace IntervalSet.PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public IOpenPeriod End(Boundary end)
+        public IOpenPeriod End(End end)
         {
             return new StartEndingOpenPeriod(Boundary, end);
-        }
-
-        /// <inheritdoc />
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> list)
-        {
-            return new OpenPeriodSet(list);
         }
 
         /// <summary>

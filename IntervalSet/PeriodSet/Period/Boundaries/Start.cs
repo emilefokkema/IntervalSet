@@ -16,5 +16,13 @@ namespace IntervalSet.PeriodSet.Period.Boundaries
         public Start(DateTime date, Inclusivity inclusivity):base(date, new StartKind(inclusivity))
         {
         }
+
+        /// <summary>
+        /// Initializes a new <see cref="Start"/> based on a given <see cref="Boundary"/>
+        /// </summary>
+        /// <param name="boundary"></param>
+        public Start(Boundary boundary):this(boundary.Date, boundary.Kind.Inclusivity)
+        {
+        }
     }
 }

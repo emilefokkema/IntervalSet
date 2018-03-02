@@ -9,12 +9,12 @@ namespace IntervalSet.PeriodSet.Period
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing period of time with a single boundary
     /// </summary>
     /// <typeparam name="TSet">the kind of <see cref="IPeriodSet"/> that contains this kind of period</typeparam>
-    /// <typeparam name="TListBuilder">the kind of <see cref="IPeriodListBuilder{TPeriod,TStartingPeriod}"/> that will produce this kind of period</typeparam>
+    /// <typeparam name="TBuilder">the kind of <see cref="IBuilder{TSet,TPeriod,TStartingPeriod}"/> that will produce this kind of period</typeparam>
     /// <typeparam name="TPeriod">the type of this period</typeparam>
     /// <typeparam name="TStartingPeriod"></typeparam>
-    public abstract class SingleBoundedPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TPeriod, TListBuilder, TStartingPeriod, TPeriod>
+    public abstract class SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>

@@ -10,7 +10,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="OpenPeriodSet"/> that contains at least one <see cref="IOpenPeriod"/>
     /// </summary>
-    public class NonEmptyOpenPeriodSet : NonEmptyPeriodSet<OpenPeriodSet, IOpenPeriod, OpenPeriodListBuilder, StartingOpenPeriod, IOpenPeriod>, IOpenPeriod
+    public class NonEmptyOpenPeriodSet : NonEmptyPeriodSet<OpenPeriodSet, OpenPeriodListBuilder, StartingOpenPeriod, IOpenPeriod>, IOpenPeriod
     {
         /// <inheritdoc />
         public NonEmptyOpenPeriodSet(IPeriodSet set):base(set)
@@ -36,18 +36,6 @@ namespace IntervalSet.PeriodSet
                 return new OpenPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive));
             }
             return new OpenPeriodListBuilder().MakeStartingPeriod(start);
-        }
-
-        /// <inheritdoc />
-        protected override IOpenPeriod MakeNonEmptySet(IList<IOpenPeriod> list)
-        {
-            return new NonEmptyOpenPeriodSet(list);
-        }
-
-        /// <inheritdoc />
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> list)
-        {
-            return new OpenPeriodSet(list);
         }
 
         /// <summary>

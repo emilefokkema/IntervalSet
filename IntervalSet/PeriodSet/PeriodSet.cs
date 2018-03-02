@@ -11,22 +11,18 @@ namespace IntervalSet.PeriodSet
     /// A base class for implementations of <see cref="IPeriodSet"/>
     /// </summary>
     /// <typeparam name="TSet">the type of this implementation</typeparam>
-    /// <typeparam name="TNonEmptySet">the non-empty version of this implementation</typeparam>
-    /// <typeparam name="TListBuilder">the type of <see cref="PeriodListBuilder{TPeriod,TStartingPeriod}"/> for this implementation</typeparam>
+    /// <typeparam name="TBuilder">the type of <see cref="Builder{TSet,TPeriod,TStartingPeriod}"/> for this implementation</typeparam>
     /// <typeparam name="TPeriod">the kind of connected period of time for this implementation</typeparam>
     /// <typeparam name="TStartingPeriod"></typeparam>
-    public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
+    public abstract class PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
-        /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TPeriod"/>s
+        /// The <typeparamref name="TBuilder"/> for this instance
         /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        protected abstract TSet MakeSet(IList<TPeriod> list);
-
+        protected readonly TBuilder Builder = new TBuilder();
         /// <inheritdoc />
         public virtual bool ContainsDate(DateTime date)
         {
@@ -45,22 +41,20 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
         {
-            TListBuilder builder = new TListBuilder();
             if (changes != null && changes.Count > 0)
             {
                 List<Boundary> whereBoundaries = changes.Select(c =>
                     trueFrom(c) && ContainsDate(c) ? (Boundary)new Start(c, Inclusivity.Inclusive) : new End(c, Inclusivity.Exclusive)).ToList();
-                TSet where = MakeSet(builder.Build(whereBoundaries).ToList());
+                TSet where = Builder.MakeSet(Builder.Build(whereBoundaries).ToList());
                 return Cross(where);
             }
 
-            return MakeSet(builder.Build(Boundaries.ToList()).ToList());
+            return Builder.MakeSet(Builder.Build(Boundaries.ToList()).ToList());
         }
 
         /// <inheritdoc />
         public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null)
         {
-            TListBuilder builder = new TListBuilder();
             changes = (changes ?? new List<DateTime>()).Concat(Boundaries.Select(b => b.Date)).OrderBy(d => d).ToList();
             
                 List<Boundary> boundaries = new List<Boundary>();
@@ -72,7 +66,7 @@ namespace IntervalSet.PeriodSet
                         boundaries.Add(new End(tuple.Item2, Inclusivity.Exclusive));
                     }
                 }
-                return MakeSet(builder.Build(boundaries).ToList());
+                return Builder.MakeSet(Builder.Build(boundaries).ToList());
            
         }
 
@@ -81,7 +75,7 @@ namespace IntervalSet.PeriodSet
         {
             List<Boundary> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Date))
                 .Concat(MinusBoundaries(other)).ToList();
-            return MakeSet(new TListBuilder().Build(minusBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(minusBoundaries).ToList());
         }
 
         private IEnumerable<Boundary> MinusBoundaries(IPeriodSet other)
@@ -129,14 +123,14 @@ namespace IntervalSet.PeriodSet
         public TSet Plus(IPeriodSet other)
         {
             List<Boundary> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
-            return MakeSet(new TListBuilder().Build(plusBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(plusBoundaries).ToList());
         }
 
         /// <inheritdoc />
         public TSet Cross(IPeriodSet other)
         {
             List<Boundary> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
-            return MakeSet(new TListBuilder().Build(crossBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(crossBoundaries).ToList());
         }
 
         IPeriodSet IPeriodSet.Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes)
@@ -165,9 +159,9 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public virtual bool IsNonEmpty(out TNonEmptySet nonEmpty)
+        public virtual bool IsNonEmpty(out TPeriod nonEmpty)
         {
-            nonEmpty = default(TNonEmptySet);
+            nonEmpty = default(TPeriod);
             return false;
         }
 

@@ -8,9 +8,9 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing a single period of time with a start date and an end date
     /// </summary>
-    public abstract class DoubleBoundedPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod> : SingleBoundedPeriod<TSet, TListBuilder, TStartingPeriod, TPeriod>
+    public abstract class DoubleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
