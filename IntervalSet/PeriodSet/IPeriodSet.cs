@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
@@ -7,7 +9,7 @@ namespace IntervalSet.PeriodSet
     /// A subset of the <see cref="DateTime"/> space consisting of connected periods of time that each have a start date
     /// (inclusive)
     /// </summary>
-    public interface IPeriodSet : IEquatable<IPeriodSet>
+    public interface IPeriodSet : IEquatable<IPeriodSet>, IFormattable
     {
         /// <summary>
         /// Gets whether this subset of the <see cref="DateTime"/> space is empty
@@ -51,7 +53,7 @@ namespace IntervalSet.PeriodSet
         /// <param name="trueEverywhereBetween">return whether the predicate is true between two given boundaries</param>
         /// <param name="changes">the period boundaries</param>
         /// <returns></returns>
-        IPeriodSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween,IEnumerable<DateTime> changes = null);
+        IPeriodSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null);
 
         /// <summary>
         /// Returns whether an interval from <paramref name="from"/> to <paramref name="to"/> (exclusive) is entirely contained in this
@@ -70,12 +72,19 @@ namespace IntervalSet.PeriodSet
         bool ContainsDate(DateTime date);
 
         /// <summary>
-        /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>
+        /// Returns whether <paramref name="date"/> is a start, an end, both or neither of this <see cref="IPeriodSet"/>
         /// </summary>
-        IEnumerable<DateTime> Boundaries { get; }
+        /// <param name="date"></param>
+        /// <returns></returns>
+        BoundaryKind Cross(DateTime date);
 
         /// <summary>
-        /// Returns whether this <see cref="IPeriodSet"/> has any non-empty period in common with <paramref name="other"/>
+        /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>
+        /// </summary>
+        IEnumerable<Boundary> Boundaries { get; }
+
+        /// <summary>
+        /// Returns whether this <see cref="IPeriodSet"/> has a non-empty intersection with <paramref name="other"/>
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
@@ -126,7 +135,7 @@ namespace IntervalSet.PeriodSet
         /// <param name="trueEverywhereBetween">return whether the predicate is true between two given boundaries</param>
         /// <param name="changes">the period boundaries</param>
         /// <returns></returns>
-        new TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes = null);
+        new TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null);
     }
 
     /// <summary>

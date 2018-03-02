@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
 
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
-    /// A <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
+    /// A <see cref="MultiplePeriodSet{TSet,TNonEmptySet,TListBuilder,TStartingPeriod,TPeriod}"/> that contains at least one <typeparamref name="TPeriod"/>
     /// </summary>
     /// <typeparam name="TSet"></typeparam>
     /// <typeparam name="TNonEmptySet"></typeparam>
     /// <typeparam name="TPeriod"></typeparam>
     /// <typeparam name="TListBuilder"></typeparam>
-    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod> : PeriodSet<TSet, TNonEmptySet, TListBuilder, TPeriod>, INonEmptyPeriod
+    /// <typeparam name="TStartingPeriod"></typeparam>
+    public abstract class NonEmptyPeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : MultiplePeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TPeriod : IPeriodSet
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <inheritdoc/>
         protected NonEmptyPeriodSet(IList<TPeriod> list):base(list)
@@ -28,12 +31,6 @@ namespace IntervalSet.PeriodSet
             CheckNonEmpty();
         }
 
-        /// <inheritdoc />
-        protected NonEmptyPeriodSet(DateTime from, DateTime? to = null):base(from, to)
-        {
-            CheckNonEmpty();
-        }
-
         private void CheckNonEmpty()
         {
             if (!PeriodList.Any())
@@ -42,11 +39,7 @@ namespace IntervalSet.PeriodSet
             }
         }
 
-        /// <inheritdoc/>
-        public DateTime Earliest => PeriodList.OrderBy(p => p.Earliest).First().Earliest;
-
-        /// <inheritdoc cref="IPeriodSet.IsEmpty"/>
+        /// <inheritdoc />
         public override bool IsEmpty => false;
-       
     }
 }

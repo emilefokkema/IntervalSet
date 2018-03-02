@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
-    /// An <see cref="IPeriodSet"/> not all of the <see cref="INonEmptyPeriod" />s of which can be assumed to have an end date
+    /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
-    public class OpenPeriodSet : PeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod>
+    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet,NonEmptyOpenPeriodSet, OpenPeriodListBuilder,StartingOpenPeriod,IOpenPeriod>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)
@@ -28,18 +32,26 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from) : base(from)
+        public OpenPeriodSet(DateTime from) : base(new Start(from, Inclusivity.Inclusive))
         {
         }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from, DateTime to) : base(from, to)
+        public OpenPeriodSet(DateTime from, DateTime to) : base(new Start(from, Inclusivity.Inclusive), new End(to, Inclusivity.Exclusive))
         { }
 
         /// <inheritdoc />
-        public OpenPeriodSet(DateTime from, DateTime? to) : base(from, to)
+        public OpenPeriodSet(DateTime from, DateTime? to)
         {
-           
+            Start start = new Start(from, Inclusivity.Inclusive);
+            if (to.HasValue)
+            {
+                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+            }
+            else
+            {
+                PeriodList.Add(new OpenPeriodListBuilder().MakeStartingPeriod(start));
+            }
         }
 
         /// <summary>
@@ -74,7 +86,11 @@ namespace IntervalSet.PeriodSet
             return new OpenPeriodSet(list);
         }
 
-        
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("d", CultureInfo.CurrentCulture);
+        }
 
         /// <summary>
         /// Returns an <see cref="OpenPeriodSet"/> representing the relative complement of <paramref name="other"/> in <paramref name="one"/>

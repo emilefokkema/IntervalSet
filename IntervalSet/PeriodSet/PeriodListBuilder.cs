@@ -1,88 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    /// <typeparam name="TPeriod">the type of period to add to a list</typeparam>
-    public abstract class PeriodListBuilder<TPeriod> : IPeriodListBuilder<TPeriod>
+    public abstract class PeriodListBuilder<TPeriod, TStartingPeriod> : IPeriodListBuilder<TPeriod, TStartingPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
-        /// <summary>
-        /// Given <see cref="DateTime"/>s <paramref name="from"/> and <paramref name="to"/>, returns a <typeparamref name="TPeriod"/> starting
-        /// at <paramref name="from"/> and ending at <paramref name="to"/>
-        /// </summary>
-        protected abstract TPeriod MakePeriod(DateTime from, DateTime to);
-
-        /// <summary>
-        /// Given <see cref="DateTime"/> <paramref name="from"/>, returns a <typeparamref name="TPeriod"/> starting
-        /// at <paramref name="from"/>
-        /// </summary>
-        protected abstract TPeriod MakePeriod(DateTime from);
-        
+       
         /// <inheritdoc />
-        public void InverseOfBoolean(IList<TPeriod> list, IEnumerable<DateTime> changes,
-            Func<DateTime, DateTime, bool> trueEverywhereBetween)
+        public abstract Start MakeStartingBoundary(DateTime from);
+
+        /// <inheritdoc />
+        public abstract End MakeEndingBoundary(DateTime to);
+
+        /// <inheritdoc />
+        public abstract TStartingPeriod MakeStartingPeriod(Boundary from);
+
+        /// <inheritdoc />
+        public abstract TPeriod MakeDegenerate(Degenerate degenerate);
+
+        private List<Boundary> OrderBoundaries(IList<Boundary> boundaries)
         {
-            changes = changes.OrderBy(d => d).ToList();
-            if (changes.Count() < 2)
-            {
-                return;
-            }
-            foreach (Tuple<DateTime, DateTime> fromTo in changes.Zip(changes.Skip(1), (f, t) => new Tuple<DateTime, DateTime>(f, t)))
-            {
-                if (trueEverywhereBetween(fromTo.Item1, fromTo.Item2))
-                {
-                    list.Add(MakePeriod(fromTo.Item1, fromTo.Item2));
-                }
-            }
+            return boundaries
+                .GroupBy(b => b.Date)
+                .Select(g => new Boundary(g.Key, g.Select(b => b.Kind).Aggregate((k1, k2) => k1.Plus(k2))))
+                .Distinct()
+                .OrderBy(b => b.Date)
+                .ToList();
         }
 
         /// <inheritdoc />
-        public void InverseOfBoolean(IList<TPeriod> list, IList<DateTime> changes,
-            Func<DateTime, bool> predicate)
+        public IEnumerable<TPeriod> Build(IList<Boundary> boundaries)
         {
-            bool currentlyTrue = false;
-            DateTime? beginningBoundary = null;
-            foreach (DateTime change in changes.OrderBy(d => d))
+            TStartingPeriod currentPeriod = null;
+            foreach (Boundary boundary in OrderBoundaries(boundaries))
             {
-                if (predicate(change) && change != DateTime.MaxValue)
+                if (boundary.IsStart)
                 {
-                    if (!currentlyTrue)
+                    if (currentPeriod == null)
                     {
-                        beginningBoundary = change;
+                        currentPeriod = MakeStartingPeriod(boundary);
                     }
-                    currentlyTrue = true;
+                    else
+                    {
+                        if (boundary.IsEnd && !boundary.Inclusive)
+                        {
+                            BoundaryKind startKind = new StartKind(Inclusivity.Exclusive);
+                            BoundaryKind endKind = new EndKind(Inclusivity.Exclusive);
+                            yield return currentPeriod.End(new Boundary(boundary.Date, endKind));
+                            currentPeriod = MakeStartingPeriod(new Boundary(boundary.Date, startKind));
+                        }
+                    }
                 }
                 else
                 {
-                    if (currentlyTrue)
+                    if (currentPeriod == null)
                     {
-                        list.Add(MakePeriod(beginningBoundary.Value, change));
-                        beginningBoundary = null;
+                        if (!boundary.IsEnd)
+                        {
+                            yield return MakeDegenerate(new Degenerate(boundary.Date));
+                        }
                     }
-                    currentlyTrue = false;
+                    else
+                    {
+                        if (boundary.IsEnd)
+                        {
+                            yield return currentPeriod.End(boundary);
+                            currentPeriod = null;
+                        }
+                    }
                 }
             }
-            if (currentlyTrue)
-            {
-                list.Add(MakePeriod(beginningBoundary.Value));
-            }
-        }
 
-        /// <inheritdoc />
-        public void Add(IList<TPeriod> list, DateTime from, DateTime to)
-        {
-            if (from != to)
+            if (currentPeriod != null)
             {
-                list.Add(MakePeriod(from, to));
+                yield return currentPeriod;
             }
-        }
-
-        /// <inheritdoc />
-        public void Add(IList<TPeriod> list, DateTime from)
-        {
-            list.Add(MakePeriod(from));
         }
     }
 }

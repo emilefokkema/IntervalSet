@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IPeriodSet" /> that contains only periods that have an end date
+    /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
-    public class BoundedPeriodSet : PeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod>
+    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet,NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder,StartingBoundedPeriod, IBoundedPeriod>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
@@ -23,12 +27,22 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from, DateTime to) : base(from, to)
+        public BoundedPeriodSet(DateTime from, DateTime to) : base(new Start(from, Inclusivity.Inclusive), new End(to, Inclusivity.Exclusive))
         { }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from, DateTime? to = null) : base(from, to)
-        { }
+        public BoundedPeriodSet(DateTime from, DateTime? to = null)
+        {
+            Start start = new Start(from, Inclusivity.Inclusive);
+            if (to.HasValue)
+            {
+                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+            }
+            else
+            {
+                PeriodList.Add(new BoundedPeriodListBuilder().MakeStartingPeriod(start));
+            }
+        }
 
         /// <inheritdoc />
         public BoundedPeriodSet()
@@ -36,7 +50,7 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from) : base(from)
+        public BoundedPeriodSet(DateTime from) : base(new Start(from, Inclusivity.Inclusive))
         {
         }
 
@@ -74,7 +88,11 @@ namespace IntervalSet.PeriodSet
             return new BoundedPeriodSet(list);
         }
 
-        
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("d", CultureInfo.CurrentCulture);
+        }
 
         /// <summary>
         /// Returns a <see cref="BoundedPeriodSet"/> representing the relative complement of <paramref name="other"/> in <paramref name="one"/>

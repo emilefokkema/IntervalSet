@@ -1,20 +1,35 @@
 ﻿using System;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod>
+    public class OpenPeriodListBuilder : PeriodListBuilder<IOpenPeriod, StartingOpenPeriod>
     {
         /// <inheritdoc />
-        protected override IOpenPeriod MakePeriod(DateTime from)
+        public override Start MakeStartingBoundary(DateTime from)
         {
-            return new Period(from);
+            return new Start(from, Inclusivity.Inclusive);
         }
 
         /// <inheritdoc />
-        protected override IOpenPeriod MakePeriod(DateTime from, DateTime to)
+        public override End MakeEndingBoundary(DateTime to)
         {
-            return new Period(from, to);
+            return new End(to, Inclusivity.Exclusive);
+        }
+
+        /// <inheritdoc />
+        public override StartingOpenPeriod MakeStartingPeriod(Boundary from)
+        {
+            return new StartingOpenPeriod(from);
+        }
+
+        /// <inheritdoc />
+        public override IOpenPeriod MakeDegenerate(Degenerate degenerate)
+        {
+            return new StartingOpenPeriod(degenerate);
         }
     }
 }

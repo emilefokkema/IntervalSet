@@ -1,94 +1,204 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
-    /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}"/>
-    /// <inheritdoc cref="IPeriodSet{TSet}"/>
-    /// <inheritdoc cref="IEmptyOrNot{TNonEmpty}"/>
     /// <summary>
-    /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="INonEmptyPeriod" />s
+    /// A base class for implementations of <see cref="IPeriodSet"/>
     /// </summary>
-    public abstract class PeriodSet<TSet,TNonEmptySet,TListBuilder,TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
+    /// <typeparam name="TSet">the type of this implementation</typeparam>
+    /// <typeparam name="TNonEmptySet">the non-empty version of this implementation</typeparam>
+    /// <typeparam name="TListBuilder">the type of <see cref="PeriodListBuilder{TPeriod,TStartingPeriod}"/> for this implementation</typeparam>
+    /// <typeparam name="TPeriod">the kind of connected period of time for this implementation</typeparam>
+    /// <typeparam name="TStartingPeriod"></typeparam>
+    public abstract class PeriodSet<TSet, TNonEmptySet, TListBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TNonEmptySet>
         where TSet : IPeriodSet
-        where TListBuilder : IPeriodListBuilder<TPeriod>, new()
-        where TPeriod : INonEmptyPeriod
+        where TListBuilder : IPeriodListBuilder<TPeriod, TStartingPeriod>, new()
+        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
-        /// <summary>
-        /// The list of <typeparamref name="TPeriod"/>s for this instance
-        /// </summary>
-        protected IList<TPeriod> PeriodList { get; }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/>
-        /// </summary>
-        protected PeriodSet():this(new List<TPeriod>())
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> based on a given <see cref="IPeriodSet"/>
-        /// </summary>
-        /// <param name="set"></param>
-        protected PeriodSet(IPeriodSet set):this()
-        {
-            new TListBuilder().InverseOfBoolean(PeriodList, set.Boundaries.ToList(), set.ContainsDate);
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> based on a given list of <typeparamref name="TPeriod"/>s
-        /// </summary>
-        /// <param name="list"></param>
-        protected PeriodSet(IList<TPeriod> list)
-        {
-            PeriodList = list;
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
-        /// </summary>
-        protected PeriodSet(DateTime from, DateTime to) : this(new List<TPeriod>())
-        {
-            new TListBuilder().Add(PeriodList, from, to);
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
-        /// </summary>
-        protected PeriodSet(DateTime from, DateTime? to) : this(new List<TPeriod>())
-        {
-            if (to.HasValue)
-            {
-                new TListBuilder().Add(PeriodList, from, to.Value);
-            }
-            else
-            {
-                new TListBuilder().Add(PeriodList, from);
-            }
-        }
-
-        /// <summary>
-        /// Initializes a new <see cref="PeriodSet{TSet,TNonEmptySet,TListBuilder,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
-        /// </summary>
-        protected PeriodSet(DateTime from) : this(new List<TPeriod>())
-        {
-            new TListBuilder().Add(PeriodList, from);
-        }
-
-        /// <summary>
-        /// Returns a <typeparamref name="TNonEmptySet"/> based on a given non-empty list of <typeparamref name="TPeriod"/>s
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        protected abstract TNonEmptySet MakeNonEmptySet(IList<TPeriod> list);
-
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TPeriod"/>s
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
         protected abstract TSet MakeSet(IList<TPeriod> list);
+
+        /// <inheritdoc />
+        public virtual bool ContainsDate(DateTime date)
+        {
+            return false;
+        }
+
+        /// <inheritdoc />
+        public virtual bool ContainsPeriod(DateTime from, DateTime to)
+        {
+            return false;
+        }
+
+        /// <inheritdoc />
+        public virtual IEnumerable<Boundary> Boundaries { get { yield break; } }
+
+        /// <inheritdoc />
+        public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
+        {
+            TListBuilder builder = new TListBuilder();
+            if (changes != null && changes.Count > 0)
+            {
+                List<Boundary> whereBoundaries = changes.Select(c =>
+                    trueFrom(c) && ContainsDate(c) ? (Boundary)new Start(c, Inclusivity.Inclusive) : new End(c, Inclusivity.Exclusive)).ToList();
+                TSet where = MakeSet(builder.Build(whereBoundaries).ToList());
+                return Cross(where);
+            }
+
+            return MakeSet(builder.Build(Boundaries.ToList()).ToList());
+        }
+
+        /// <inheritdoc />
+        public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null)
+        {
+            TListBuilder builder = new TListBuilder();
+            changes = (changes ?? new List<DateTime>()).Concat(Boundaries.Select(b => b.Date)).OrderBy(d => d).ToList();
+            
+                List<Boundary> boundaries = new List<Boundary>();
+                foreach (Tuple<DateTime,DateTime> tuple in changes.Zip(changes.Skip(1), (d1,d2)=>new Tuple<DateTime,DateTime>(d1,d2)))
+                {
+                    if (trueEverywhereBetween(tuple.Item1,tuple.Item2) && ContainsPeriod(tuple.Item1,tuple.Item2))
+                    {
+                        boundaries.Add(new Start(tuple.Item1, Inclusivity.Inclusive));
+                        boundaries.Add(new End(tuple.Item2, Inclusivity.Exclusive));
+                    }
+                }
+                return MakeSet(builder.Build(boundaries).ToList());
+           
+        }
+
+        /// <inheritdoc />
+        public TSet Minus(IPeriodSet other)
+        {
+            List<Boundary> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Date))
+                .Concat(MinusBoundaries(other)).ToList();
+            return MakeSet(new TListBuilder().Build(minusBoundaries).ToList());
+        }
+
+        private IEnumerable<Boundary> MinusBoundaries(IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind minusKind = Cross(otherBoundary.Date)?.Minus(otherBoundary.Kind);
+                if (minusKind != null)
+                {
+                    yield return new Boundary(otherBoundary.Date, minusKind);
+                }
+            }
+        }
+
+        private static IEnumerable<Boundary> PlusBoundaries(IPeriodSet one, IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind cross = one.Cross(otherBoundary.Date);
+                if (cross == null)
+                {
+                    yield return otherBoundary;
+                }
+                else
+                {
+                    BoundaryKind plusKind = cross.Plus(otherBoundary.Kind);
+                    yield return new Boundary(otherBoundary.Date, plusKind);
+                }
+            }
+        }
+
+        private static IEnumerable<Boundary> CrossBoundaries(IPeriodSet one, IPeriodSet other)
+        {
+            foreach (Boundary otherBoundary in other.Boundaries)
+            {
+                BoundaryKind cross = one.Cross(otherBoundary.Date)?.Cross(otherBoundary.Kind);
+                if (cross != null)
+                {
+                    yield return new Boundary(otherBoundary.Date, cross);
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        public TSet Plus(IPeriodSet other)
+        {
+            List<Boundary> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
+            return MakeSet(new TListBuilder().Build(plusBoundaries).ToList());
+        }
+
+        /// <inheritdoc />
+        public TSet Cross(IPeriodSet other)
+        {
+            List<Boundary> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
+            return MakeSet(new TListBuilder().Build(crossBoundaries).ToList());
+        }
+
+        IPeriodSet IPeriodSet.Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes)
+        {
+            return Where(trueFrom, changes);
+        }
+
+        IPeriodSet IPeriodSet.Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes)
+        {
+            return Where(trueEverywhereBetween, changes);
+        }
+
+        IPeriodSet IPeriodSet.Minus(IPeriodSet other)
+        {
+            return Minus(other);
+        }
+
+        IPeriodSet IPeriodSet.Plus(IPeriodSet other)
+        {
+            return Plus(other);
+        }
+
+        IPeriodSet IPeriodSet.Cross(IPeriodSet other)
+        {
+            return Cross(other);
+        }
+
+        /// <inheritdoc />
+        public virtual bool IsNonEmpty(out TNonEmptySet nonEmpty)
+        {
+            nonEmpty = default(TNonEmptySet);
+            return false;
+        }
+
+        /// <inheritdoc />
+        public virtual bool IsEmpty => true;
+
+        /// <inheritdoc />
+        public virtual int PeriodCount => 0;
+
+        /// <inheritdoc />
+        public virtual BoundaryKind Cross(DateTime date)
+        {
+            return null;
+        }
+
+        /// <inheritdoc />
+        public bool Intersects(IPeriodSet other)
+        {
+            return !other.Cross(this).IsEmpty;
+        }
+
+        /// <inheritdoc />
+        public virtual IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector) where TT : class
+        {
+            yield break;
+        }
+
+        /// <inheritdoc />
+        public virtual void ForEach(Action<TPeriod> what)
+        {
+        }
 
         /// <inheritdoc />
         public bool Equals(IPeriodSet other)
@@ -113,146 +223,13 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int result = 17;
-                foreach (TPeriod period in PeriodList)
-                {
-                    result = result * 31 + period.GetHashCode();
-                }
-                return result;
-            }
-        }
-
-
-        /// <inheritdoc />
-        public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
-        {
-            IList<TPeriod> list = new List<TPeriod>();
-            new TListBuilder().InverseOfBoolean(list, Boundaries.Concat(changes ?? new List<DateTime>()).ToList(), b => ContainsDate(b) && trueFrom(b));
-            return MakeSet(list);
-        }
-
-        IPeriodSet IPeriodSet.Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes)
-        {
-            return Where(trueFrom,changes);
+            return 0;
         }
 
         /// <inheritdoc />
-        public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes = null)
+        public virtual string ToString(string format, IFormatProvider provider)
         {
-            IList<TPeriod> list = new List<TPeriod>();
-            new TListBuilder().InverseOfBoolean(list, Boundaries.Concat(changes ?? new List<DateTime>()).ToList(),
-                (a, b) => ContainsPeriod(a, b) && trueEverywhereBetween(a, b));
-            return MakeSet(list);
-        }
-
-        IPeriodSet IPeriodSet.Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IEnumerable<DateTime> changes)
-        {
-            return Where(trueEverywhereBetween,changes);
-        }
-
-        /// <summary>
-        /// Returns a <typeparamref name="TSet"/> representing the relative complement of another <see cref="IPeriodSet"/> in this one
-        /// </summary>
-        /// <param name="other">the other <see cref="IPeriodSet"/></param>
-        /// <returns></returns>
-        public TSet Minus(IPeriodSet other)
-        {
-            return Where(b => !other.ContainsDate(b), other.Boundaries.ToList());
-        }
-
-        IPeriodSet IPeriodSet.Minus(IPeriodSet other)
-        {
-            return Minus(other);
-        }
-
-        /// <summary>
-        /// Returns a <typeparamref name="TSet"/> representing the union of this <see cref="IPeriodSet"/> and another
-        /// </summary>
-        /// <param name="other">the other <see cref="IPeriodSet"/></param>
-        /// <returns></returns>
-        public TSet Plus(IPeriodSet other)
-        {
-            IList<TPeriod> list = new List<TPeriod>();
-            IList<DateTime> changes = Boundaries.Concat(other.Boundaries).ToList();
-            new TListBuilder().InverseOfBoolean(list, changes, d => ContainsDate(d) || other.ContainsDate(d));
-            return MakeSet(list);
-        }
-
-        IPeriodSet IPeriodSet.Plus(IPeriodSet other)
-        {
-            return Plus(other);
-        }
-
-        /// <summary>
-        /// Returns a <typeparamref name="TSet"/> representing the intersection of this <see cref="IPeriodSet"/> and another
-        /// </summary>
-        /// <param name="other">the other <see cref="IPeriodSet"/></param>
-        /// <returns></returns>
-        public TSet Cross(IPeriodSet other)
-        {
-            return Where(other.ContainsDate, other.Boundaries.ToList());
-        }
-
-        IPeriodSet IPeriodSet.Cross(IPeriodSet other)
-        {
-            return Cross(other);
-        }
-
-        /// <inheritdoc />
-        public virtual bool IsNonEmpty(out TNonEmptySet nonEmpty)
-        {
-            if (PeriodList.Any())
-            {
-                nonEmpty = MakeNonEmptySet(PeriodList);
-                return true;
-            }
-            nonEmpty = default(TNonEmptySet);
-            return false;
-        }
-        
-
-        /// <inheritdoc cref="IPeriodSet.IsEmpty"/>
-        public virtual bool IsEmpty => !PeriodList.Any();
-
-        /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.PeriodCount"/>
-        public virtual int PeriodCount => PeriodList.Count;
-
-        /// <inheritdoc cref="IPeriodSet.ContainsDate"/>
-        public bool ContainsDate(DateTime date)
-        {
-            return PeriodList.Any(p => p.ContainsDate(date));
-        }
-
-        /// <inheritdoc cref="IPeriodSet.ContainsPeriod"/>
-        public bool ContainsPeriod(DateTime from, DateTime to)
-        {
-            return PeriodList.Any(p => p.ContainsPeriod(from, to));
-        }
-
-        /// <inheritdoc />
-        public bool Intersects(IPeriodSet other)
-        {
-            return !other.Cross(this).IsEmpty;
-        }
-
-        /// <inheritdoc cref="IPeriodSet.Boundaries"/>
-        public virtual IEnumerable<DateTime> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
-
-        /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.Select{TT}(Func{TPeriod,TT})"/>
-        public IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector) where TT : class
-        {
-            return PeriodList.Select(selector);
-        }
-
-        /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.ForEach"/>
-        public void ForEach(Action<TPeriod> what)
-        {
-            foreach (TPeriod period in PeriodList)
-            {
-                what(period);
-            }
+            return "(empty)";
         }
     }
 }

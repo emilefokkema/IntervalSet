@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.PeriodSet.Period;
+using IntervalSet.PeriodSet.Period.Boundaries;
+using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, NonEmptyBoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod>
+    public class NonEmptyBoundedPeriodSet : NonEmptyPeriodSet<BoundedPeriodSet, IBoundedPeriod, BoundedPeriodListBuilder, StartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IPeriodSet set):base(set)
@@ -20,12 +23,22 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public NonEmptyBoundedPeriodSet(DateTime from, DateTime? to = null):base(from,to)
+        public NonEmptyBoundedPeriodSet(DateTime from, DateTime? to = null):base(MakePeriod(from, to))
         {
         }
 
+        private static IBoundedPeriod MakePeriod(DateTime from, DateTime? to)
+        {
+            Start start = new Start(from, Inclusivity.Inclusive);
+            if (to.HasValue)
+            {
+                return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive));
+            }
+            return new BoundedPeriodListBuilder().MakeStartingPeriod(start);
+        }
+
         /// <inheritdoc />
-        protected override NonEmptyBoundedPeriodSet MakeNonEmptySet(IList<IBoundedPeriod> list)
+        protected override IBoundedPeriod MakeNonEmptySet(IList<IBoundedPeriod> list)
         {
             return new NonEmptyBoundedPeriodSet(list);
         }
@@ -39,6 +52,9 @@ namespace IntervalSet.PeriodSet
         /// <summary>
         /// The end date of the last <see cref="IBoundedPeriod"/> in this <see cref="BoundedPeriodSet"/>
         /// </summary>
-        public DateTime Last => PeriodList.Last().To;
+        public DateTime To => PeriodList.Last().To;
+
+        /// <inheritdoc />
+        public DateTime Earliest => PeriodList.First().Earliest;
     }
 }
