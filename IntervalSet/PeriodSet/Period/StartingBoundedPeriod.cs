@@ -9,7 +9,7 @@ namespace IntervalSet.PeriodSet.Period
     public class StartingBoundedPeriod : SingleBoundedPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, StartingBoundedPeriod, IBoundedPeriod>, IBoundedPeriod, IStartingPeriod<IBoundedPeriod>
     {
         /// <inheritdoc />
-        public StartingBoundedPeriod(Boundary from):base(from)
+        public StartingBoundedPeriod(Start from):base(from)
         {
         }
 

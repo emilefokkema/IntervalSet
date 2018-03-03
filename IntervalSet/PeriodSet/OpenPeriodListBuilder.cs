@@ -17,7 +17,7 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override IOpenPeriod MakeDegenerate(Degenerate degenerate)
         {
-            return new StartingOpenPeriod(degenerate);
+            return new DegenerateOpenPeriod(degenerate);
         }
 
         /// <inheritdoc />

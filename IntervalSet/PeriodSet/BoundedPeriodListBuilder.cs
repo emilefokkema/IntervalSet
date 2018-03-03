@@ -16,7 +16,7 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override IBoundedPeriod MakeDegenerate(Degenerate degenerate)
         {
-            return new StartingBoundedPeriod(degenerate);
+            return new DegenerateBoundedPeriod(degenerate);
         }
 
         /// <inheritdoc />

@@ -56,6 +56,8 @@
     <Compile Include="PeriodSet\Period\Boundaries\Kind\EndKind.cs" />
     <Compile Include="PeriodSet\Period\Boundaries\Kind\StartKind.cs" />
     <Compile Include="PeriodSet\Period\Boundaries\Kind\Inclusivity.cs" />
+    <Compile Include="PeriodSet\Period\DegenerateOpenPeriod.cs" />
+    <Compile Include="PeriodSet\Period\DegenerateBoundedPeriod.cs" />
     <Compile Include="PeriodSet\Period\IStartingPeriod.cs" />
     <Compile Include="PeriodSet\Period\IOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />
