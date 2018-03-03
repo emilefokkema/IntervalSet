@@ -73,6 +73,10 @@ namespace IntervalSetTest.PeriodSet
             degenerate.Should().NotBe(BoundedPeriodSet.Empty);
             degenerate.Should().NotBe(OpenPeriodSet.Empty);
             degenerate.IsEmpty.Should().BeFalse();
+            IBoundedPeriod nonEmptyDegenerate;
+            degenerate.IsNonEmpty(out nonEmptyDegenerate).Should().BeTrue();
+            nonEmptyDegenerate.Earliest.Should().Be(startOne);
+            nonEmptyDegenerate.To.Should().Be(startOne);
 
             (degenerate * one).Should().Be(degenerate);
             (one - degenerate).Cross(degenerate).Should().Be(empty);
