@@ -6,7 +6,7 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// Represents a period of time for which the start and end dates are the same
     /// </summary>
-    public class DegenerateOpenPeriod : SingleBoundedPeriod<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IOpenPeriod
+    public class DegenerateOpenPeriod : SingleBoundaryPeriod<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IOpenPeriod
     {
         /// <summary>
         /// Initializes a new <see cref="DegenerateOpenPeriod"/> based on a degenerate <see cref="Boundary"/>

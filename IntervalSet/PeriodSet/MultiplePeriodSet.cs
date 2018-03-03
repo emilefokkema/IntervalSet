@@ -17,6 +17,7 @@ namespace IntervalSet.PeriodSet
         where TPeriod : IPeriodSet
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
+        /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
             return PeriodList.Any(p => p.ContainsNegativeInfinity());

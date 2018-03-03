@@ -23,6 +23,7 @@ namespace IntervalSet.PeriodSet
         /// The <typeparamref name="TBuilder"/> for this instance
         /// </summary>
         protected readonly TBuilder Builder = new TBuilder();
+
         /// <inheritdoc />
         public virtual bool ContainsDate(DateTime date)
         {
@@ -35,6 +36,10 @@ namespace IntervalSet.PeriodSet
             return true;
         }
 
+        /// <summary>
+        /// Returns a <typeparamref name="TPeriod"/> that can serve as the start of this <see cref="IPeriodSet"/>
+        /// </summary>
+        /// <returns></returns>
         protected TStartingPeriod GetStart()
         {
             if (ContainsNegativeInfinity())

@@ -70,9 +70,9 @@
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartingOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingBoundedPeriod.cs" />
-    <Compile Include="PeriodSet\Period\DoubleBoundedPeriod.cs" />
+    <Compile Include="PeriodSet\Period\DoubleBoundaryPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartingBoundedPeriod.cs" />
-    <Compile Include="PeriodSet\Period\SingleBoundedPeriod.cs" />
+    <Compile Include="PeriodSet\Period\SingleBoundaryPeriod.cs" />
     <Compile Include="PeriodSet\Period\IBoundedPeriod.cs" />
     <Compile Include="PeriodSet\IBuilder.cs" />
     <Compile Include="PeriodSet\IPeriodSet.cs" />

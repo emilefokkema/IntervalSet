@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using IntervalSet.PeriodSet.Period;
 using IntervalSet.PeriodSet.Period.Boundaries;
@@ -45,5 +46,11 @@ namespace IntervalSet.PeriodSet
 
         /// <inheritdoc />
         public DateTime Earliest => PeriodList.First().Earliest;
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("d", CultureInfo.CurrentCulture);
+        }
     }
 }

@@ -8,11 +8,12 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing a single period of time with a start date and an end date
     /// </summary>
-    public abstract class DoubleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod>
+    public abstract class DoubleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : SingleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
+        /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
             return false;
@@ -34,11 +35,11 @@ namespace IntervalSet.PeriodSet.Period
         protected Boundary Max { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="DoubleBoundedPeriod{TSet,TListBuilder,TStartingPeriod,TPeriod}"/> with two <see cref="Boundary"/>s
+        /// Initializes a new <see cref="DoubleBoundaryPeriod{TSet,TBuilder,TStartingPeriod,TPeriod}"/> with two <see cref="Boundary"/>s
         /// </summary>
         /// <param name="one"></param>
         /// <param name="other"></param>
-        protected DoubleBoundedPeriod(Boundary one, Boundary other):base(one)
+        protected DoubleBoundaryPeriod(Boundary one, Boundary other):base(one)
         {
             OtherBoundary = other;
             if (Boundary.Date < OtherBoundary.Date)

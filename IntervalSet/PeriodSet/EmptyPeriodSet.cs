@@ -5,11 +5,19 @@ using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSet.PeriodSet
 {
+    /// <summary>
+    /// Base class for implementations of <see cref="IPeriodSet"/> that do not represent the entire <see cref="DateTime"/> space
+    /// </summary>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="TBuilder"></typeparam>
+    /// <typeparam name="TStartingPeriod"></typeparam>
+    /// <typeparam name="TPeriod"></typeparam>
     public abstract class EmptyPeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
+        /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
             return false;

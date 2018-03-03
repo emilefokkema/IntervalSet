@@ -12,7 +12,7 @@ namespace IntervalSet.PeriodSet.Period
     /// <typeparam name="TBuilder">the kind of <see cref="IBuilder{TSet,TPeriod,TStartingPeriod}"/> that will produce this kind of period</typeparam>
     /// <typeparam name="TPeriod">the type of this period</typeparam>
     /// <typeparam name="TStartingPeriod"></typeparam>
-    public abstract class SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
+    public abstract class SingleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
@@ -23,6 +23,7 @@ namespace IntervalSet.PeriodSet.Period
         /// <returns></returns>
         protected abstract TPeriod GetPeriod();
 
+        /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
             return Boundary.IsEnd;
@@ -34,10 +35,10 @@ namespace IntervalSet.PeriodSet.Period
         public Boundary Boundary { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="SingleBoundedPeriod{TSet,TListBuilder,TStartingPeriod,TPeriod}"/> with a given boundary
+        /// Initializes a new <see cref="SingleBoundaryPeriod{TSet,TBuilder,TStartingPeriod,TPeriod}"/> with a given boundary
         /// </summary>
         /// <param name="boundary"></param>
-        protected SingleBoundedPeriod(Boundary boundary)
+        protected SingleBoundaryPeriod(Boundary boundary)
         {
             Boundary = boundary;
         }
