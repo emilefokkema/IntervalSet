@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using IntervalSet.PeriodSet;
 using IntervalSet.PeriodSet.Period;
@@ -87,6 +88,29 @@ namespace IntervalSetTest.PeriodSet
             BoundedPeriodSet difference = set - degenerate;
             difference.ContainsDate(startTwo).Should().BeFalse();
             difference.Cross(degenerate).Should().Be(empty);
+        }
+
+        [Test]
+        public void Test_initialize_degenerate()
+        {
+            BoundedPeriodSet degenerate;
+            NonEmptyBoundedPeriodSet nonEmptyDegenerate;
+            OpenPeriodSet openDegenerate;
+            NonEmptyOpenPeriodSet nonEmptyOpenDegenerate;
+
+            DateTime from = startOne;
+            DateTime? to = startOne;
+            degenerate = new BoundedPeriodSet(from, to);
+            degenerate.Boundaries.Count().Should().Be(1);
+
+            nonEmptyDegenerate = new NonEmptyBoundedPeriodSet(startOne, startOne);
+            nonEmptyDegenerate.Boundaries.Count().Should().Be(1);
+
+            openDegenerate = new OpenPeriodSet(from, to);
+            openDegenerate.Boundaries.Count().Should().Be(1);
+
+            nonEmptyOpenDegenerate = new NonEmptyOpenPeriodSet(startOne, startOne);
+            nonEmptyOpenDegenerate.Boundaries.Count().Should().Be(1);
         }
 
         [Test]

@@ -36,7 +36,14 @@ namespace IntervalSet.PeriodSet
             Start start = new Start(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
-                PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+                if (to.Value == from)
+                {
+                    PeriodList.Add(Builder.MakeDegenerate(new Degenerate(from)));
+                }
+                else
+                {
+                    PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+                }
             }
             else
             {
