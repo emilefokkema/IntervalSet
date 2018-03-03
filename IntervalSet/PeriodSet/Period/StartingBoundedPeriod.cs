@@ -6,11 +6,13 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and <see cref="DateTime.MaxValue"/> as end date (i.e. no end date)
     /// </summary>
-    public class StartingBoundedPeriod : SingleBoundedPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, StartingBoundedPeriod, IBoundedPeriod>, IBoundedPeriod, IStartingPeriod<IBoundedPeriod>
+    public class StartingBoundedPeriod : SingleBoundedPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod>, IStartingBoundedPeriod
     {
+        private readonly Start _start;
         /// <inheritdoc />
         public StartingBoundedPeriod(Start from):base(from)
         {
+            _start = from;
         }
 
         /// <inheritdoc />
@@ -22,7 +24,7 @@ namespace IntervalSet.PeriodSet.Period
         /// <inheritdoc />
         public IBoundedPeriod End(End end)
         {
-            return new StartEndingBoundedPeriod(Boundary, end);
+            return new StartEndingBoundedPeriod(_start, end);
         }
 
         /// <inheritdoc />

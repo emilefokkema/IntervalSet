@@ -11,12 +11,17 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// A subset of the <see cref="DateTime" /> space consisting of zero or more <see cref="IPeriodSet"/>s
     /// </summary>
-    public abstract class MultiplePeriodSet<TSet,TBuilder, TStartingPeriod,TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
+    public abstract class MultiplePeriodSet<TSet,TBuilder, TStartingPeriod,TPeriod> : EmptyPeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet,TPeriod, TStartingPeriod>, new()
         where TPeriod : IPeriodSet
-        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
+        public override bool ContainsNegativeInfinity()
+        {
+            return PeriodList.Any(p => p.ContainsNegativeInfinity());
+        }
+
         /// <summary>
         /// The list of <typeparamref name="TPeriod"/>s for this instance
         /// </summary>
@@ -35,7 +40,8 @@ namespace IntervalSet.PeriodSet
         /// <param name="set"></param>
         protected MultiplePeriodSet(IPeriodSet set):this()
         {
-            PeriodList = Builder.Build(set.Boundaries.ToList()).ToList();
+            TStartingPeriod start = set.ContainsNegativeInfinity() ? Builder.MakeStartingPeriod() : null;
+            PeriodList = Builder.Build(set.Boundaries.ToList(), start).ToList();
         }
 
         /// <summary>
@@ -97,6 +103,11 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override string ToString(string format, IFormatProvider provider)
         {
+            if (PeriodList.Count == 0)
+            {
+                return base.ToString(format, provider);
+            }
+
             return string.Join(" + ", PeriodList.Select(p => p.ToString(format, provider)));
         }
 

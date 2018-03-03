@@ -19,6 +19,9 @@ namespace IntervalSet.PeriodSet
         public abstract TStartingPeriod MakeStartingPeriod(Start from);
 
         /// <inheritdoc />
+        public abstract TStartingPeriod MakeStartingPeriod();
+
+        /// <inheritdoc />
         public abstract TPeriod MakeDegenerate(Degenerate degenerate);
 
         private List<Boundary> OrderBoundaries(IList<Boundary> boundaries)
@@ -32,9 +35,8 @@ namespace IntervalSet.PeriodSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TPeriod> Build(IList<Boundary> boundaries)
+        public IEnumerable<TPeriod> Build(IList<Boundary> boundaries, TStartingPeriod currentPeriod)
         {
-            TStartingPeriod currentPeriod = null;
             foreach (Boundary boundary in OrderBoundaries(boundaries))
             {
                 if (boundary.IsStart)

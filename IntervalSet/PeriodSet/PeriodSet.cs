@@ -17,8 +17,8 @@ namespace IntervalSet.PeriodSet
     public abstract class PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
-    {
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
+    {   
         /// <summary>
         /// The <typeparamref name="TBuilder"/> for this instance
         /// </summary>
@@ -26,13 +26,29 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public virtual bool ContainsDate(DateTime date)
         {
-            return false;
+            return true;
+        }
+
+        /// <inheritdoc />
+        public virtual bool ContainsNegativeInfinity()
+        {
+            return true;
+        }
+
+        protected TStartingPeriod GetStart()
+        {
+            if (ContainsNegativeInfinity())
+            {
+                return Builder.MakeStartingPeriod();
+            }
+
+            return null;
         }
 
         /// <inheritdoc />
         public virtual bool ContainsPeriod(DateTime from, DateTime to)
         {
-            return false;
+            return true;
         }
 
         /// <inheritdoc />
@@ -45,11 +61,10 @@ namespace IntervalSet.PeriodSet
             {
                 List<Boundary> whereBoundaries = changes.Select(c =>
                     trueFrom(c) && ContainsDate(c) ? (Boundary)new Start(c, Inclusivity.Inclusive) : new End(c, Inclusivity.Exclusive)).ToList();
-                TSet where = Builder.MakeSet(Builder.Build(whereBoundaries).ToList());
-                return Cross(where);
+                return Builder.MakeSet(Builder.Build(whereBoundaries, null).ToList());
             }
 
-            return Builder.MakeSet(Builder.Build(Boundaries.ToList()).ToList());
+            return Builder.MakeSet(Builder.Build(Boundaries.ToList(), GetStart()).ToList());
         }
 
         /// <inheritdoc />
@@ -66,7 +81,7 @@ namespace IntervalSet.PeriodSet
                         boundaries.Add(new End(tuple.Item2, Inclusivity.Exclusive));
                     }
                 }
-                return Builder.MakeSet(Builder.Build(boundaries).ToList());
+                return Builder.MakeSet(Builder.Build(boundaries, null).ToList());
            
         }
 
@@ -75,7 +90,37 @@ namespace IntervalSet.PeriodSet
         {
             List<Boundary> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Date))
                 .Concat(MinusBoundaries(other)).ToList();
-            return Builder.MakeSet(Builder.Build(minusBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(minusBoundaries, MinusStart(other)).ToList());
+        }
+
+        private TStartingPeriod MinusStart(IPeriodSet other)
+        {
+            if (other.ContainsNegativeInfinity())
+            {
+                return null;
+            }
+
+            return GetStart();
+        }
+
+        private TStartingPeriod PlusStart(IPeriodSet other)
+        {
+            if (other.ContainsNegativeInfinity())
+            {
+                return Builder.MakeStartingPeriod();
+            }
+
+            return GetStart();
+        }
+
+        private TStartingPeriod CrossStart(IPeriodSet other)
+        {
+            if (!other.ContainsNegativeInfinity())
+            {
+                return null;
+            }
+
+            return GetStart();
         }
 
         private IEnumerable<Boundary> MinusBoundaries(IPeriodSet other)
@@ -123,14 +168,14 @@ namespace IntervalSet.PeriodSet
         public TSet Plus(IPeriodSet other)
         {
             List<Boundary> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
-            return Builder.MakeSet(Builder.Build(plusBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(plusBoundaries, PlusStart(other)).ToList());
         }
 
         /// <inheritdoc />
         public TSet Cross(IPeriodSet other)
         {
             List<Boundary> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
-            return Builder.MakeSet(Builder.Build(crossBoundaries).ToList());
+            return Builder.MakeSet(Builder.Build(crossBoundaries, CrossStart(other)).ToList());
         }
 
         IPeriodSet IPeriodSet.Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes)
@@ -161,20 +206,20 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public virtual bool IsNonEmpty(out TPeriod nonEmpty)
         {
-            nonEmpty = default(TPeriod);
-            return false;
+            nonEmpty = GetStart();
+            return true;
         }
 
         /// <inheritdoc />
-        public virtual bool IsEmpty => true;
+        public virtual bool IsEmpty => false;
 
         /// <inheritdoc />
-        public virtual int PeriodCount => 0;
+        public virtual int PeriodCount => 1;
 
         /// <inheritdoc />
         public virtual BoundaryKind Cross(DateTime date)
         {
-            return null;
+            return new ContinuationKind();
         }
 
         /// <inheritdoc />
@@ -186,12 +231,13 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public virtual IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector) where TT : class
         {
-            yield break;
+            yield return selector(GetStart());
         }
 
         /// <inheritdoc />
         public virtual void ForEach(Action<TPeriod> what)
         {
+            what(GetStart());
         }
 
         /// <inheritdoc />
@@ -217,13 +263,13 @@ namespace IntervalSet.PeriodSet
         /// <inheritdoc />
         public override int GetHashCode()
         {
-            return 0;
+            return int.MaxValue;
         }
 
         /// <inheritdoc />
         public virtual string ToString(string format, IFormatProvider provider)
         {
-            return "(empty)";
+            return "(-Infinity, Infinity)";
         }
     }
 }

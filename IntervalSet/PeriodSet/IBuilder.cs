@@ -17,8 +17,9 @@ namespace IntervalSet.PeriodSet
         /// Builds a list of <typeparamref name="TPeriod"/>s given a list of <see cref="Boundary"/>s
         /// </summary>
         /// <param name="boundaries"></param>
+        /// <param name="currentPeriod"></param>
         /// <returns></returns>
-        IEnumerable<TPeriod> Build(IList<Boundary> boundaries);
+        IEnumerable<TPeriod> Build(IList<Boundary> boundaries, TStartingPeriod currentPeriod);
 
         /// <summary>
         /// Returns a <typeparamref name="TStartingPeriod"/> starting at <paramref name="from"/>
@@ -26,6 +27,12 @@ namespace IntervalSet.PeriodSet
         /// <param name="from"></param>
         /// <returns></returns>
         TStartingPeriod MakeStartingPeriod(Start from);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TStartingPeriod"/> "starting" at negative infinity
+        /// </summary>
+        /// <returns></returns>
+        TStartingPeriod MakeStartingPeriod();
 
         /// <summary>
         /// Returns a <typeparamref name="TPeriod"/> that represents a period containing only one date

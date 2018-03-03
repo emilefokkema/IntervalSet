@@ -6,11 +6,13 @@ namespace IntervalSet.PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and <c>(DateTime?)null</c> as end date (i.e. no end date)
     /// </summary>
-    public class StartingOpenPeriod : SingleBoundedPeriod<OpenPeriodSet, OpenPeriodListBuilder, StartingOpenPeriod, IOpenPeriod>, IOpenPeriod, IStartingPeriod<IOpenPeriod>
+    public class StartingOpenPeriod : SingleBoundedPeriod<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IStartingOpenPeriod
     {
+        private Start _start;
         /// <inheritdoc />
         public StartingOpenPeriod(Start from) : base(from)
         {
+            _start = from;
         }
 
         /// <inheritdoc />
@@ -22,7 +24,7 @@ namespace IntervalSet.PeriodSet.Period
         /// <inheritdoc />
         public IOpenPeriod End(End end)
         {
-            return new StartEndingOpenPeriod(Boundary, end);
+            return new StartEndingOpenPeriod(_start, end);
         }
 
         /// <summary>

@@ -5,13 +5,19 @@ using IntervalSet.PeriodSet.Period.Boundaries;
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, StartingOpenPeriod>
+    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, IStartingOpenPeriod>
     {
 
         /// <inheritdoc />
-        public override StartingOpenPeriod MakeStartingPeriod(Start from)
+        public override IStartingOpenPeriod MakeStartingPeriod(Start from)
         {
             return new StartingOpenPeriod(from);
+        }
+
+        /// <inheritdoc />
+        public override IStartingOpenPeriod MakeStartingPeriod()
+        {
+            return new EntireOpenPeriod();
         }
 
         /// <inheritdoc />

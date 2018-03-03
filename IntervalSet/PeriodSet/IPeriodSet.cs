@@ -72,6 +72,12 @@ namespace IntervalSet.PeriodSet
         bool ContainsDate(DateTime date);
 
         /// <summary>
+        /// Returns true if this <see cref="IPeriodSet"/> contains an <see cref="IPeriodSet"/> containing and end date and no start date
+        /// </summary>
+        /// <returns></returns>
+        bool ContainsNegativeInfinity();
+
+        /// <summary>
         /// Returns whether <paramref name="date"/> is a start, an end, both or neither of this <see cref="IPeriodSet"/>
         /// </summary>
         /// <param name="date"></param>

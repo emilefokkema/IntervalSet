@@ -195,6 +195,7 @@ namespace IntervalSetTest.PeriodSet
             OpenPeriodSet openAll = OpenPeriodSet.All;
             BoundedPeriodSet boundedAll = BoundedPeriodSet.All;
             OpenPeriodSet remainder = openAll.Minus(boundedAll);
+            openAll.Should().Be(boundedAll);
             remainder.IsEmpty.Should().BeTrue();
         }
 
@@ -237,8 +238,8 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_periods()
         {
-            StartingBoundedPeriod start1 = new BoundedPeriodListBuilder().MakeStartingPeriod(new Start(startOne, Inclusivity.Inclusive));
-            StartingBoundedPeriod start2 = new BoundedPeriodListBuilder().MakeStartingPeriod(new Start(startTwo, Inclusivity.Inclusive));
+            StartingBoundedPeriod start1 = new StartingBoundedPeriod(new Start(startOne, Inclusivity.Inclusive));
+            StartingBoundedPeriod start2 = new StartingBoundedPeriod(new Start(startTwo, Inclusivity.Inclusive));
 
 
             BoundedPeriodSet difference = start1.Minus(start2);
@@ -247,6 +248,82 @@ namespace IntervalSetTest.PeriodSet
             IBoundedPeriod period;
             start1.IsNonEmpty(out period).Should().BeTrue();
             period.Should().Be(start1);
+        }
+
+        [Test]
+        public void Test_entire()
+        {
+            new OpenPeriodSet(new EntireOpenPeriod()).Should().Be(new OpenPeriodSet(new EntireOpenPeriod()));
+            
+        }
+
+        [Test]
+        public void Test_entire_subtract()
+        {
+            OpenPeriodSet entire = OpenPeriodSet.All;
+
+            IOpenPeriod nonEmptyEntire;
+            entire.IsNonEmpty(out nonEmptyEntire).Should().BeTrue();
+            nonEmptyEntire.Earliest.Should().Be(DateTime.MinValue);
+            nonEmptyEntire.To.Should().Be(null);
+
+            OpenPeriodSet set1 = new OpenPeriodSet(startFour);
+            OpenPeriodSet difference = entire - set1;
+
+            difference.ContainsDate(startOne).Should().BeTrue();
+            IOpenPeriod nonEmptyDifference;
+            difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
+            nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
+            nonEmptyDifference.To.Should().Be(startFour);
+
+            difference = difference - (one + two);
+            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
+            nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
+            nonEmptyDifference.To.Should().Be(startFour);
+
+            difference = entire - (one + two);
+            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
+            nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
+            nonEmptyDifference.To.Should().Be(null);
+
+            difference = entire - new OpenPeriodSet(startOne, startOne);
+            difference.ContainsDate(startOne).Should().BeFalse();
+            difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
+            nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
+            nonEmptyDifference.To.Should().Be(null);
+        }
+
+        [Test]
+        public void Test_entire_add()
+        {
+            OpenPeriodSet left = OpenPeriodSet.All - new OpenPeriodSet(startTwo);
+            OpenPeriodSet right = new OpenPeriodSet(startOne);
+            (left + right).Should().Be(OpenPeriodSet.All);
+            (right + left).Should().Be(OpenPeriodSet.All);
+
+            (OpenPeriodSet.All - (two + three) + (one + two + three + four)).Should().Be(OpenPeriodSet.All);
+
+            OpenPeriodSet left1 = OpenPeriodSet.All - new OpenPeriodSet(startOne);
+            OpenPeriodSet left2 = OpenPeriodSet.All - new OpenPeriodSet(startTwo);
+
+            (left1 + one).Should().Be(left2);
+        }
+
+        [Test]
+        public void Test_entire_cross()
+        {
+            OpenPeriodSet left = new OpenPeriodSet(startOne);
+            OpenPeriodSet right = OpenPeriodSet.All - new OpenPeriodSet(startTwo);
+
+            (left * right).Should().Be(one);
+            (right * left).Should().Be(one);
+
+            OpenPeriodSet left1 = OpenPeriodSet.All - new OpenPeriodSet(startTwo);
+            OpenPeriodSet left2 = OpenPeriodSet.All - new OpenPeriodSet(startOne);
+            (left1 * left2).Should().Be(left2);
+            (left2 * left1).Should().Be(left2);
         }
     }
 }

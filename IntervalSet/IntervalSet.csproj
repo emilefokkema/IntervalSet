@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PeriodSet\EmptyPeriodSet.cs" />
     <Compile Include="PeriodSet\Period\Boundaries\Boundary.cs" />
     <Compile Include="PeriodSet\BoundedPeriodListBuilder.cs" />
     <Compile Include="PeriodSet\BoundedPeriodSet.cs" />
@@ -56,8 +57,14 @@
     <Compile Include="PeriodSet\Period\Boundaries\Kind\EndKind.cs" />
     <Compile Include="PeriodSet\Period\Boundaries\Kind\StartKind.cs" />
     <Compile Include="PeriodSet\Period\Boundaries\Kind\Inclusivity.cs" />
+    <Compile Include="PeriodSet\Period\EndingBoundedPeriod.cs" />
+    <Compile Include="PeriodSet\Period\EntireBoundedPeriod.cs" />
+    <Compile Include="PeriodSet\Period\EntireOpenPeriod.cs" />
+    <Compile Include="PeriodSet\Period\EndingOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\DegenerateOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\DegenerateBoundedPeriod.cs" />
+    <Compile Include="PeriodSet\Period\IStartingOpenPeriod.cs" />
+    <Compile Include="PeriodSet\Period\IStartingBoundedPeriod.cs" />
     <Compile Include="PeriodSet\Period\IStartingPeriod.cs" />
     <Compile Include="PeriodSet\Period\IOpenPeriod.cs" />
     <Compile Include="PeriodSet\Period\StartEndingOpenPeriod.cs" />

@@ -11,8 +11,13 @@ namespace IntervalSet.PeriodSet.Period
     public abstract class DoubleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
+        public override bool ContainsNegativeInfinity()
+        {
+            return false;
+        }
+
         /// <summary>
         /// The second <see cref="Boundary"/> of this period
         /// </summary>

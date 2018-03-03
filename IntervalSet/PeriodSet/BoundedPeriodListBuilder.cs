@@ -5,12 +5,18 @@ using IntervalSet.PeriodSet.Period.Boundaries;
 namespace IntervalSet.PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, StartingBoundedPeriod>
+    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, IStartingBoundedPeriod>
     {
         /// <inheritdoc />
-        public override StartingBoundedPeriod MakeStartingPeriod(Start from)
+        public override IStartingBoundedPeriod MakeStartingPeriod(Start from)
         {
             return new StartingBoundedPeriod(from);
+        }
+
+        /// <inheritdoc />
+        public override IStartingBoundedPeriod MakeStartingPeriod()
+        {
+            return new EntireBoundedPeriod();
         }
 
         /// <inheritdoc />

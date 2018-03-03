@@ -15,13 +15,18 @@ namespace IntervalSet.PeriodSet.Period
     public abstract class SingleBoundedPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
         /// returns a typed version of this instance
         /// </summary>
         /// <returns></returns>
         protected abstract TPeriod GetPeriod();
+
+        public override bool ContainsNegativeInfinity()
+        {
+            return Boundary.IsEnd;
+        }
 
         /// <summary>
         /// The boundary of this period

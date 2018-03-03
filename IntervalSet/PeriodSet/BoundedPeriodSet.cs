@@ -11,7 +11,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
-    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder,StartingBoundedPeriod, IBoundedPeriod>
+    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder,IStartingBoundedPeriod, IBoundedPeriod>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
@@ -118,7 +118,7 @@ namespace IntervalSet.PeriodSet
         /// <summary>
         /// The entire <see cref="DateTime"/> space, represented as a <see cref="BoundedPeriodSet"/> with <see cref="DateTime.MinValue"/> as start date and <see cref="DateTime.MaxValue"/> as end date
         /// </summary>
-        public static readonly BoundedPeriodSet All = new BoundedPeriodSet(DateTime.MinValue);
+        public static readonly BoundedPeriodSet All = new BoundedPeriodSet(new EntireBoundedPeriod());
 
         /// <summary>
         /// The empty set, represented as an empty <see cref="BoundedPeriodSet"/>

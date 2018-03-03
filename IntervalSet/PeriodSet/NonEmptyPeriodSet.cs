@@ -16,7 +16,7 @@ namespace IntervalSet.PeriodSet
         where TSet : IPeriodSet
         where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
         where TPeriod : IPeriodSet
-        where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
     {
         /// <inheritdoc/>
         protected NonEmptyPeriodSet(IList<TPeriod> list):base(list)

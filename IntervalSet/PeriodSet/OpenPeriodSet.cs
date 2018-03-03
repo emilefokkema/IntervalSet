@@ -11,7 +11,7 @@ namespace IntervalSet.PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
-    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet, OpenPeriodListBuilder,StartingOpenPeriod,IOpenPeriod>
+    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet, OpenPeriodListBuilder,IStartingOpenPeriod,IOpenPeriod>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)
@@ -116,7 +116,7 @@ namespace IntervalSet.PeriodSet
         /// <summary>
         /// The entire <see cref="DateTime"/> space, represented as an <see cref="OpenPeriodSet"/> with <see cref="DateTime.MinValue"/> as start date
         /// </summary>
-        public static readonly OpenPeriodSet All = new OpenPeriodSet(DateTime.MinValue);
+        public static readonly OpenPeriodSet All = new OpenPeriodSet(new EntireOpenPeriod());
 
         /// <summary>
         /// The empty set, represented as an empty <see cref="OpenPeriodSet"/>
