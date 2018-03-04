@@ -55,17 +55,6 @@
     <Compile Include="OpenPeriodListBuilder.cs" />
     <Compile Include="OpenPeriodSet.cs" />
     <Compile Include="PeriodSet.cs" />
-    <Compile Include="Period\Boundaries\Boundary.cs" />
-    <Compile Include="Period\Boundaries\Degenerate.cs" />
-    <Compile Include="Period\Boundaries\End.cs" />
-    <Compile Include="Period\Boundaries\Kind\BoundaryDirection.cs" />
-    <Compile Include="Period\Boundaries\Kind\BoundaryKind.cs" />
-    <Compile Include="Period\Boundaries\Kind\ContinuationKind.cs" />
-    <Compile Include="Period\Boundaries\Kind\DegenerateKind.cs" />
-    <Compile Include="Period\Boundaries\Kind\EndKind.cs" />
-    <Compile Include="Period\Boundaries\Kind\Inclusivity.cs" />
-    <Compile Include="Period\Boundaries\Kind\StartKind.cs" />
-    <Compile Include="Period\Boundaries\Start.cs" />
     <Compile Include="Period\DegenerateBoundedPeriod.cs" />
     <Compile Include="Period\DegenerateOpenPeriod.cs" />
     <Compile Include="Period\DoubleBoundaryPeriod.cs" />

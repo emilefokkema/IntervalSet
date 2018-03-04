@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
 
 namespace PeriodSet
 {
@@ -27,22 +27,22 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from, DateTime to) : base(new Start(from, Inclusivity.Inclusive), new End(to, Inclusivity.Exclusive))
+        public BoundedPeriodSet(DateTime from, DateTime to) : base(new Start<DateTime>(from, Inclusivity.Inclusive), new End<DateTime>(to, Inclusivity.Exclusive))
         { }
 
         /// <inheritdoc />
         public BoundedPeriodSet(DateTime from, DateTime? to = null)
         {
-            Start start = new Start(from, Inclusivity.Inclusive);
+            Start<DateTime> start = new Start<DateTime>(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
                 if (to.Value == from)
                 {
-                    PeriodList.Add(Builder.MakeDegenerate(new Degenerate(from)));
+                    PeriodList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive)));
+                    PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
@@ -57,7 +57,7 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public BoundedPeriodSet(DateTime from) : base(new Start(from, Inclusivity.Inclusive))
+        public BoundedPeriodSet(DateTime from) : base(new Start<DateTime>(from, Inclusivity.Inclusive))
         {
         }
 

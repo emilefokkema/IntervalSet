@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -8,9 +8,9 @@ namespace PeriodSet.Period
     /// </summary>
     public class StartingOpenPeriod : SingleBoundaryPeriod<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IStartingOpenPeriod
     {
-        private Start _start;
+        private Start<DateTime> _start;
         /// <inheritdoc />
-        public StartingOpenPeriod(Start from) : base(from)
+        public StartingOpenPeriod(Start<DateTime> from) : base(from)
         {
             _start = from;
         }
@@ -22,7 +22,7 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public IOpenPeriod End(End end)
+        public IOpenPeriod End(End<DateTime> end)
         {
             return new StartEndingOpenPeriod(_start, end);
         }
@@ -33,6 +33,6 @@ namespace PeriodSet.Period
         public DateTime? To => null;
 
         /// <inheritdoc />
-        public DateTime Earliest => Boundary.Date;
+        public DateTime Earliest => Boundary.Location;
     }
 }

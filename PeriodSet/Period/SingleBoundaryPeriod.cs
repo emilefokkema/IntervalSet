@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 
 namespace PeriodSet.Period
 {
@@ -32,13 +32,13 @@ namespace PeriodSet.Period
         /// <summary>
         /// The boundary of this period
         /// </summary>
-        public Boundary Boundary { get; }
+        public Boundary<DateTime> Boundary { get; }
 
         /// <summary>
         /// Initializes a new <see cref="SingleBoundaryPeriod{TSet,TBuilder,TStartingPeriod,TPeriod}"/> with a given boundary
         /// </summary>
         /// <param name="boundary"></param>
-        protected SingleBoundaryPeriod(Boundary boundary)
+        protected SingleBoundaryPeriod(Boundary<DateTime> boundary)
         {
             Boundary = boundary;
         }
@@ -46,21 +46,21 @@ namespace PeriodSet.Period
         /// <inheritdoc />
         public override bool ContainsDate(DateTime date)
         {
-            if (date == Boundary.Date)
+            if (date == Boundary.Location)
             {
                 return Boundary.Inclusive;
             }
-            return date > Boundary.Date && Boundary.IsStart || date < Boundary.Date && Boundary.IsEnd;
+            return date > Boundary.Location && Boundary.IsStart || date < Boundary.Location && Boundary.IsEnd;
         }
 
         /// <inheritdoc />
         public override bool ContainsPeriod(DateTime from, DateTime to)
         {
-            if (from >= Boundary.Date)
+            if (from >= Boundary.Location)
             {
                 return ContainsDate(from);
             }
-            if (to <= Boundary.Date)
+            if (to <= Boundary.Location)
             {
                 return ContainsDate(to);
             }
@@ -68,7 +68,7 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public override IEnumerable<Boundary> Boundaries
+        public override IEnumerable<Boundary<DateTime>> Boundaries
         {
             get { yield return Boundary; }
         }
@@ -93,11 +93,11 @@ namespace PeriodSet.Period
         /// <inheritdoc />
         public override BoundaryKind Cross(DateTime date)
         {
-            if (date == Boundary.Date)
+            if (date == Boundary.Location)
             {
                 return Boundary.Kind;
             }
-            if (date > Boundary.Date && Boundary.IsStart || date < Boundary.Date && Boundary.IsEnd)
+            if (date > Boundary.Location && Boundary.IsStart || date < Boundary.Location && Boundary.IsEnd)
             {
                 return new ContinuationKind();
             }

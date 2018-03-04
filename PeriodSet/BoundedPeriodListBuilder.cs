@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
 
 namespace PeriodSet
 {
@@ -8,7 +9,7 @@ namespace PeriodSet
     public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, IStartingBoundedPeriod>
     {
         /// <inheritdoc />
-        public override IStartingBoundedPeriod MakeStartingPeriod(Start from)
+        public override IStartingBoundedPeriod MakeStartingPeriod(Start<DateTime> from)
         {
             return new StartingBoundedPeriod(from);
         }
@@ -20,7 +21,7 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeDegenerate(Degenerate degenerate)
+        public override IBoundedPeriod MakeDegenerate(Degenerate<DateTime> degenerate)
         {
             return new DegenerateBoundedPeriod(degenerate);
         }

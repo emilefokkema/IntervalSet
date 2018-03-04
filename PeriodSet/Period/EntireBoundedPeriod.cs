@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -21,7 +21,7 @@ namespace PeriodSet.Period
         public DateTime To => DateTime.MaxValue;
 
         /// <inheritdoc />
-        public IBoundedPeriod End(End end)
+        public IBoundedPeriod End(End<DateTime> end)
         {
             return new EndingBoundedPeriod(end);
         }

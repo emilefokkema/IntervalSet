@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -9,7 +9,7 @@ namespace PeriodSet.Period
     public class StartEndingBoundedPeriod : DoubleBoundaryPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
     {
         /// <inheritdoc />
-        public StartEndingBoundedPeriod(Start from, End to):base(from, to)
+        public StartEndingBoundedPeriod(Start<DateTime> from, End<DateTime> to):base(from, to)
         {
         }
 
@@ -20,9 +20,9 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public DateTime To => Max.Date;
+        public DateTime To => Max.Location;
 
         /// <inheritdoc />
-        public DateTime Earliest => Min.Date;
+        public DateTime Earliest => Min.Location;
     }
 }

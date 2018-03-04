@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -9,10 +9,10 @@ namespace PeriodSet.Period
     public class DegenerateBoundedPeriod : SingleBoundaryPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod>, IBoundedPeriod
     {
         /// <summary>
-        /// Initializes a new <see cref="DegenerateBoundedPeriod"/> based on a degenerate <see cref="Boundary"/>
+        /// Initializes a new <see cref="DegenerateBoundedPeriod"/> based on a degenerate <see cref="Boundary{T}"/>
         /// </summary>
         /// <param name="boundary"></param>
-        public DegenerateBoundedPeriod(Degenerate boundary):base(boundary)
+        public DegenerateBoundedPeriod(Degenerate<DateTime> boundary):base(boundary)
         {
         }
 
@@ -23,9 +23,9 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public DateTime Earliest => Boundary.Date;
+        public DateTime Earliest => Boundary.Location;
 
         /// <inheritdoc />
-        public DateTime To => Boundary.Date;
+        public DateTime To => Boundary.Location;
     }
 }

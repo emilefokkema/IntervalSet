@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
 
 namespace PeriodSet
 {
@@ -14,19 +15,19 @@ namespace PeriodSet
         where TStartingPeriod : TPeriod, IStartingPeriod<TPeriod>
     {
         /// <summary>
-        /// Builds a list of <typeparamref name="TPeriod"/>s given a list of <see cref="Boundary"/>s
+        /// Builds a list of <typeparamref name="TPeriod"/>s given a list of <see cref="Boundary{T}"/>s
         /// </summary>
         /// <param name="boundaries"></param>
         /// <param name="currentPeriod"></param>
         /// <returns></returns>
-        IEnumerable<TPeriod> Build(IList<Boundary> boundaries, TStartingPeriod currentPeriod);
+        IEnumerable<TPeriod> Build(IList<Boundary<DateTime>> boundaries, TStartingPeriod currentPeriod);
 
         /// <summary>
         /// Returns a <typeparamref name="TStartingPeriod"/> starting at <paramref name="from"/>
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        TStartingPeriod MakeStartingPeriod(Start from);
+        TStartingPeriod MakeStartingPeriod(Start<DateTime> from);
 
         /// <summary>
         /// Returns a <typeparamref name="TStartingPeriod"/> "starting" at negative infinity
@@ -39,7 +40,7 @@ namespace PeriodSet
         /// </summary>
         /// <param name="degenerate"></param>
         /// <returns></returns>
-        TPeriod MakeDegenerate(Degenerate degenerate);
+        TPeriod MakeDegenerate(Degenerate<DateTime> degenerate);
 
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TPeriod"/>s

@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -9,7 +9,7 @@ namespace PeriodSet.Period
     public class StartEndingOpenPeriod : DoubleBoundaryPeriod<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod,IOpenPeriod>, IOpenPeriod
     {
         /// <inheritdoc />
-        public StartEndingOpenPeriod(Start from, End to):base(from, to)
+        public StartEndingOpenPeriod(Start<DateTime> from, End<DateTime> to):base(from, to)
         {
         }
 
@@ -23,9 +23,9 @@ namespace PeriodSet.Period
         /// <summary>
         /// This <see cref="IOpenPeriod"/> does have an end date
         /// </summary>
-        public DateTime? To => Max.Date;
+        public DateTime? To => Max.Location;
 
         /// <inheritdoc />
-        public DateTime Earliest => Min.Date;
+        public DateTime Earliest => Min.Location;
     }
 }

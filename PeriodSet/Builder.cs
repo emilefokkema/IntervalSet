@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
 
 namespace PeriodSet
 {
@@ -16,41 +17,41 @@ namespace PeriodSet
         public abstract TSet MakeSet(IList<TPeriod> periods);
 
         /// <inheritdoc />
-        public abstract TStartingPeriod MakeStartingPeriod(Start from);
+        public abstract TStartingPeriod MakeStartingPeriod(Start<DateTime> from);
 
         /// <inheritdoc />
         public abstract TStartingPeriod MakeStartingPeriod();
 
         /// <inheritdoc />
-        public abstract TPeriod MakeDegenerate(Degenerate degenerate);
+        public abstract TPeriod MakeDegenerate(Degenerate<DateTime> degenerate);
 
-        private List<Boundary> OrderBoundaries(IList<Boundary> boundaries)
+        private List<Boundary<DateTime>> OrderBoundaries(IList<Boundary<DateTime>> boundaries)
         {
             return boundaries
-                .GroupBy(b => b.Date)
-                .Select(g => new Boundary(g.Key, g.Select(b => b.Kind).Aggregate((k1, k2) => k1.Plus(k2))))
+                .GroupBy(b => b.Location)
+                .Select(g => new Boundary<DateTime>(g.Key, g.Select(b => b.Kind).Aggregate((k1, k2) => k1.Plus(k2))))
                 .Distinct()
-                .OrderBy(b => b.Date)
+                .OrderBy(b => b.Location)
                 .ToList();
         }
 
         /// <inheritdoc />
-        public IEnumerable<TPeriod> Build(IList<Boundary> boundaries, TStartingPeriod currentPeriod)
+        public IEnumerable<TPeriod> Build(IList<Boundary<DateTime>> boundaries, TStartingPeriod currentPeriod)
         {
-            foreach (Boundary boundary in OrderBoundaries(boundaries))
+            foreach (Boundary<DateTime> boundary in OrderBoundaries(boundaries))
             {
                 if (boundary.IsStart)
                 {
                     if (currentPeriod == null)
                     {
-                        currentPeriod = MakeStartingPeriod(new Start(boundary));
+                        currentPeriod = MakeStartingPeriod(new Start<DateTime>(boundary));
                     }
                     else
                     {
                         if (boundary.IsEnd && !boundary.Inclusive)
                         {
-                            yield return currentPeriod.End(new End(boundary));
-                            currentPeriod = MakeStartingPeriod(new Start(boundary));
+                            yield return currentPeriod.End(new End<DateTime>(boundary));
+                            currentPeriod = MakeStartingPeriod(new Start<DateTime>(boundary));
                         }
                     }
                 }
@@ -60,14 +61,14 @@ namespace PeriodSet
                     {
                         if (!boundary.IsEnd)
                         {
-                            yield return MakeDegenerate(new Degenerate(boundary.Date));
+                            yield return MakeDegenerate(new Degenerate<DateTime>(boundary.Location));
                         }
                     }
                     else
                     {
                         if (boundary.IsEnd)
                         {
-                            yield return currentPeriod.End(new End(boundary));
+                            yield return currentPeriod.End(new End<DateTime>(boundary));
                             currentPeriod = null;
                         }
                     }

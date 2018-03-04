@@ -1,5 +1,5 @@
 ﻿using System;
-using PeriodSet.Period.Boundaries;
+using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -21,7 +21,7 @@ namespace PeriodSet.Period
         public DateTime? To => null;
 
         /// <inheritdoc />
-        public IOpenPeriod End(End end)
+        public IOpenPeriod End(End<DateTime> end)
         {
             return new EndingOpenPeriod(end);
         }

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using NUnit.Framework;
 using PeriodSet;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSetTest.PeriodSet
 {
@@ -262,8 +262,8 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_periods()
         {
-            StartingBoundedPeriod start1 = new StartingBoundedPeriod(new Start(startOne, Inclusivity.Inclusive));
-            StartingBoundedPeriod start2 = new StartingBoundedPeriod(new Start(startTwo, Inclusivity.Inclusive));
+            StartingBoundedPeriod start1 = new StartingBoundedPeriod(new Start<DateTime>(startOne, Inclusivity.Inclusive));
+            StartingBoundedPeriod start2 = new StartingBoundedPeriod(new Start<DateTime>(startTwo, Inclusivity.Inclusive));
 
 
             BoundedPeriodSet difference = start1.Minus(start2);

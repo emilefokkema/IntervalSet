@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 
 namespace PeriodSet.Period
 {
@@ -20,29 +20,29 @@ namespace PeriodSet.Period
         }
 
         /// <summary>
-        /// The second <see cref="Boundary"/> of this period
+        /// The second <see cref="Boundary{T}"/> of this period
         /// </summary>
-        protected Boundary OtherBoundary;
+        protected Boundary<DateTime> OtherBoundary;
 
         /// <summary>
         /// The smallest <see cref="Boundary"/> of this period
         /// </summary>
-        protected Boundary Min { get; }
+        protected Boundary<DateTime> Min { get; }
 
         /// <summary>
         /// The largest <see cref="Boundary"/> of this period
         /// </summary>
-        protected Boundary Max { get; }
+        protected Boundary<DateTime> Max { get; }
 
         /// <summary>
         /// Initializes a new <see cref="DoubleBoundaryPeriod{TSet,TBuilder,TStartingPeriod,TPeriod}"/> with two <see cref="Boundary"/>s
         /// </summary>
         /// <param name="one"></param>
         /// <param name="other"></param>
-        protected DoubleBoundaryPeriod(Boundary one, Boundary other):base(one)
+        protected DoubleBoundaryPeriod(Boundary<DateTime> one, Boundary<DateTime> other):base(one)
         {
             OtherBoundary = other;
-            if (Boundary.Date < OtherBoundary.Date)
+            if (Boundary.Location < OtherBoundary.Location)
             {
                 Min = Boundary;
                 Max = OtherBoundary;
@@ -57,15 +57,15 @@ namespace PeriodSet.Period
         /// <inheritdoc />
         public override bool ContainsDate(DateTime date)
         {
-            if (date == Min.Date)
+            if (date == Min.Location)
             {
                 return Min.Inclusive;
             }
-            if (date == Max.Date)
+            if (date == Max.Location)
             {
                 return Max.Inclusive;
             }
-            if (date > Min.Date && date < Max.Date)
+            if (date > Min.Location && date < Max.Location)
             {
                 return true;
             }
@@ -75,12 +75,12 @@ namespace PeriodSet.Period
         /// <inheritdoc />
         public override bool ContainsPeriod(DateTime from, DateTime to)
         {
-            return from >= Min.Date && to <= Max.Date;
+            return from >= Min.Location && to <= Max.Location;
 
         }
 
         /// <inheritdoc />
-        public override IEnumerable<Boundary> Boundaries
+        public override IEnumerable<Boundary<DateTime>> Boundaries
         {
             get
             {
@@ -92,15 +92,15 @@ namespace PeriodSet.Period
         /// <inheritdoc />
         public override BoundaryKind Cross(DateTime date)
         {
-            if (date == Min.Date)
+            if (date == Min.Location)
             {
                 return Min.Kind;
             }
-            if (date == Max.Date)
+            if (date == Max.Location)
             {
                 return Max.Kind;
             }
-            if (date < Min.Date || date > Max.Date)
+            if (date < Min.Location || date > Max.Location)
             {
                 return null;
             }

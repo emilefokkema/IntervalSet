@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 
 namespace PeriodSet
 {
@@ -87,7 +87,7 @@ namespace PeriodSet
         /// <summary>
         /// Gets the <see cref="DateTime"/>s that are a start date or an end date of any of the connected periods in this <see cref="IPeriodSet"/>
         /// </summary>
-        IEnumerable<Boundary> Boundaries { get; }
+        IEnumerable<Boundary<DateTime>> Boundaries { get; }
 
         /// <summary>
         /// Returns whether this <see cref="IPeriodSet"/> has a non-empty intersection with <paramref name="other"/>

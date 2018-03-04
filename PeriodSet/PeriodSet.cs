@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
 
 namespace PeriodSet
 {
@@ -57,15 +57,15 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public virtual IEnumerable<Boundary> Boundaries { get { yield break; } }
+        public virtual IEnumerable<Boundary<DateTime>> Boundaries { get { yield break; } }
 
         /// <inheritdoc />
         public TSet Where(Func<DateTime, bool> trueFrom, IList<DateTime> changes = null)
         {
             if (changes != null && changes.Count > 0)
             {
-                List<Boundary> whereBoundaries = changes.Select(c =>
-                    trueFrom(c) && ContainsDate(c) ? (Boundary)new Start(c, Inclusivity.Inclusive) : new End(c, Inclusivity.Exclusive)).ToList();
+                List<Boundary<DateTime>> whereBoundaries = changes.Select(c =>
+                    trueFrom(c) && ContainsDate(c) ? (Boundary<DateTime>)new Start<DateTime>(c, Inclusivity.Inclusive) : new End<DateTime>(c, Inclusivity.Exclusive)).ToList();
                 return Builder.MakeSet(Builder.Build(whereBoundaries, null).ToList());
             }
 
@@ -75,15 +75,15 @@ namespace PeriodSet
         /// <inheritdoc />
         public TSet Where(Func<DateTime, DateTime, bool> trueEverywhereBetween, IList<DateTime> changes = null)
         {
-            changes = (changes ?? new List<DateTime>()).Concat(Boundaries.Select(b => b.Date)).OrderBy(d => d).ToList();
+            changes = (changes ?? new List<DateTime>()).Concat(Boundaries.Select(b => b.Location)).OrderBy(d => d).ToList();
             
-                List<Boundary> boundaries = new List<Boundary>();
+                List<Boundary<DateTime>> boundaries = new List<Boundary<DateTime>>();
                 foreach (Tuple<DateTime,DateTime> tuple in changes.Zip(changes.Skip(1), (d1,d2)=>new Tuple<DateTime,DateTime>(d1,d2)))
                 {
                     if (trueEverywhereBetween(tuple.Item1,tuple.Item2) && ContainsPeriod(tuple.Item1,tuple.Item2))
                     {
-                        boundaries.Add(new Start(tuple.Item1, Inclusivity.Inclusive));
-                        boundaries.Add(new End(tuple.Item2, Inclusivity.Exclusive));
+                        boundaries.Add(new Start<DateTime>(tuple.Item1, Inclusivity.Inclusive));
+                        boundaries.Add(new End<DateTime>(tuple.Item2, Inclusivity.Exclusive));
                     }
                 }
                 return Builder.MakeSet(Builder.Build(boundaries, null).ToList());
@@ -93,7 +93,7 @@ namespace PeriodSet
         /// <inheritdoc />
         public TSet Minus(IPeriodSet other)
         {
-            List<Boundary> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Date))
+            List<Boundary<DateTime>> minusBoundaries = Boundaries.Where(b => !other.ContainsDate(b.Location))
                 .Concat(MinusBoundaries(other)).ToList();
             return Builder.MakeSet(Builder.Build(minusBoundaries, MinusStart(other)).ToList());
         }
@@ -128,23 +128,23 @@ namespace PeriodSet
             return GetStart();
         }
 
-        private IEnumerable<Boundary> MinusBoundaries(IPeriodSet other)
+        private IEnumerable<Boundary<DateTime>> MinusBoundaries(IPeriodSet other)
         {
-            foreach (Boundary otherBoundary in other.Boundaries)
+            foreach (Boundary<DateTime> otherBoundary in other.Boundaries)
             {
-                BoundaryKind minusKind = Cross(otherBoundary.Date)?.Minus(otherBoundary.Kind);
+                BoundaryKind minusKind = Cross(otherBoundary.Location)?.Minus(otherBoundary.Kind);
                 if (minusKind != null)
                 {
-                    yield return new Boundary(otherBoundary.Date, minusKind);
+                    yield return new Boundary<DateTime>(otherBoundary.Location, minusKind);
                 }
             }
         }
 
-        private static IEnumerable<Boundary> PlusBoundaries(IPeriodSet one, IPeriodSet other)
+        private static IEnumerable<Boundary<DateTime>> PlusBoundaries(IPeriodSet one, IPeriodSet other)
         {
-            foreach (Boundary otherBoundary in other.Boundaries)
+            foreach (Boundary<DateTime> otherBoundary in other.Boundaries)
             {
-                BoundaryKind cross = one.Cross(otherBoundary.Date);
+                BoundaryKind cross = one.Cross(otherBoundary.Location);
                 if (cross == null)
                 {
                     yield return otherBoundary;
@@ -152,19 +152,19 @@ namespace PeriodSet
                 else
                 {
                     BoundaryKind plusKind = cross.Plus(otherBoundary.Kind);
-                    yield return new Boundary(otherBoundary.Date, plusKind);
+                    yield return new Boundary<DateTime>(otherBoundary.Location, plusKind);
                 }
             }
         }
 
-        private static IEnumerable<Boundary> CrossBoundaries(IPeriodSet one, IPeriodSet other)
+        private static IEnumerable<Boundary<DateTime>> CrossBoundaries(IPeriodSet one, IPeriodSet other)
         {
-            foreach (Boundary otherBoundary in other.Boundaries)
+            foreach (Boundary<DateTime> otherBoundary in other.Boundaries)
             {
-                BoundaryKind cross = one.Cross(otherBoundary.Date)?.Cross(otherBoundary.Kind);
+                BoundaryKind cross = one.Cross(otherBoundary.Location)?.Cross(otherBoundary.Kind);
                 if (cross != null)
                 {
-                    yield return new Boundary(otherBoundary.Date, cross);
+                    yield return new Boundary<DateTime>(otherBoundary.Location, cross);
                 }
             }
         }
@@ -172,14 +172,14 @@ namespace PeriodSet
         /// <inheritdoc />
         public TSet Plus(IPeriodSet other)
         {
-            List<Boundary> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
+            List<Boundary<DateTime>> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
             return Builder.MakeSet(Builder.Build(plusBoundaries, PlusStart(other)).ToList());
         }
 
         /// <inheritdoc />
         public TSet Cross(IPeriodSet other)
         {
-            List<Boundary> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
+            List<Boundary<DateTime>> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
             return Builder.MakeSet(Builder.Build(crossBoundaries, CrossStart(other)).ToList());
         }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
 
 namespace PeriodSet
 {
@@ -57,11 +57,11 @@ namespace PeriodSet
         /// <summary>
         /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date and end date
         /// </summary>
-        protected MultiplePeriodSet(Start from, End to) : this()
+        protected MultiplePeriodSet(Start<DateTime> from, End<DateTime> to) : this()
         {
-            if (from.Date == to.Date)
+            if (from.Location == to.Location)
             {
-                PeriodList.Add(Builder.MakeDegenerate(new Degenerate(from.Date)));
+                PeriodList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from.Location)));
             }
             else
             {
@@ -72,7 +72,7 @@ namespace PeriodSet
         /// <summary>
         /// Initializes a new <see cref="MultiplePeriodSet{TSet,TBuilder,TStartingPeriod,TPeriod}"/> containing a <typeparamref name="TPeriod"/> with a given start date
         /// </summary>
-        protected MultiplePeriodSet(Start from) : this()
+        protected MultiplePeriodSet(Start<DateTime> from) : this()
         {
             PeriodList.Add(Builder.MakeStartingPeriod(from));
         }
@@ -150,7 +150,7 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public override IEnumerable<Boundary> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
+        public override IEnumerable<Boundary<DateTime>> Boundaries => PeriodList.SelectMany(p => p.Boundaries);
 
         /// <inheritdoc cref="IEnumerablePeriodSet{TPeriod}.Select{TT}(Func{TPeriod,TT})"/>
         public override IEnumerable<TT> Select<TT>(Func<TPeriod, TT> selector)

@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
 
 namespace PeriodSet
 {
@@ -9,7 +10,7 @@ namespace PeriodSet
     {
 
         /// <inheritdoc />
-        public override IStartingOpenPeriod MakeStartingPeriod(Start from)
+        public override IStartingOpenPeriod MakeStartingPeriod(Start<DateTime> from)
         {
             return new StartingOpenPeriod(from);
         }
@@ -21,7 +22,7 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public override IOpenPeriod MakeDegenerate(Degenerate degenerate)
+        public override IOpenPeriod MakeDegenerate(Degenerate<DateTime> degenerate)
         {
             return new DegenerateOpenPeriod(degenerate);
         }

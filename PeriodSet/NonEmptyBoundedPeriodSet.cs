@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
-using PeriodSet.Period.Boundaries;
-using PeriodSet.Period.Boundaries.Kind;
 
 namespace PeriodSet
 {
@@ -30,14 +30,14 @@ namespace PeriodSet
 
         private static IBoundedPeriod MakePeriod(DateTime from, DateTime? to)
         {
-            Start start = new Start(from, Inclusivity.Inclusive);
+            Start<DateTime> start = new Start<DateTime>(from, Inclusivity.Inclusive);
             if (to.HasValue)
             {
                 if (to.Value == from)
                 {
-                    return new BoundedPeriodListBuilder().MakeDegenerate(new Degenerate(from));
+                    return new BoundedPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
                 }
-                return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End(to.Value, Inclusivity.Exclusive));
+                return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
             return new BoundedPeriodListBuilder().MakeStartingPeriod(start);
         }
