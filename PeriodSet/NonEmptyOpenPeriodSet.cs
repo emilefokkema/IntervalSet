@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
@@ -11,10 +12,10 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="OpenPeriodSet"/> that contains at least one <see cref="IOpenPeriod"/>
     /// </summary>
-    public class NonEmptyOpenPeriodSet : NonEmptyPeriodSet<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IOpenPeriod
+    public class NonEmptyOpenPeriodSet : NonEmptyIntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod, DateTime>, IOpenPeriod
     {
         /// <inheritdoc />
-        public NonEmptyOpenPeriodSet(IPeriodSet set):base(set)
+        public NonEmptyOpenPeriodSet(IIntervalSet<DateTime> set):base(set)
         {
         }
 
@@ -46,10 +47,10 @@ namespace PeriodSet
         /// <summary>
         /// De end date (if any) of the last <see cref="IOpenPeriod"/> in this <see cref="NonEmptyOpenPeriodSet"/>
         /// </summary>
-        public DateTime? To => PeriodList.Last().To;
+        public DateTime? To => IntervalList.Last().To;
 
         /// <inheritdoc />
-        public DateTime Earliest => PeriodList.First().Earliest;
+        public DateTime Earliest => IntervalList.First().Earliest;
 
         /// <inheritdoc />
         public override string ToString()

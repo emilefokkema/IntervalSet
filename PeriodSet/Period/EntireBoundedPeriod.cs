@@ -1,4 +1,5 @@
 ﻿using System;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
@@ -6,7 +7,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// The entire <see cref="DateTime"/> space, represented as an <see cref="IBoundedPeriod"/> with <see cref="DateTime.MinValue"/> as start date and <see cref="DateTime.MaxValue"/> as end date
     /// </summary>
-    public class EntireBoundedPeriod : PeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod>, IStartingBoundedPeriod
+    public class EntireBoundedPeriod : IntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod, DateTime>, IStartingBoundedPeriod
     {
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()

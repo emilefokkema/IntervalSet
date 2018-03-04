@@ -18,7 +18,7 @@ namespace IntervalSet.Interval
         /// returns a typed version of this instance
         /// </summary>
         /// <returns></returns>
-        protected abstract TInterval GetPeriod();
+        protected abstract TInterval GetInterval();
 
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
@@ -73,7 +73,7 @@ namespace IntervalSet.Interval
         /// <inheritdoc />
         public override bool IsNonEmpty(out TInterval nonEmpty)
         {
-            nonEmpty = GetPeriod();
+            nonEmpty = GetInterval();
             return true;
         }
 
@@ -104,13 +104,13 @@ namespace IntervalSet.Interval
         /// <inheritdoc />
         public override IEnumerable<TT> Select<TT>(Func<TInterval, TT> selector)
         {
-            yield return selector(GetPeriod());
+            yield return selector(GetInterval());
         }
 
         /// <inheritdoc />
         public override void ForEach(Action<TInterval> what)
         {
-            what(GetPeriod());
+            what(GetInterval());
         }
 
         /// <inheritdoc />

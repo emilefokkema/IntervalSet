@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
@@ -11,7 +12,7 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
-    public class BoundedPeriodSet : MultiplePeriodSet<BoundedPeriodSet, BoundedPeriodListBuilder,IStartingBoundedPeriod, IBoundedPeriod>
+    public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder,IStartingBoundedPeriod, IBoundedPeriod,DateTime>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
@@ -22,7 +23,7 @@ namespace PeriodSet
         /// Initializes a new <see cref="BoundedPeriodSet"/> based on a given <see cref="IPeriodSet"/>
         /// </summary>
         /// <param name="set"></param>
-        public BoundedPeriodSet(IPeriodSet set):base(set)
+        public BoundedPeriodSet(IIntervalSet<DateTime> set):base(set)
         {
         }
 
@@ -38,16 +39,16 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    PeriodList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
+                    IntervalList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    PeriodList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                PeriodList.Add(Builder.MakeStartingInterval(start));
+                IntervalList.Add(Builder.MakeStartingInterval(start));
             }
         }
 
@@ -95,7 +96,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static BoundedPeriodSet operator -(BoundedPeriodSet one, IPeriodSet other)
+        public static BoundedPeriodSet operator -(BoundedPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Minus(other);
         }
@@ -106,7 +107,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static BoundedPeriodSet operator +(BoundedPeriodSet one, IPeriodSet other)
+        public static BoundedPeriodSet operator +(BoundedPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Plus(other);
         }
@@ -117,7 +118,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static BoundedPeriodSet operator *(BoundedPeriodSet one, IPeriodSet other)
+        public static BoundedPeriodSet operator *(BoundedPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Cross(other);
         }

@@ -1,12 +1,13 @@
 ﻿using System;
 using IntervalSet.Interval.Boundaries;
+using IntervalSet;
 
 namespace PeriodSet.Period
 {
     /// <summary>
     /// The entire <see cref="DateTime"/> space, represented as an <see cref="IOpenPeriod"/> with <see cref="DateTime.MinValue"/> as start date and <c>(DateTime?)null</c> as end date
     /// </summary>
-    public class EntireOpenPeriod : PeriodSet<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod>, IStartingOpenPeriod
+    public class EntireOpenPeriod : IntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod,DateTime>, IStartingOpenPeriod
     {
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()

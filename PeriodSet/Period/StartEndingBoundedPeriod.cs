@@ -1,4 +1,5 @@
 ﻿using System;
+using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
@@ -6,7 +7,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and an end date
     /// </summary>
-    public class StartEndingBoundedPeriod : DoubleBoundaryPeriod<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod,IBoundedPeriod>, IBoundedPeriod
+    public class StartEndingBoundedPeriod : DoubleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod,IBoundedPeriod, DateTime>, IBoundedPeriod
     {
         /// <inheritdoc />
         public StartEndingBoundedPeriod(Start<DateTime> from, End<DateTime> to):base(from, to)
@@ -14,7 +15,7 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        protected override IBoundedPeriod GetPeriod()
+        protected override IBoundedPeriod GetInterval()
         {
             return this;
         }

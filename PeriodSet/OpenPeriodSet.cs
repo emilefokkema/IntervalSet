@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
@@ -9,9 +10,9 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <summary>
-    /// An <see cref="IPeriodSet"/> in which each period has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
+    /// An <see cref="IIntervalSet{T}"/> of <see cref="DateTime"/> in which each interval has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
-    public class OpenPeriodSet : MultiplePeriodSet<OpenPeriodSet, OpenPeriodListBuilder,IStartingOpenPeriod,IOpenPeriod>
+    public class OpenPeriodSet : MultipleIntervalSet<OpenPeriodSet, OpenPeriodListBuilder,IStartingOpenPeriod,IOpenPeriod,DateTime>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)
@@ -22,7 +23,7 @@ namespace PeriodSet
         /// Initializes a new <see cref="OpenPeriodSet"/> based on a given <see cref="IPeriodSet"/>
         /// </summary>
         /// <param name="set"></param>
-        public OpenPeriodSet(IPeriodSet set):base(set)
+        public OpenPeriodSet(IIntervalSet<DateTime> set):base(set)
         {
         }
 
@@ -48,16 +49,16 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    PeriodList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
+                    IntervalList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    PeriodList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                PeriodList.Add(Builder.MakeStartingInterval(start));
+                IntervalList.Add(Builder.MakeStartingInterval(start));
             }
         }
 
@@ -93,7 +94,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static OpenPeriodSet operator -(OpenPeriodSet one, IPeriodSet other)
+        public static OpenPeriodSet operator -(OpenPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Minus(other);
         }
@@ -104,7 +105,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static OpenPeriodSet operator +(OpenPeriodSet one, IPeriodSet other)
+        public static OpenPeriodSet operator +(OpenPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Plus(other);
         }
@@ -115,7 +116,7 @@ namespace PeriodSet
         /// <param name="one"></param>
         /// <param name="other"></param>
         /// <returns></returns>
-        public static OpenPeriodSet operator *(OpenPeriodSet one, IPeriodSet other)
+        public static OpenPeriodSet operator *(OpenPeriodSet one, IIntervalSet<DateTime> other)
         {
             return one.Cross(other);
         }

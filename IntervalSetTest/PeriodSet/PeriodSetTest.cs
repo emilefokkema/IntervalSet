@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using NUnit.Framework;
@@ -86,7 +87,7 @@ namespace IntervalSetTest.PeriodSet
             degenerate = new BoundedPeriodSet(startTwo, startTwo);
             BoundedPeriodSet set = one + two;
             BoundedPeriodSet difference = set - degenerate;
-            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.Contains(startTwo).Should().BeFalse();
             difference.Cross(degenerate).Should().Be(empty);
         }
 
@@ -129,7 +130,7 @@ namespace IntervalSetTest.PeriodSet
             DateTime last = nonEmptyBounded.To;
             earliest.Should().Be(startOne);
             last.Should().Be(DateTime.MaxValue);
-            nonEmptyBounded.PeriodCount.Should().Be(1);
+            nonEmptyBounded.IntervalCount.Should().Be(1);
 
             NonEmptyOpenPeriodSet nonEmptyOpen = new NonEmptyOpenPeriodSet(startOne);
             earliest = nonEmptyOpen.Earliest;
@@ -245,7 +246,7 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_collision()
         {
-            Dictionary<IPeriodSet,string> dictionary = new Dictionary<IPeriodSet, string>
+            Dictionary<IIntervalSet<DateTime>,string> dictionary = new Dictionary<IIntervalSet<DateTime>, string>
             {
                 { one, "one"},
                 { BoundedPeriodSet.Empty, "empty"}
@@ -296,26 +297,26 @@ namespace IntervalSetTest.PeriodSet
             OpenPeriodSet set1 = new OpenPeriodSet(startFour);
             OpenPeriodSet difference = entire - set1;
 
-            difference.ContainsDate(startOne).Should().BeTrue();
+            difference.Contains(startOne).Should().BeTrue();
             IOpenPeriod nonEmptyDifference;
             difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
             nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
             nonEmptyDifference.To.Should().Be(startFour);
 
             difference = difference - (one + two);
-            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.Contains(startTwo).Should().BeFalse();
             difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
             nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
             nonEmptyDifference.To.Should().Be(startFour);
 
             difference = entire - (one + two);
-            difference.ContainsDate(startTwo).Should().BeFalse();
+            difference.Contains(startTwo).Should().BeFalse();
             difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
             nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
             nonEmptyDifference.To.Should().Be(null);
 
             difference = entire - new OpenPeriodSet(startOne, startOne);
-            difference.ContainsDate(startOne).Should().BeFalse();
+            difference.Contains(startOne).Should().BeFalse();
             difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
             nonEmptyDifference.Earliest.Should().Be(DateTime.MinValue);
             nonEmptyDifference.To.Should().Be(null);
