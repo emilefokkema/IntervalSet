@@ -41,6 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IIntervalSet.cs" />
+    <Compile Include="Interval\Boundaries\Boundary.cs" />
+    <Compile Include="Interval\Boundaries\Degenerate.cs" />
+    <Compile Include="Interval\Boundaries\End.cs" />
+    <Compile Include="Interval\Boundaries\Kind\BoundaryDirection.cs" />
+    <Compile Include="Interval\Boundaries\Kind\BoundaryKind.cs" />
+    <Compile Include="Interval\Boundaries\Kind\ContinuationKind.cs" />
+    <Compile Include="Interval\Boundaries\Kind\DegenerateKind.cs" />
+    <Compile Include="Interval\Boundaries\Kind\EndKind.cs" />
+    <Compile Include="Interval\Boundaries\Kind\Inclusivity.cs" />
+    <Compile Include="Interval\Boundaries\Kind\StartKind.cs" />
+    <Compile Include="Interval\Boundaries\Start.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
