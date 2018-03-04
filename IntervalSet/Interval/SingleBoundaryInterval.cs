@@ -55,11 +55,11 @@ namespace IntervalSet.Interval
         {
             if (from.CompareTo(Boundary.Location) >= 0)
             {
-                return Contains(from);
+                return Boundary.IsStart;
             }
             if (to.CompareTo(Boundary.Location) <= 0)
             {
-                return Contains(to);
+                return Boundary.IsEnd;
             }
             return Boundary.IsContinuation;
         }
