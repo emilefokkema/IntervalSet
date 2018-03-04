@@ -58,11 +58,11 @@ namespace IntervalSet.PeriodSet.Period
         {
             if (from >= Boundary.Date)
             {
-                return ContainsDate(from);
+                return Boundary.IsStart;
             }
             if (to <= Boundary.Date)
             {
-                return ContainsDate(to);
+                return Boundary.IsEnd;
             }
             return Boundary.IsContinuation;
         }

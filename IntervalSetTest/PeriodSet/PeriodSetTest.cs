@@ -206,6 +206,8 @@ namespace IntervalSetTest.PeriodSet
             OpenPeriodSet.All.Where(x => x == startTwo, new[] { startOne, startTwo })
                 .Should().Be(new OpenPeriodSet(startTwo));
 
+            new OpenPeriodSet(startTwo).Where((x, y) => true, new[] {startOne, startTwo, startThree}).Should().Be(two);
+
             (one + two + three).Where((x, y) => x >= startTwo && y <= startFive).Should().Be(empty);
 
             (one + two + three).Where((x, y) => x >= startTwo && y <= startFive , new[] {startTwo}).Should().Be(two + three);
