@@ -85,7 +85,7 @@ namespace IntervalSet
         BoundaryKind Cross(T location);
 
         /// <summary>
-        /// Gets the <typeparamref name="T"/>s that are a start date or an end date of any of the intervals in this <see cref="IIntervalSet{T}"/>
+        /// Gets the <typeparamref name="T"/>s that are a start or an end of any of the intervals in this <see cref="IIntervalSet{T}"/>
         /// </summary>
         IEnumerable<Boundary<T>> Boundaries { get; }
 
@@ -128,19 +128,19 @@ namespace IntervalSet
 
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the subset of this <see cref="IIntervalSet{T}"/> on which a given predicate is
-        /// true. It accepts an optional list of dates on which to update the value of the predicate.
+        /// true. It accepts an optional list of <typeparamref name="T"/>s on which to update the value of the predicate.
         /// </summary>
-        /// <param name="trueFrom">returns the updated value of the predicate on the given date</param>
-        /// <param name="changes">a list of dates on which to update the value of the predicate</param>
+        /// <param name="trueFrom">returns the updated value of the predicate on the given <typeparamref name="T"/></param>
+        /// <param name="changes">a list of <typeparamref name="T"/>s on which to update the value of the predicate</param>
         /// <returns></returns>
         new TSet Where(Func<T, bool> trueFrom, IList<T> changes = null);
 
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the subset of this <see cref="IIntervalSet{T}"/> on which a given predicate is
-        /// true. It accepts an optional list of dates between which to evaluate the predicate
+        /// true. It accepts an optional list of <typeparamref name="T"/>s between which to evaluate the predicate
         /// </summary>
         /// <param name="trueEverywhereBetween">return whether the predicate is true between two given boundaries</param>
-        /// <param name="changes">the period boundaries</param>
+        /// <param name="changes">the interval boundaries</param>
         /// <returns></returns>
         new TSet Where(Func<T, T, bool> trueEverywhereBetween, IList<T> changes = null);
     }
