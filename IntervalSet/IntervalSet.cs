@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
@@ -10,7 +11,7 @@ namespace IntervalSet
     /// <summary>
     /// A base class for implementations of <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public abstract class IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
+    public abstract class IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>, ISerializable
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
@@ -265,6 +266,16 @@ namespace IntervalSet
         public override int GetHashCode()
         {
             return int.MaxValue;
+        }
+
+        /// <inheritdoc />
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            int boundaryCounter = 0;
+            foreach (Boundary<T> boundary in Boundaries)
+            {
+                info.AddValue((boundaryCounter++).ToString(), boundary, typeof(Boundary<T>));
+            }
         }
 
         /// <inheritdoc />
