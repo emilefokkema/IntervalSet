@@ -21,4 +21,4 @@ When we join these two interval sets, the result is
 ```
 Similarly, when we take `[a,d)` and we subtract `[b,c)` from it, the result is `[a,b) + [c,d)`.
 
-See [BoundedPeriodSet](IntervalSet/PeriodSet/BoundedPeriodSet.cs) for an implementation of this using `DateTime` as `Thing`
+See [this test](IntervalSetTest/DefaultImplementation/DefaultTests.cs) for an implementation of this using `double` as `Thing`
