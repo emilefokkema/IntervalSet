@@ -38,9 +38,9 @@ namespace PeriodSet
                 {
                     return new OpenPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
                 }
-                return new OpenPeriodListBuilder().MakeStartingPeriod(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive));
+                return new OpenPeriodListBuilder().MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
-            return new OpenPeriodListBuilder().MakeStartingPeriod(start);
+            return new OpenPeriodListBuilder().MakeStartingInterval(start);
         }
 
         /// <summary>

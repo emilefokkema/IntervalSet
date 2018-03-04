@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
 
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, IStartingOpenPeriod>
+    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, IStartingOpenPeriod, DateTime>
     {
 
         /// <inheritdoc />
-        public override IStartingOpenPeriod MakeStartingPeriod(Start<DateTime> from)
+        public override IStartingOpenPeriod MakeStartingInterval(Start<DateTime> from)
         {
             return new StartingOpenPeriod(from);
         }
 
         /// <inheritdoc />
-        public override IStartingOpenPeriod MakeStartingPeriod()
+        public override IStartingOpenPeriod MakeStartingInterval()
         {
             return new EntireOpenPeriod();
         }

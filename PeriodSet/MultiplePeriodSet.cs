@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet;
+using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
-using PeriodSet.Period;
 
 namespace PeriodSet
 {
@@ -13,9 +14,9 @@ namespace PeriodSet
     /// </summary>
     public abstract class MultiplePeriodSet<TSet,TBuilder, TStartingPeriod,TPeriod> : EmptyPeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TBuilder : IBuilder<TSet,TPeriod, TStartingPeriod>, new()
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod, DateTime>, new()
         where TPeriod : IPeriodSet
-        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
+        where TStartingPeriod : class, TPeriod, IStartingInterval<TPeriod, DateTime>
     {
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
@@ -41,7 +42,7 @@ namespace PeriodSet
         /// <param name="set"></param>
         protected MultiplePeriodSet(IPeriodSet set):this()
         {
-            TStartingPeriod start = set.ContainsNegativeInfinity() ? Builder.MakeStartingPeriod() : null;
+            TStartingPeriod start = set.ContainsNegativeInfinity() ? Builder.MakeStartingInterval() : null;
             PeriodList = Builder.Build(set.Boundaries.ToList(), start).ToList();
         }
 
@@ -65,7 +66,7 @@ namespace PeriodSet
             }
             else
             {
-                PeriodList.Add(Builder.MakeStartingPeriod(from).End(to));
+                PeriodList.Add(Builder.MakeStartingInterval(from).End(to));
             }
         }
 
@@ -74,7 +75,7 @@ namespace PeriodSet
         /// </summary>
         protected MultiplePeriodSet(Start<DateTime> from) : this()
         {
-            PeriodList.Add(Builder.MakeStartingPeriod(from));
+            PeriodList.Add(Builder.MakeStartingInterval(from));
         }
         
         /// <inheritdoc />

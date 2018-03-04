@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using IntervalSet;
+using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
-using PeriodSet.Period;
 
 namespace PeriodSet
 {
@@ -11,13 +12,13 @@ namespace PeriodSet
     /// A base class for implementations of <see cref="IPeriodSet"/>
     /// </summary>
     /// <typeparam name="TSet">the type of this implementation</typeparam>
-    /// <typeparam name="TBuilder">the type of <see cref="Builder{TSet,TPeriod,TStartingPeriod}"/> for this implementation</typeparam>
+    /// <typeparam name="TBuilder">the type of <see cref="Builder"/> for this implementation</typeparam>
     /// <typeparam name="TPeriod">the kind of connected period of time for this implementation</typeparam>
     /// <typeparam name="TStartingPeriod"></typeparam>
     public abstract class PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod> : IEnumerablePeriodSet<TPeriod>, IPeriodSet<TSet>, IEmptyOrNot<TPeriod>
         where TSet : IPeriodSet
-        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod, DateTime>, new()
+        where TStartingPeriod : class, TPeriod, IStartingInterval<TPeriod, DateTime>
     {   
         /// <summary>
         /// The <typeparamref name="TBuilder"/> for this instance
@@ -44,7 +45,7 @@ namespace PeriodSet
         {
             if (ContainsNegativeInfinity())
             {
-                return Builder.MakeStartingPeriod();
+                return Builder.MakeStartingInterval();
             }
 
             return null;
@@ -112,7 +113,7 @@ namespace PeriodSet
         {
             if (other.ContainsNegativeInfinity())
             {
-                return Builder.MakeStartingPeriod();
+                return Builder.MakeStartingInterval();
             }
 
             return GetStart();

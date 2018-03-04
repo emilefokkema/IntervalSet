@@ -37,9 +37,9 @@ namespace PeriodSet
                 {
                     return new BoundedPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
                 }
-                return new BoundedPeriodListBuilder().MakeStartingPeriod(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive));
+                return new BoundedPeriodListBuilder().MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
-            return new BoundedPeriodListBuilder().MakeStartingPeriod(start);
+            return new BoundedPeriodListBuilder().MakeStartingInterval(start);
         }
 
         /// <summary>

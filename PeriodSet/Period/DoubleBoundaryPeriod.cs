@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet;
+using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
@@ -10,8 +12,8 @@ namespace PeriodSet.Period
     /// </summary>
     public abstract class DoubleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : SingleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod, DateTime>, new()
+        where TStartingPeriod : class, TPeriod, IStartingInterval<TPeriod, DateTime>
     {
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()

@@ -20,9 +20,9 @@ namespace IntervalSet
         /// Builds a list of <typeparamref name="TInterval"/>s given a list of <see cref="Boundary{T}"/>s
         /// </summary>
         /// <param name="boundaries"></param>
-        /// <param name="currentPeriod"></param>
+        /// <param name="currentInterval"></param>
         /// <returns></returns>
-        IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentPeriod);
+        IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentInterval);
 
         /// <summary>
         /// Returns a <typeparamref name="TStartingInterval"/> starting at <paramref name="from"/>

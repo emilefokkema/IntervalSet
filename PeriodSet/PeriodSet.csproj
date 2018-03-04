@@ -43,9 +43,7 @@
   <ItemGroup>
     <Compile Include="BoundedPeriodListBuilder.cs" />
     <Compile Include="BoundedPeriodSet.cs" />
-    <Compile Include="Builder.cs" />
     <Compile Include="EmptyPeriodSet.cs" />
-    <Compile Include="IBuilder.cs" />
     <Compile Include="IEnumerablePeriodSet.cs" />
     <Compile Include="IPeriodSet.cs" />
     <Compile Include="MultiplePeriodSet.cs" />
@@ -66,7 +64,6 @@
     <Compile Include="Period\IOpenPeriod.cs" />
     <Compile Include="Period\IStartingBoundedPeriod.cs" />
     <Compile Include="Period\IStartingOpenPeriod.cs" />
-    <Compile Include="Period\IStartingPeriod.cs" />
     <Compile Include="Period\SingleBoundaryPeriod.cs" />
     <Compile Include="Period\StartEndingBoundedPeriod.cs" />
     <Compile Include="Period\StartEndingOpenPeriod.cs" />

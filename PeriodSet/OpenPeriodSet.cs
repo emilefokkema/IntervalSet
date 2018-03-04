@@ -52,12 +52,12 @@ namespace PeriodSet
                 }
                 else
                 {
-                    PeriodList.Add(Builder.MakeStartingPeriod(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    PeriodList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                PeriodList.Add(Builder.MakeStartingPeriod(start));
+                PeriodList.Add(Builder.MakeStartingInterval(start));
             }
         }
 

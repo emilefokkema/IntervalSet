@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using PeriodSet.Period;
 
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, IStartingBoundedPeriod>
+    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, IStartingBoundedPeriod, DateTime>
     {
         /// <inheritdoc />
-        public override IStartingBoundedPeriod MakeStartingPeriod(Start<DateTime> from)
+        public override IStartingBoundedPeriod MakeStartingInterval(Start<DateTime> from)
         {
             return new StartingBoundedPeriod(from);
         }
 
         /// <inheritdoc />
-        public override IStartingBoundedPeriod MakeStartingPeriod()
+        public override IStartingBoundedPeriod MakeStartingInterval()
         {
             return new EntireBoundedPeriod();
         }

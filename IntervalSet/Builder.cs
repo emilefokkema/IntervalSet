@@ -37,28 +37,28 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentPeriod)
+        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentInterval)
         {
             foreach (Boundary<T> boundary in OrderBoundaries(boundaries))
             {
                 if (boundary.IsStart)
                 {
-                    if (currentPeriod == null)
+                    if (currentInterval == null)
                     {
-                        currentPeriod = MakeStartingInterval(new Start<T>(boundary));
+                        currentInterval = MakeStartingInterval(new Start<T>(boundary));
                     }
                     else
                     {
                         if (boundary.IsEnd && !boundary.Inclusive)
                         {
-                            yield return currentPeriod.End(new End<T>(boundary));
-                            currentPeriod = MakeStartingInterval(new Start<T>(boundary));
+                            yield return currentInterval.End(new End<T>(boundary));
+                            currentInterval = MakeStartingInterval(new Start<T>(boundary));
                         }
                     }
                 }
                 else
                 {
-                    if (currentPeriod == null)
+                    if (currentInterval == null)
                     {
                         if (!boundary.IsEnd)
                         {
@@ -69,16 +69,16 @@ namespace IntervalSet
                     {
                         if (boundary.IsEnd)
                         {
-                            yield return currentPeriod.End(new End<T>(boundary));
-                            currentPeriod = null;
+                            yield return currentInterval.End(new End<T>(boundary));
+                            currentInterval = null;
                         }
                     }
                 }
             }
 
-            if (currentPeriod != null)
+            if (currentInterval != null)
             {
-                yield return currentPeriod;
+                yield return currentInterval;
             }
         }
     }

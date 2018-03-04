@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using IntervalSet;
+using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
@@ -9,13 +11,13 @@ namespace PeriodSet.Period
     /// A base class for implementations of an <see cref="IPeriodSet"/> representing period of time with a single boundary
     /// </summary>
     /// <typeparam name="TSet">the kind of <see cref="IPeriodSet"/> that contains this kind of period</typeparam>
-    /// <typeparam name="TBuilder">the kind of <see cref="IBuilder{TSet,TPeriod,TStartingPeriod}"/> that will produce this kind of period</typeparam>
+    /// <typeparam name="TBuilder">the kind of <see cref="IBuilder{TSet,TInterval,TStartingInterval,T}"/> that will produce this kind of period</typeparam>
     /// <typeparam name="TPeriod">the type of this period</typeparam>
     /// <typeparam name="TStartingPeriod"></typeparam>
     public abstract class SingleBoundaryPeriod<TSet, TBuilder, TStartingPeriod, TPeriod> : PeriodSet<TSet, TBuilder, TStartingPeriod, TPeriod>
         where TSet : IPeriodSet
-        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod>, new()
-        where TStartingPeriod : class, TPeriod, IStartingPeriod<TPeriod>
+        where TBuilder : IBuilder<TSet, TPeriod, TStartingPeriod, DateTime>, new()
+        where TStartingPeriod : class, TPeriod, IStartingInterval<TPeriod, DateTime>
     {
         /// <summary>
         /// returns a typed version of this instance
