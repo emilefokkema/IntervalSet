@@ -20,7 +20,7 @@ namespace PeriodSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="OpenPeriodSet"/> based on a given <see cref="IPeriodSet"/>
+        /// Initializes a new <see cref="OpenPeriodSet"/> based on a given <see cref="IIntervalSet{T}"/> of <see cref="DateTime"/>
         /// </summary>
         /// <param name="set"></param>
         public OpenPeriodSet(IIntervalSet<DateTime> set):base(set)

@@ -10,7 +10,7 @@ namespace PeriodSet
 {
     /// <inheritdoc />
     /// <summary>
-    /// An <see cref="IPeriodSet" /> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
+    /// An <see cref="IIntervalSet{T}" /> of <see cref="DateTime"/> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
     public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder,IStartingBoundedPeriod, IBoundedPeriod,DateTime>
     {
@@ -20,7 +20,7 @@ namespace PeriodSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="BoundedPeriodSet"/> based on a given <see cref="IPeriodSet"/>
+        /// Initializes a new <see cref="BoundedPeriodSet"/> based on a given <see cref="IIntervalSet{T}"/> of <see cref="DateTime"/>
         /// </summary>
         /// <param name="set"></param>
         public BoundedPeriodSet(IIntervalSet<DateTime> set):base(set)

@@ -97,6 +97,11 @@ namespace IntervalSet
         bool Intersects(IIntervalSet<T> other);
     }
 
+    /// <summary>
+    /// An <see cref="IIntervalSet{T}"/> for which the result of set-theoretical operations are of a particular type
+    /// </summary>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="T"></typeparam>
     public interface IIntervalSet<TSet, T> : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>, IFormattable
     {

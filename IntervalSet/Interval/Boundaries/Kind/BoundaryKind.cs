@@ -3,7 +3,7 @@
 namespace IntervalSet.Interval.Boundaries.Kind
 {
     /// <summary>
-    /// A kind of <see cref="Boundary"/> of an <see cref="IIntervalSet{T}"/>
+    /// A kind of <see cref="Boundary{T}"/> of an <see cref="IIntervalSet{T}"/>
     /// </summary>
     public class BoundaryKind : IEquatable<BoundaryKind>
     {
@@ -27,8 +27,8 @@ namespace IntervalSet.Interval.Boundaries.Kind
         }
 
         /// <summary>
-        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of subtracting another <see cref="IIntervalSet{T}"/>
-        /// with a <see cref="Boundary"/> at d from an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary"/> at d
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the result of subtracting another <see cref="IIntervalSet{T}"/>
+        /// with a <see cref="Boundary{T}"/> at d from an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
         /// </summary>
         /// <returns></returns>
         public BoundaryKind Minus(BoundaryKind other)
@@ -41,8 +41,8 @@ namespace IntervalSet.Interval.Boundaries.Kind
         }
 
         /// <summary>
-        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of adding another <see cref="IIntervalSet{T}"/>
-        /// with a <see cref="Boundary"/> at d to an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary"/> at d
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the result of adding another <see cref="IIntervalSet{T}"/>
+        /// with a <see cref="Boundary{T}"/> at d to an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
         /// </summary>
         /// <returns></returns>
         public BoundaryKind Plus(BoundaryKind other)
@@ -51,8 +51,8 @@ namespace IntervalSet.Interval.Boundaries.Kind
         }
 
         /// <summary>
-        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary"/> at location d of the result of intersecting another <see cref="IIntervalSet{T}"/>
-        /// with a <see cref="Boundary"/> at d with an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary"/> at d
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the result of intersecting another <see cref="IIntervalSet{T}"/>
+        /// with a <see cref="Boundary{T}"/> at d with an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
         /// </summary>
         /// <returns></returns>
         public BoundaryKind Cross(BoundaryKind other)
