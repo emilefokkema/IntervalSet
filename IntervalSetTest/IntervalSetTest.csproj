@@ -71,6 +71,10 @@
       <Project>{80a5fc57-87bf-4b24-86ae-c9ac682d7bbe}</Project>
       <Name>IntervalSet</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PeriodSet\PeriodSet.csproj">
+      <Project>{82214fb7-3c4f-4fbd-b305-410efb86f2ec}</Project>
+      <Name>PeriodSet</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

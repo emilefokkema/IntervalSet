@@ -1,7 +1,6 @@
-﻿using IntervalSet.PeriodSet;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
-using IntervalSet.PeriodSet.Period;
+using PeriodSet;
 
 namespace IntervalSetTest.PeriodSet
 {

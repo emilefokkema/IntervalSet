@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
-using IntervalSet.PeriodSet;
-using IntervalSet.PeriodSet.Period;
-using IntervalSet.PeriodSet.Period.Boundaries;
-using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 using NUnit.Framework;
+using PeriodSet;
+using PeriodSet.Period;
+using PeriodSet.Period.Boundaries;
+using PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSetTest.PeriodSet
 {

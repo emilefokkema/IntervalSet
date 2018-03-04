@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using IntervalSet.PeriodSet;
-using IntervalSet.PeriodSet.Period.Boundaries.Kind;
 using NUnit.Framework;
+using PeriodSet;
+using PeriodSet.Period.Boundaries.Kind;
 
 namespace IntervalSetTest.PeriodSet
 {
