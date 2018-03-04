@@ -96,4 +96,61 @@ namespace IntervalSet
         /// <returns></returns>
         bool Intersects(IIntervalSet<T> other);
     }
+
+    public interface IIntervalSet<TSet, T> : IIntervalSet<T>
+        where T : IComparable<T>, IEquatable<T>, IFormattable
+    {
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one
+        /// </summary>
+        /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
+        /// <returns></returns>
+        new TSet Minus(IIntervalSet<T> other);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the union of this <see cref="IIntervalSet{T}"/> and another
+        /// </summary>
+        /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
+        /// <returns></returns>
+        new TSet Plus(IIntervalSet<T> other);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the intersection of this <see cref="IIntervalSet{T}"/> and another
+        /// </summary>
+        /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
+        /// <returns></returns>
+        new TSet Cross(IIntervalSet<T> other);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the subset of this <see cref="IIntervalSet{T}"/> on which a given predicate is
+        /// true. It accepts an optional list of dates on which to update the value of the predicate.
+        /// </summary>
+        /// <param name="trueFrom">returns the updated value of the predicate on the given date</param>
+        /// <param name="changes">a list of dates on which to update the value of the predicate</param>
+        /// <returns></returns>
+        new TSet Where(Func<T, bool> trueFrom, IList<T> changes = null);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the subset of this <see cref="IIntervalSet{T}"/> on which a given predicate is
+        /// true. It accepts an optional list of dates between which to evaluate the predicate
+        /// </summary>
+        /// <param name="trueEverywhereBetween">return whether the predicate is true between two given boundaries</param>
+        /// <param name="changes">the period boundaries</param>
+        /// <returns></returns>
+        new TSet Where(Func<T, T, bool> trueEverywhereBetween, IList<T> changes = null);
+    }
+
+    /// <summary>
+    /// A thing that is either empty or not empty
+    /// </summary>
+    /// <typeparam name="TNonEmpty">The type representing a non-empty version of this instance</typeparam>
+    public interface IEmptyOrNot<TNonEmpty>
+    {
+        /// <summary>
+        /// Returns whether this instance is non-empty and if so, sets a <typeparamref name="TNonEmpty"/> to <paramref name="nonEmpty"/>
+        /// </summary>
+        /// <param name="nonEmpty"></param>
+        /// <returns></returns>
+        bool IsNonEmpty(out TNonEmpty nonEmpty);
+    }
 }
