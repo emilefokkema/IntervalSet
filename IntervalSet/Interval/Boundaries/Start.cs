@@ -7,7 +7,7 @@ namespace IntervalSet.Interval.Boundaries
     /// A <see cref="Boundary{T}"/> at the start of a period
     /// </summary>
     public class Start<T> : Boundary<T>
-        where T : IEquatable<T>, IFormattable
+        where T : IEquatable<T>
     {
         /// <summary>
         /// Initializes a new <see cref="Start{T}"/> based on a given <paramref name="location"/> and <paramref name="inclusivity"/>

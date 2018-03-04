@@ -9,7 +9,7 @@ namespace IntervalSet
     /// A subset of the <typeparamref name="T"/> space consisting of intervals
     /// </summary>
     public interface IIntervalSet<T> : IEquatable<IIntervalSet<T>>, IFormattable
-        where T:IComparable<T>, IEquatable<T>, IFormattable
+        where T:IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// Gets whether this subset of the <typeparamref name="T"/> space is empty
@@ -103,7 +103,7 @@ namespace IntervalSet
     /// <typeparam name="TSet"></typeparam>
     /// <typeparam name="T"></typeparam>
     public interface IIntervalSet<TSet, T> : IIntervalSet<T>
-        where T : IComparable<T>, IEquatable<T>, IFormattable
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one

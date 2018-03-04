@@ -13,7 +13,7 @@ namespace IntervalSet
     /// <typeparam name="TSet">the type of <see cref="IIntervalSet{T}"/> to build</typeparam>
     /// <typeparam name="T"></typeparam>
     public interface IBuilder<TSet, TInterval, TStartingInterval, T>
-        where T : IEquatable<T>, IFormattable
+        where T : IEquatable<T>
         where TStartingInterval : TInterval, IStartingInterval<TInterval, T>
     {
         /// <summary>

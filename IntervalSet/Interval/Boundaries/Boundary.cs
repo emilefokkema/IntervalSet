@@ -7,7 +7,7 @@ namespace IntervalSet.Interval.Boundaries
     /// Represents the boundary of an interval in an <see cref="IIntervalSet{T}"/>
     /// </summary>
     public class Boundary<T> : IEquatable<Boundary<T>>, IFormattable
-        where T:IEquatable<T>, IFormattable
+        where T:IEquatable<T>
     {
         /// <summary>
         /// This <see cref="Boundary{T}"/>'s <see cref="BoundaryKind"/>
@@ -94,7 +94,17 @@ namespace IntervalSet.Interval.Boundaries
         /// <inheritdoc />
         public string ToString(string format, IFormatProvider formatProvider)
         {
-            var result = Location.ToString(format, formatProvider);
+            string result;
+            if (Location is IFormattable)
+            {
+                result = ((IFormattable)Location).ToString(format, formatProvider);
+            }
+            else
+            {
+                result = Location.ToString();
+            }
+
+
             if (IsStart)
             {
                 if (IsEnd)

@@ -9,7 +9,7 @@ namespace IntervalSet
     /// <typeparam name="TInterval">The type representing the intervals in this <see cref="IIntervalSet{T}"/></typeparam>
     /// <typeparam name="T"></typeparam>
     public interface IEnumerableIntervalSet<TInterval, T> : IIntervalSet<T>
-        where T : IComparable<T>, IEquatable<T>, IFormattable
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// Projects each <typeparamref name="TInterval"/> of this <see cref="IIntervalSet{T}"/> to a new form

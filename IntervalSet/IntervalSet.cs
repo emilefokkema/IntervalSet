@@ -14,7 +14,7 @@ namespace IntervalSet
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
-        where T : IComparable<T>, IEquatable<T>, IFormattable
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// The <typeparamref name="TBuilder"/> for this instance

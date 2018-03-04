@@ -7,7 +7,7 @@ namespace IntervalSet.Interval.Boundaries
     /// A <see cref="Boundary{T}"/> of a period consisting of a single <typeparamref name="T"/>
     /// </summary>
     public class Degenerate<T> : Boundary<T>
-        where T : IEquatable<T>, IFormattable
+        where T : IEquatable<T>
     {
         /// <summary>
         /// Initializes a new <see cref="Degenerate{T}"/> based on a given <paramref name="location"/>

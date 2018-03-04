@@ -9,7 +9,7 @@ namespace IntervalSet.Interval
     /// <typeparam name="TEndingInterval">the type of the interval when it does have an end</typeparam>
     /// <typeparam name="T"></typeparam>
     public interface IStartingInterval<TEndingInterval, T>
-        where T : IEquatable<T>, IFormattable
+        where T : IEquatable<T>
     {
         /// <summary>
         /// Returns a <typeparamref name="TEndingInterval"/> that represents this interval with an end

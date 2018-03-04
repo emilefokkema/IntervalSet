@@ -8,7 +8,7 @@ namespace IntervalSet
 {
     /// <inheritdoc />
     public abstract class Builder<TSet, TInterval, TStartingInterval, T> : IBuilder<TSet, TInterval, TStartingInterval, T>
-        where T : IEquatable<T>, IComparable<T>, IFormattable
+        where T : IEquatable<T>, IComparable<T>
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
     {
         /// <inheritdoc />
