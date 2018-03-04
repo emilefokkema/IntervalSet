@@ -44,6 +44,7 @@
     <Compile Include="Builder.cs" />
     <Compile Include="IIntervalSet.cs" />
     <Compile Include="IBuilder.cs" />
+    <Compile Include="IEnumerableIntervalSet.cs" />
     <Compile Include="Interval\Boundaries\Boundary.cs" />
     <Compile Include="Interval\Boundaries\Degenerate.cs" />
     <Compile Include="Interval\Boundaries\End.cs" />
