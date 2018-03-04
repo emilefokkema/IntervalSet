@@ -60,11 +60,11 @@ namespace PeriodSet.Period
         {
             if (from >= Boundary.Location)
             {
-                return ContainsDate(from);
+                return Boundary.IsStart;
             }
             if (to <= Boundary.Location)
             {
-                return ContainsDate(to);
+                return Boundary.IsEnd;
             }
             return Boundary.IsContinuation;
         }
