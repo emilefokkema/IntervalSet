@@ -58,6 +58,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultImplementation\DefaultTests.cs" />
     <Compile Include="PeriodSet\BoundaryTest.cs" />
     <Compile Include="PeriodSet\Tests.cs" />
     <Compile Include="PeriodSet\PeriodSetTest.cs" />

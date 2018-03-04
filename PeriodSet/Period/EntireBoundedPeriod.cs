@@ -22,7 +22,7 @@ namespace PeriodSet.Period
         public DateTime To => DateTime.MaxValue;
 
         /// <inheritdoc />
-        public IBoundedPeriod End(End<DateTime> end)
+        public IBoundedPeriod MakeEndingInterval(End<DateTime> end)
         {
             return new EndingBoundedPeriod(end);
         }

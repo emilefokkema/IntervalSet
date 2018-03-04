@@ -42,6 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder.cs" />
+    <Compile Include="Default\DefaultNonEmptyIntervalSet.cs" />
+    <Compile Include="Default\DefaultIntervalSet.cs" />
+    <Compile Include="Default\DefaultBuilder.cs" />
+    <Compile Include="Interval\Default\DefaultEndingInterval.cs" />
+    <Compile Include="Interval\Default\DefaultEntireInterval.cs" />
+    <Compile Include="Interval\Default\DefaultStartEndingInterval.cs" />
+    <Compile Include="Interval\Default\DefaultStartingInterval.cs" />
+    <Compile Include="Interval\Default\DefaultDegenerateInterval.cs" />
+    <Compile Include="Interval\Default\IDefaultInterval.cs" />
+    <Compile Include="Interval\Default\IDefaultStartingInterval.cs" />
     <Compile Include="Interval\DoubleBoundaryInterval.cs" />
     <Compile Include="Interval\SingleBoundaryInterval.cs" />
     <Compile Include="NonEmptyIntervalSet.cs" />
@@ -65,5 +75,6 @@
     <Compile Include="Interval\IStartingInterval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,7 +24,7 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public IBoundedPeriod End(End<DateTime> end)
+        public IBoundedPeriod MakeEndingInterval(End<DateTime> end)
         {
             return new StartEndingBoundedPeriod(_start, end);
         }

@@ -22,7 +22,7 @@ namespace PeriodSet.Period
         public DateTime? To => null;
 
         /// <inheritdoc />
-        public IOpenPeriod End(End<DateTime> end)
+        public IOpenPeriod MakeEndingInterval(End<DateTime> end)
         {
             return new EndingOpenPeriod(end);
         }

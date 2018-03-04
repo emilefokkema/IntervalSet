@@ -13,7 +13,7 @@ namespace IntervalSet
         where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
         where TInterval : IIntervalSet<T>
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
-        where T : IComparable<T>, IEquatable<T>, IFormattable
+        where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc/>
         protected NonEmptyIntervalSet(IList<TInterval> list) : base(list)

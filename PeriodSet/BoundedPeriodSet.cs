@@ -43,7 +43,7 @@ namespace PeriodSet
                 }
                 else
                 {
-                    IntervalList.Add(Builder.MakeStartingInterval(start).End(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(Builder.MakeStartingInterval(start).MakeEndingInterval(new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else

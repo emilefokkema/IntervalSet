@@ -16,6 +16,6 @@ namespace IntervalSet.Interval
         /// </summary>
         /// <param name="end"></param>
         /// <returns></returns>
-        TEndingInterval End(End<T> end);
+        TEndingInterval MakeEndingInterval(End<T> end);
     }
 }

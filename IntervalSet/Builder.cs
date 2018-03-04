@@ -51,7 +51,7 @@ namespace IntervalSet
                     {
                         if (boundary.IsEnd && !boundary.Inclusive)
                         {
-                            yield return currentInterval.End(new End<T>(boundary));
+                            yield return currentInterval.MakeEndingInterval(new End<T>(boundary));
                             currentInterval = MakeStartingInterval(new Start<T>(boundary));
                         }
                     }
@@ -69,7 +69,7 @@ namespace IntervalSet
                     {
                         if (boundary.IsEnd)
                         {
-                            yield return currentInterval.End(new End<T>(boundary));
+                            yield return currentInterval.MakeEndingInterval(new End<T>(boundary));
                             currentInterval = null;
                         }
                     }
