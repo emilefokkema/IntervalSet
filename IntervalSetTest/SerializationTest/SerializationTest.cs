@@ -14,6 +14,21 @@ namespace IntervalSetTest.SerializationTest
     [TestFixture]
     public class SerializationTest
     {
+        private class ComparableType : IComparable<ComparableType>, IEquatable<ComparableType>
+        {
+            public int Value { get; set; }
+
+            public bool Equals(ComparableType other)
+            {
+                return Value == other?.Value;
+            }
+
+            public int CompareTo(ComparableType other)
+            {
+                return Value.CompareTo(other.Value);
+            }
+        }
+
         private class TypeWithDefaultSet
         {
             public string Name { get; set; }
@@ -37,6 +52,7 @@ namespace IntervalSetTest.SerializationTest
             TestSetSerialization(DefaultIntervalSet<int>.All.Minus(new DefaultIntervalSet<int>(6, 7)));
             TestSetSerialization(DefaultIntervalSet<int>.All);
             TestSetSerialization(new DefaultIntervalSet<string>("a","b"));
+            TestSetSerialization(new DefaultIntervalSet<ComparableType>(new ComparableType{Value = 3}, new ComparableType{Value = 4}));
         }
 
         [Test]
