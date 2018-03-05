@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
+using IntervalSet.Default;
+using Newtonsoft.Json;
+using NUnit.Framework;
+using IntSet = IntervalSet.Default.DefaultIntervalSet<int>;
+using DoubleSet = IntervalSet.Default.DefaultIntervalSet<double>;
+using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
+
+namespace IntervalSetTest.SerializationTest
+{
+    [TestFixture]
+    public class SerializationTest
+    {
+        private class TypeWithDefaultSet
+        {
+            public string Name { get; set; }
+            public IntSet Integers { get; set; }
+            public List<DoubleSet> DoubleList { get; set; }
+        }
+
+        [Test]
+        public void TestBoundarySerialization()
+        {
+            Start<double> doubleBoundary = new Start<double>(5, Inclusivity.Inclusive);
+            string serialized = JsonConvert.SerializeObject(doubleBoundary);
+            Start<double> deserialized = JsonConvert.DeserializeObject<Start<double>>(serialized);
+            deserialized.Should().Be(doubleBoundary);
+        }
+
+        [Test]
+        public void TestSets()
+        {
+            TestSetSerialization(new DefaultIntervalSet<int>(6,7));
+            TestSetSerialization(DefaultIntervalSet<int>.All.Minus(new DefaultIntervalSet<int>(6, 7)));
+            TestSetSerialization(DefaultIntervalSet<int>.All);
+            TestSetSerialization(new DefaultIntervalSet<string>("a","b"));
+        }
+
+        [Test]
+        public void TestObject()
+        {
+            DoubleSet double1 = new DoubleSet(0.5, 1.5);
+            DoubleSet double2 = new DoubleSet(5.5, 10.5);
+            IntSet intSet = new IntSet(6, 7);
+            TypeWithDefaultSet thing = new TypeWithDefaultSet
+            {
+                Name = "John",
+                Integers = intSet,
+                DoubleList = new List<DoubleSet>{double1, double2}
+            };
+            string serialized = JsonConvert.SerializeObject(thing);
+            TypeWithDefaultSet deserializedThing = JsonConvert.DeserializeObject<TypeWithDefaultSet>(serialized);
+            deserializedThing.Name.Should().Be("John");
+            deserializedThing.Integers.Should().Be(intSet);
+            deserializedThing.DoubleList.Should().Contain(double1);
+            deserializedThing.DoubleList.Should().Contain(double2);
+        }
+
+        private void TestSetSerialization<T>(DefaultIntervalSet<T> set) where T:IComparable<T>,IEquatable<T>
+        {
+            string serialized = JsonConvert.SerializeObject(set);
+            DefaultIntervalSet<T> deserialized = JsonConvert.DeserializeObject<DefaultIntervalSet<T>>(serialized);
+            deserialized.Should().Be(set);
+        }
+    }
+}

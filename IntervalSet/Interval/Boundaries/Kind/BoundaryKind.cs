@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace IntervalSet.Interval.Boundaries.Kind
 {
     /// <summary>
     /// A kind of <see cref="Boundary{T}"/> of an <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public class BoundaryKind : IEquatable<BoundaryKind>
+    [Serializable]
+    public class BoundaryKind : IEquatable<BoundaryKind>, ISerializable
     {
         /// <summary>
         /// The <see cref="Kind.Inclusivity"/> of this kind
@@ -24,6 +26,17 @@ namespace IntervalSet.Interval.Boundaries.Kind
         {
             Direction = direction;
             Inclusivity = inclusivity;
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="BoundaryKind"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected BoundaryKind(SerializationInfo info, StreamingContext context)
+        {
+            Direction = (BoundaryDirection) info.GetValue("Direction", typeof(BoundaryDirection));
+            Inclusivity = (Inclusivity)info.GetValue("Inclusivity", typeof(Inclusivity));
         }
 
         /// <summary>
@@ -86,6 +99,13 @@ namespace IntervalSet.Interval.Boundaries.Kind
             }
 
             return Equals(obj as BoundaryKind);
+        }
+
+        /// <inheritdoc />
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Inclusivity", Inclusivity);
+            info.AddValue("Direction", Direction);
         }
 
         /// <inheritdoc />

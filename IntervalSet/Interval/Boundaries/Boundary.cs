@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+using System.Runtime.Serialization;
 using IntervalSet.Interval.Boundaries.Kind;
 
 namespace IntervalSet.Interval.Boundaries
@@ -6,7 +8,8 @@ namespace IntervalSet.Interval.Boundaries
     /// <summary>
     /// Represents the boundary of an interval in an <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public class Boundary<T> : IEquatable<Boundary<T>>, IFormattable
+    [Serializable]
+    public class Boundary<T> : IEquatable<Boundary<T>>, IFormattable, ISerializable
         where T:IEquatable<T>
     {
         /// <summary>
@@ -50,6 +53,17 @@ namespace IntervalSet.Interval.Boundaries
             Kind = kind;
         }
 
+        /// <summary>
+        /// Deserializes a <see cref="Boundary{T}"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public Boundary(SerializationInfo info, StreamingContext context)
+        {
+            Location = (T)info.GetValue("Location", typeof(T));
+            Kind = (BoundaryKind) info.GetValue("Kind", typeof(BoundaryKind));
+        }
+
         private string GetLeftBracket()
         {
             return Inclusive ? "[" : "(";
@@ -89,6 +103,19 @@ namespace IntervalSet.Interval.Boundaries
             {
                 return ((Kind != null ? Kind.GetHashCode() : 0) * 397) ^ Location.GetHashCode();
             }
+        }
+
+        /// <inheritdoc />
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Kind", Kind);
+            info.AddValue("Location", Location);
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return ToString("G", CultureInfo.CurrentCulture);
         }
 
         /// <inheritdoc />

@@ -271,17 +271,29 @@ namespace IntervalSet
         /// <inheritdoc />
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            int boundaryCounter = 0;
-            foreach (Boundary<T> boundary in Boundaries)
-            {
-                info.AddValue((boundaryCounter++).ToString(), boundary, typeof(Boundary<T>));
-            }
+            List<Boundary<T>> boundaries = Boundaries.ToList();
+            info.AddValue("ContainsNegativeInfinity", ContainsNegativeInfinity());
+            info.AddValue("Boundaries", boundaries);
         }
 
         /// <inheritdoc />
         public virtual string ToString(string format, IFormatProvider provider)
         {
             return "(-Infinity, Infinity)";
+        }
+
+        /// <summary>
+        /// Deserializes a list of <typeparamref name="TInterval"/>s
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
+        protected static IList<TInterval> MakeIntervals(SerializationInfo info)
+        {
+            TBuilder builder = new TBuilder();
+            bool containsNegativeInfinity = (bool)info.GetValue("ContainsNegativeInfinity", typeof(bool));
+            List<Boundary<T>> boundaries = (List<Boundary<T>>)info.GetValue("Boundaries", typeof(List<Boundary<T>>));
+            TStartingInterval start = containsNegativeInfinity ? builder.MakeStartingInterval() : null;
+            return builder.Build(boundaries, start).ToList();
         }
     }
 }

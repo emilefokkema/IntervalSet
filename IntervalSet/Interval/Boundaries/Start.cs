@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Serialization;
 using IntervalSet.Interval.Boundaries.Kind;
 
 namespace IntervalSet.Interval.Boundaries
@@ -6,6 +7,7 @@ namespace IntervalSet.Interval.Boundaries
     /// <summary>
     /// A <see cref="Boundary{T}"/> at the start of a period
     /// </summary>
+    [Serializable]
     public class Start<T> : Boundary<T>
         where T : IEquatable<T>
     {
@@ -23,6 +25,15 @@ namespace IntervalSet.Interval.Boundaries
         /// </summary>
         /// <param name="boundary"></param>
         public Start(Boundary<T> boundary):this(boundary.Location, boundary.Kind.Inclusivity)
+        {
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="Start{T}"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public Start(SerializationInfo info, StreamingContext context):base(info, context)
         {
         }
     }

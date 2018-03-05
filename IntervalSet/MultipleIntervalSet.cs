@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
 namespace IntervalSet
 {
-    /// <inheritdoc cref="IntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
+    /// <inheritdoc cref="EmptyIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of zero or more <see cref="IIntervalSet{T}"/>s
     /// </summary>
@@ -44,6 +45,15 @@ namespace IntervalSet
         {
             TStartingInterval start = set.ContainsNegativeInfinity() ? Builder.MakeStartingInterval() : null;
             IntervalList = Builder.Build(set.Boundaries.ToList(), start).ToList();
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected MultipleIntervalSet(SerializationInfo info, StreamingContext context):this(MakeIntervals(info))
+        {
         }
 
         /// <summary>

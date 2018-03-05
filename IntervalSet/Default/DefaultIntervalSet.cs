@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Serialization;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using IntervalSet.Interval.Default;
@@ -11,6 +12,7 @@ namespace IntervalSet.Default
     /// A default implementation of <see cref="IIntervalSet{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    [Serializable]
     public class DefaultIntervalSet<T> : MultipleIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultStartingInterval<T>, IDefaultInterval<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {
@@ -26,6 +28,15 @@ namespace IntervalSet.Default
         /// </summary>
         /// <param name="intervals"></param>
         public DefaultIntervalSet(IList<IDefaultInterval<T>> intervals):base(intervals)
+        {
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="DefaultIntervalSet{T}"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public DefaultIntervalSet(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
 
