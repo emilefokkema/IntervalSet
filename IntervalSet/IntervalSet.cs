@@ -11,7 +11,7 @@ namespace IntervalSet
     /// <summary>
     /// A base class for implementations of <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public abstract class IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>, ISerializable
+    public abstract class IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>

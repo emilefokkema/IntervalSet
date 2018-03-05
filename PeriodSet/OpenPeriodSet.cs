@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Serialization;
 using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
@@ -12,6 +13,7 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="IIntervalSet{T}"/> of <see cref="DateTime"/> in which each interval has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
+    [Serializable]
     public class OpenPeriodSet : MultipleIntervalSet<OpenPeriodSet, OpenPeriodListBuilder,IStartingOpenPeriod,IOpenPeriod,DateTime>
     {
         /// <inheritdoc />
@@ -24,6 +26,15 @@ namespace PeriodSet
         /// </summary>
         /// <param name="set"></param>
         public OpenPeriodSet(IIntervalSet<DateTime> set):base(set)
+        {
+        }
+
+        /// <summary>
+        /// Deserializes an <see cref="OpenPeriodSet"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public OpenPeriodSet(SerializationInfo info, StreamingContext context):base(info, context)
         {
         }
 

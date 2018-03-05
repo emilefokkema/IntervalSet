@@ -5,6 +5,7 @@ using FluentAssertions;
 using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using PeriodSet;
 using PeriodSet.Period;
@@ -351,6 +352,14 @@ namespace IntervalSetTest.PeriodSet
             OpenPeriodSet left2 = OpenPeriodSet.All - new OpenPeriodSet(startOne);
             (left1 * left2).Should().Be(left2);
             (left2 * left1).Should().Be(left2);
+        }
+
+        [Test]
+        public void Test_serialization()
+        {
+            string serialized = JsonConvert.SerializeObject(one);
+            OpenPeriodSet deserialized = JsonConvert.DeserializeObject<OpenPeriodSet>(serialized);
+            deserialized.Should().Be(one);
         }
     }
 }

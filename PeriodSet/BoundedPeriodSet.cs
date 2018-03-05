@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.Serialization;
 using IntervalSet;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
@@ -12,6 +13,7 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="IIntervalSet{T}" /> of <see cref="DateTime"/> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
+    [Serializable]
     public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder,IStartingBoundedPeriod, IBoundedPeriod,DateTime>
     {
         /// <inheritdoc />
@@ -24,6 +26,15 @@ namespace PeriodSet
         /// </summary>
         /// <param name="set"></param>
         public BoundedPeriodSet(IIntervalSet<DateTime> set):base(set)
+        {
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="BoundedPeriodSet"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public BoundedPeriodSet(SerializationInfo info, StreamingContext context):base(info, context)
         {
         }
 

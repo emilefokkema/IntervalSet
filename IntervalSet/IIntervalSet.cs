@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
@@ -8,7 +9,7 @@ namespace IntervalSet
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of intervals
     /// </summary>
-    public interface IIntervalSet<T> : IEquatable<IIntervalSet<T>>, IFormattable
+    public interface IIntervalSet<T> : IEquatable<IIntervalSet<T>>, IFormattable, ISerializable
         where T:IComparable<T>, IEquatable<T>
     {
         /// <summary>
