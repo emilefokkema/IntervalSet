@@ -19,6 +19,7 @@ namespace IntervalSet
         where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
         where T : IComparable<T>, IEquatable<T>
     {
+        private readonly SerializationInfo _info;
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
@@ -28,7 +29,7 @@ namespace IntervalSet
         /// <summary>
         /// The list of <typeparamref name="TInterval"/>s for this instance
         /// </summary>
-        protected IList<TInterval> IntervalList { get; }
+        protected IList<TInterval> IntervalList { get; private set; }
 
         /// <summary>
         /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
@@ -52,8 +53,19 @@ namespace IntervalSet
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        protected MultipleIntervalSet(SerializationInfo info, StreamingContext context):this(MakeIntervals(info))
+        protected MultipleIntervalSet(SerializationInfo info, StreamingContext context)
         {
+            _info = info;
+        }
+
+        /// <summary>
+        /// Only create <see cref="IntervalList"/> after deserialization of the boundaries is complete
+        /// </summary>
+        /// <param name="context"></param>
+        [OnDeserialized]
+        public void OnDeserialization(StreamingContext context)
+        {
+            IntervalList = MakeIntervals(_info);
         }
 
         /// <summary>

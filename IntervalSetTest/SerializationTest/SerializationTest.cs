@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions;
 using IntervalSet.Default;
 using Newtonsoft.Json;
@@ -8,12 +10,14 @@ using IntSet = IntervalSet.Default.DefaultIntervalSet<int>;
 using DoubleSet = IntervalSet.Default.DefaultIntervalSet<double>;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using Newtonsoft.Json.Serialization;
 
 namespace IntervalSetTest.SerializationTest
 {
     [TestFixture]
     public class SerializationTest
     {
+        [Serializable]
         private class ComparableType : IComparable<ComparableType>, IEquatable<ComparableType>
         {
             public int Value { get; set; }
@@ -77,8 +81,23 @@ namespace IntervalSetTest.SerializationTest
 
         private void TestSetSerialization<T>(DefaultIntervalSet<T> set) where T:IComparable<T>,IEquatable<T>
         {
+            TestSetSerializationJson(set);
+            TestSetSerializationBinary(set);
+        }
+
+        private void TestSetSerializationJson<T>(DefaultIntervalSet<T> set) where T : IComparable<T>, IEquatable<T>
+        {
             string serialized = JsonConvert.SerializeObject(set);
             DefaultIntervalSet<T> deserialized = JsonConvert.DeserializeObject<DefaultIntervalSet<T>>(serialized);
+            deserialized.Should().Be(set);
+        }
+
+        private void TestSetSerializationBinary<T>(DefaultIntervalSet<T> set) where T : IComparable<T>, IEquatable<T>
+        {
+            Stream stream = new MemoryStream();
+            new BinaryFormatter().Serialize(stream, set);
+            stream.Position = 0;
+            DefaultIntervalSet<T> deserialized = (DefaultIntervalSet<T>) new BinaryFormatter().Deserialize(stream);
             deserialized.Should().Be(set);
         }
     }
