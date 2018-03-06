@@ -10,7 +10,8 @@ namespace IntervalSet.Default
     /// A default implementation of an <see cref="IIntervalSet{T}"/> that contains at least one <see cref="IDefaultInterval{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultNonEmptyIntervalSet<T> : NonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    public class DefaultNonEmptyIntervalSet<TBuilder, T> : NonEmptyIntervalSet<DefaultIntervalSet<TBuilder, T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -27,31 +28,21 @@ namespace IntervalSet.Default
         /// <inheritdoc />
         public bool HasEnd => IntervalList.Last().HasEnd;
 
-        /// <inheritdoc />
-        public T Start {
-            get
-            {
-                if (HasStart)
-                {
-                    return IntervalList.First().Start;
-                }
+        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        {
+            return new DefaultIntervalSet<TBuilder,T>(intervals);
+        }
 
-                return default(T);
-            }
+        protected override IDefaultInterval<T> MakeNonEmptySet()
+        {
+            return this;
         }
 
         /// <inheritdoc />
-        public T End {
-            get
-            {
-                if (HasEnd)
-                {
-                    return IntervalList.Last().End;
-                }
+        public T Start => IntervalList.First().Start;
 
-                return default(T);
-            }
-        }
+        /// <inheritdoc />
+        public T End => IntervalList.Last().End;
 
         /// <inheritdoc />
         public override string ToString()

@@ -13,7 +13,8 @@ namespace IntervalSet.Default
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class DefaultIntervalSet<T> : MultipleIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>
+    public class DefaultIntervalSet<TBuilder, T> : MultipleIntervalSet<DefaultIntervalSet<TBuilder, T>, TBuilder, IDefaultInterval<T>, T>
+        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -49,6 +50,16 @@ namespace IntervalSet.Default
         {
         }
 
+        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        {
+            return new DefaultIntervalSet<TBuilder,T>(intervals);
+        }
+
+        protected override IDefaultInterval<T> MakeNonEmptySet()
+        {
+            return new DefaultNonEmptyIntervalSet<TBuilder, T>(IntervalList);
+        }
+
         /// <inheritdoc />
         public override string ToString()
         {
@@ -58,11 +69,11 @@ namespace IntervalSet.Default
         /// <summary>
         /// A <see cref="DefaultIntervalSet{T}"/> representing the entire <typeparamref name="T"/> space
         /// </summary>
-        public static DefaultIntervalSet<T> All = new DefaultIntervalSet<T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<T>()});
+        public static DefaultIntervalSet<TBuilder,T> All = new DefaultIntervalSet<TBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TBuilder,T>()});
 
         /// <summary>
         /// A <see cref="DefaultIntervalSet{T}"/> representing the empty set as a set containing only <typeparamref name="T"/>s
         /// </summary>
-        public static DefaultIntervalSet<T> Empty = new DefaultIntervalSet<T>();
+        public static DefaultIntervalSet<TBuilder,T> Empty = new DefaultIntervalSet<TBuilder,T>();
     }
 }

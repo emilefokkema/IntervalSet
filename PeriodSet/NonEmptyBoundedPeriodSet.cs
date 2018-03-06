@@ -36,11 +36,21 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    return new BoundedPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
+                    return new DegenerateBoundedPeriod(new Degenerate<DateTime>(from));
                 }
-                return new BoundedPeriodListBuilder().MakeStartEndingInterval(start, new End<DateTime>(to.Value, Inclusivity.Exclusive));
+                return new StartEndingBoundedPeriod(start, new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
-            return new BoundedPeriodListBuilder().MakeStartingInterval(start);
+            return new StartingBoundedPeriod(start);
+        }
+
+        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
+        {
+            return new BoundedPeriodSet(intervals);
+        }
+
+        protected override IBoundedPeriod MakeNonEmptySet()
+        {
+            return this;
         }
 
         /// <summary>

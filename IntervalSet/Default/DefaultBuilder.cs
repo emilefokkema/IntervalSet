@@ -1,57 +1,50 @@
 ﻿using System;
-using System.Collections.Generic;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Default;
 
 namespace IntervalSet.Default
 {
     /// <summary>
-    /// A default implementation of <see cref="IBuilder{TSet,TInterval,T}"/>
+    /// A default implementation of <see cref="IBuilder{TInterval,T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultBuilder<T> : Builder<DefaultIntervalSet<T>, IDefaultInterval<T>, T>
+    public class DefaultBuilder<T> : Builder<IDefaultInterval<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeNonEmptySet(IList<IDefaultInterval<T>> intervals)
+        public override IDefaultInterval<T> MakeStartingInterval<TBuilder>()
         {
-            return new DefaultNonEmptyIntervalSet<T>(intervals);
+            return new DefaultEntireInterval<TBuilder,T>();
         }
 
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeStartingInterval()
+        public override IDefaultInterval<T> MakeStartingInterval<TBuilder>(Start<T> from)
         {
-            return new DefaultEntireInterval<T>();
+            return new DefaultStartingInterval<TBuilder,T>(from);
         }
 
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeStartingInterval(Start<T> from)
+        public override IDefaultInterval<T> MakeEndingInterval<TBuilder>(End<T> end)
         {
-            return new DefaultStartingInterval<T>(from);
+            return new DefaultEndingInterval<TBuilder,T>(end);
         }
 
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeEndingInterval(End<T> end)
+        public override IDefaultInterval<T> MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to)
         {
-            return new DefaultEndingInterval<T>(end);
+            return new DefaultStartEndingInterval<TBuilder,T>(from, to);
         }
 
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeStartEndingInterval(Start<T> from, End<T> to)
+        public override IDefaultInterval<T> MakeDegenerate<TBuilder>(Degenerate<T> degenerate)
         {
-            return new DefaultStartEndingInterval<T>(from, to);
+            return new DefaultDegenerateInterval<TBuilder,T>(degenerate);
         }
 
         /// <inheritdoc />
-        public override IDefaultInterval<T> MakeDegenerate(Degenerate<T> degenerate)
-        {
-            return new DefaultDegenerateInterval<T>(degenerate);
-        }
+        public override Infinity<T> PositiveInfinity => new DefaultInfinity<T>(Sign.Positive);
 
         /// <inheritdoc />
-        public override DefaultIntervalSet<T> MakeSet(IList<IDefaultInterval<T>> intervals)
-        {
-            return new DefaultIntervalSet<T>(intervals);
-        }
+        public override Infinity<T> NegativeInfinity => new DefaultInfinity<T>(Sign.Negative);
     }
 }

@@ -6,29 +6,23 @@ using IntervalSet.Interval.Boundaries;
 namespace IntervalSet
 {
     /// <inheritdoc />
-    public abstract class Builder<TSet, TInterval, T> : IBuilder<TSet, TInterval, T>
+    public abstract class Builder<TInterval, T> : IBuilder<TInterval, T>
         where T : IEquatable<T>, IComparable<T>
     {
         /// <inheritdoc />
-        public abstract TInterval MakeNonEmptySet(IList<TInterval> intervals);
+        public abstract TInterval MakeStartingInterval<TBuilder>(Start<T> from) where TBuilder : IBuilder<TInterval,T>, new();
 
         /// <inheritdoc />
-        public abstract TSet MakeSet(IList<TInterval> intervals);
+        public abstract TInterval MakeEndingInterval<TBuilder>(End<T> end) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval(Start<T> from);
+        public abstract TInterval MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeEndingInterval(End<T> end);
+        public abstract TInterval MakeStartingInterval<TBuilder>() where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartEndingInterval(Start<T> from, End<T> to);
-
-        /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval();
-
-        /// <inheritdoc />
-        public abstract TInterval MakeDegenerate(Degenerate<T> degenerate);
+        public abstract TInterval MakeDegenerate<TBuilder>(Degenerate<T> degenerate) where TBuilder : IBuilder<TInterval, T>, new();
 
         private List<Boundary<T>> OrderBoundaries(IList<Boundary<T>> boundaries)
         {
@@ -41,7 +35,7 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity)
+        public IEnumerable<TInterval> Build<TBuilder>(IList<Boundary<T>> boundaries, bool containsNegativeInfinity) where TBuilder : IBuilder<TInterval, T>, new()
         {
             bool currentlyTrue = containsNegativeInfinity;
             Start<T> mostRecentStart = null;
@@ -59,11 +53,11 @@ namespace IntervalSet
                         {
                             if (mostRecentStart == null)
                             {
-                                yield return MakeEndingInterval(new End<T>(boundary));
+                                yield return MakeEndingInterval<TBuilder>(new End<T>(boundary));
                             }
                             else
                             {
-                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
+                                yield return MakeStartEndingInterval<TBuilder>(mostRecentStart, new End<T>(boundary));
                             }
 
                             mostRecentStart = new Start<T>(boundary);
@@ -77,7 +71,7 @@ namespace IntervalSet
                     {
                         if (!boundary.IsEnd)
                         {
-                            yield return MakeDegenerate(new Degenerate<T>(boundary.Location));
+                            yield return MakeDegenerate<TBuilder>(new Degenerate<T>(boundary.Location));
                         }
                     }
                     else
@@ -86,11 +80,11 @@ namespace IntervalSet
                         {
                             if (mostRecentStart == null)
                             {
-                                yield return MakeEndingInterval(new End<T>(boundary));
+                                yield return MakeEndingInterval<TBuilder>(new End<T>(boundary));
                             }
                             else
                             {
-                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
+                                yield return MakeStartEndingInterval<TBuilder>(mostRecentStart, new End<T>(boundary));
                             }
                             mostRecentStart = null;
                             currentlyTrue = false;
@@ -103,13 +97,19 @@ namespace IntervalSet
             {
                 if (mostRecentStart != null)
                 {
-                    yield return MakeStartingInterval(mostRecentStart);
+                    yield return MakeStartingInterval<TBuilder>(mostRecentStart);
                 }
                 else
                 {
-                    yield return MakeStartingInterval();
+                    yield return MakeStartingInterval<TBuilder>();
                 }
             }
         }
+
+        /// <inheritdoc />
+        public abstract Infinity<T> PositiveInfinity { get; }
+
+        /// <inheritdoc />
+        public abstract Infinity<T> NegativeInfinity { get; }
     }
 }

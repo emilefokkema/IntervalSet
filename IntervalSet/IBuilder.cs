@@ -8,9 +8,8 @@ namespace IntervalSet
     /// Helps build up an <see cref="IIntervalSet{T}"/>
     /// </summary>
     /// <typeparam name="TInterval">the type of period to build</typeparam>
-    /// <typeparam name="TSet">the type of <see cref="IIntervalSet{T}"/> to build</typeparam>
     /// <typeparam name="T"></typeparam>
-    public interface IBuilder<TSet, TInterval, T>
+    public interface IBuilder<TInterval, T>
         where T : IEquatable<T>, IComparable<T>
     {
         /// <summary>
@@ -19,21 +18,21 @@ namespace IntervalSet
         /// <param name="boundaries"></param>
         /// <param name="containsNegativeInfinity"></param>
         /// <returns></returns>
-        IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity);
+        IEnumerable<TInterval> Build<TBuilder>(IList<Boundary<T>> boundaries, bool containsNegativeInfinity) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> starting at <paramref name="from"/>
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        TInterval MakeStartingInterval(Start<T> from);
+        TInterval MakeStartingInterval<TBuilder>(Start<T> from) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> ending at <paramref name="end"/>
         /// </summary>
         /// <param name="end"></param>
         /// <returns></returns>
-        TInterval MakeEndingInterval(End<T> end);
+        TInterval MakeEndingInterval<TBuilder>(End<T> end) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> starting at <paramref name="from"/> and ending at <paramref name="to"/>
@@ -41,34 +40,23 @@ namespace IntervalSet
         /// <param name="from"></param>
         /// <param name="to"></param>
         /// <returns></returns>
-        TInterval MakeStartEndingInterval(Start<T> from, End<T> to);
-
+        TInterval MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to) where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> "starting" at negative infinity
         /// </summary>
         /// <returns></returns>
-        TInterval MakeStartingInterval();
+        TInterval MakeStartingInterval<TBuilder>() where TBuilder : IBuilder<TInterval, T>, new();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> that represents an interval containing only one <typeparamref name="T"/>
         /// </summary>
         /// <param name="degenerate"></param>
         /// <returns></returns>
-        TInterval MakeDegenerate(Degenerate<T> degenerate);
+        TInterval MakeDegenerate<TBuilder>(Degenerate<T> degenerate) where TBuilder : IBuilder<TInterval, T>, new();
 
-        /// <summary>
-        /// Returns a <typeparamref name="TSet"/> based on a given list of <typeparamref name="TInterval"/>s
-        /// </summary>
-        /// <param name="intervals"></param>
-        /// <returns></returns>
-        TSet MakeSet(IList<TInterval> intervals);
+        Infinity<T> NegativeInfinity { get; }
 
-        /// <summary>
-        /// Returns a <typeparamref name="TInterval"/> based on a given non-empty list of <typeparamref name="TInterval"/>s
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
-        TInterval MakeNonEmptySet(IList<TInterval> list);
+        Infinity<T> PositiveInfinity { get; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 
@@ -20,6 +21,11 @@ namespace PeriodSet.Period
         protected override IOpenPeriod GetInterval()
         {
             return this;
+        }
+
+        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
+        {
+            return new OpenPeriodSet(intervals);
         }
 
         /// <summary>

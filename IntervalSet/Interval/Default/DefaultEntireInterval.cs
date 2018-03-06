@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using IntervalSet.Default;
 
 namespace IntervalSet.Interval.Default
@@ -7,9 +8,14 @@ namespace IntervalSet.Interval.Default
     /// A default impementation of an <see cref="IIntervalSet{T}"/> representing the entire <typeparamref name="T"/> space
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultEntireInterval<T> : IntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    public class DefaultEntireInterval<TBuilder, T> : IntervalSet<DefaultIntervalSet<TBuilder,T>, TBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
+        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        {
+            return new DefaultIntervalSet<TBuilder,T>(intervals);
+        }
         /// <inheritdoc />
         public bool HasEnd => false;
 
@@ -17,9 +23,9 @@ namespace IntervalSet.Interval.Default
         public bool HasStart => false;
 
         /// <inheritdoc />
-        public T Start => default(T);
+        public T Start => Builder.PositiveInfinity;
 
         /// <inheritdoc />
-        public T End => default(T);
+        public T End => Builder.NegativeInfinity;
     }
 }

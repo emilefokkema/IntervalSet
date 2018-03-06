@@ -1,13 +1,21 @@
 ﻿using FluentAssertions;
+using IntervalSet;
+using IntervalSet.Default;
 using IntervalSet.Interval.Default;
 using NUnit.Framework;
-using DoubleSet = IntervalSet.Default.DefaultIntervalSet<double>;
+using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSetTest.DefaultImplementation.DefaultTests.DoubleBuilder, double>;
 
 namespace IntervalSetTest.DefaultImplementation
 {
     [TestFixture]
     public class DefaultTests
     {
+        public class DoubleBuilder : DefaultBuilder<double>
+        {
+            public override Infinity<double> PositiveInfinity => new Infinity<double>(double.PositiveInfinity);
+            public override Infinity<double> NegativeInfinity => new Infinity<double>(double.NegativeInfinity);
+        }
+
         [Test]
         public void Test1()
         {
@@ -25,6 +33,9 @@ namespace IntervalSetTest.DefaultImplementation
             product.Contains(4.5).Should().BeTrue();
             product.Contains(5.5).Should().BeFalse();
             difference.Contains(double.PositiveInfinity).Should().BeTrue();
+            IDefaultInterval<double> nonEmptyDifference;
+            difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
+            nonEmptyDifference.End.Should().Be(double.PositiveInfinity);
 
             product.Cross(fiveSix).Should().Be(DoubleSet.Empty);
         }

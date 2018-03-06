@@ -60,17 +60,27 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    IntervalList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
+                    IntervalList.Add(new DegenerateOpenPeriod(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    IntervalList.Add(Builder.MakeStartEndingInterval(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(new StartEndingOpenPeriod(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartingInterval(start));
+                IntervalList.Add(new StartingOpenPeriod(start));
             }
+        }
+
+        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
+        {
+            return new OpenPeriodSet(intervals);
+        }
+
+        protected override IOpenPeriod MakeNonEmptySet()
+        {
+            return new NonEmptyOpenPeriodSet(IntervalList);
         }
 
         /// <summary>

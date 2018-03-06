@@ -7,48 +7,42 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, DateTime>
+    public class BoundedPeriodListBuilder : Builder<IBoundedPeriod, DateTime>
     {
         /// <inheritdoc />
-        public override IBoundedPeriod MakeStartingInterval(Start<DateTime> from)
+        public override IBoundedPeriod MakeStartingInterval<TBuilder>(Start<DateTime> from)
         {
             return new StartingBoundedPeriod(from);
         }
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeStartingInterval()
+        public override IBoundedPeriod MakeStartingInterval<TBuilder>()
         {
             return new EntireBoundedPeriod();
         }
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeStartEndingInterval(Start<DateTime> @from, End<DateTime> to)
+        public override IBoundedPeriod MakeStartEndingInterval<TBuilder>(Start<DateTime> @from, End<DateTime> to)
         {
             return new StartEndingBoundedPeriod(from, to);
         }
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeEndingInterval(End<DateTime> end)
+        public override IBoundedPeriod MakeEndingInterval<TBuilder>(End<DateTime> end)
         {
             return new EndingBoundedPeriod(end);
         }
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeDegenerate(Degenerate<DateTime> degenerate)
+        public override IBoundedPeriod MakeDegenerate<TBuilder>(Degenerate<DateTime> degenerate)
         {
             return new DegenerateBoundedPeriod(degenerate);
         }
 
         /// <inheritdoc />
-        public override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> periods)
-        {
-            return new BoundedPeriodSet(periods);
-        }
+        public override Infinity<DateTime> PositiveInfinity => new Infinity<DateTime>(DateTime.MaxValue);
 
         /// <inheritdoc />
-        public override IBoundedPeriod MakeNonEmptySet(IList<IBoundedPeriod> list)
-        {
-            return new NonEmptyBoundedPeriodSet(list);
-        }
+        public override Infinity<DateTime> NegativeInfinity => new Infinity<DateTime>(DateTime.MinValue);
     }
 }

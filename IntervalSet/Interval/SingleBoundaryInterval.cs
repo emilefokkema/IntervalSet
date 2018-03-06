@@ -10,7 +10,7 @@ namespace IntervalSet.Interval
     /// </summary>
     public abstract class SingleBoundaryInterval<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -122,21 +122,23 @@ namespace IntervalSet.Interval
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             string boundaryString = Boundary.ToString(format, formatProvider);
+            string negativeInfinity = Builder.NegativeInfinity.ToString(format, formatProvider);
+            string positiveInfinity = Builder.PositiveInfinity.ToString(format, formatProvider);
             if (Boundary.IsContinuation)
             {
-                return "(-Infinity, Infinity)";
+                return $"({negativeInfinity}, {positiveInfinity})";
             }
             if (Boundary.IsEnd)
             {
                 if (Boundary.IsStart)
                 {
-                    return "(-Infinity, " + boundaryString + ", Infinity)";
+                    return $"({negativeInfinity}, {boundaryString}, {positiveInfinity})";
                 }
-                return "(-Infinity, " + boundaryString;
+                return $"({negativeInfinity}, {boundaryString}";
             }
             if (Boundary.IsStart)
             {
-                return boundaryString + ", Infinity)";
+                return $"{boundaryString}, {positiveInfinity})";
             }
             return boundaryString;
         }

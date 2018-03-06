@@ -50,16 +50,16 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    IntervalList.Add(Builder.MakeDegenerate(new Degenerate<DateTime>(from)));
+                    IntervalList.Add(new DegenerateBoundedPeriod(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    IntervalList.Add(Builder.MakeStartEndingInterval(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(new StartEndingBoundedPeriod(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartingInterval(start));
+                IntervalList.Add(new StartingBoundedPeriod(start));
             }
         }
 
@@ -73,7 +73,15 @@ namespace PeriodSet
         {
         }
 
-        
+        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
+        {
+            return new BoundedPeriodSet(intervals);
+        }
+
+        protected override IBoundedPeriod MakeNonEmptySet()
+        {
+            return new NonEmptyBoundedPeriodSet(IntervalList);
+        }
 
         /// <summary>
         /// Loops through each of the <see cref="IBoundedPeriod"/>s in this <see cref="BoundedPeriodSet"/> and applies a given <see cref="Action{T,T}" /> to their respective start and end dates

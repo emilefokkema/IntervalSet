@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using FluentAssertions;
+using IntervalSet;
 using IntervalSet.Default;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using IntSet = IntervalSet.Default.DefaultIntervalSet<int>;
-using DoubleSet = IntervalSet.Default.DefaultIntervalSet<double>;
+using IntBuilder = IntervalSet.Default.DefaultBuilder<int>;
+using DoubleBuilder = IntervalSet.Default.DefaultBuilder<double>;
+using IntSet = IntervalSet.Default.DefaultIntervalSet<IntervalSet.Default.DefaultBuilder<int>, int>;
+using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSet.Default.DefaultBuilder<double>, double>;
+using StringSet = IntervalSet.Default.DefaultIntervalSet<IntervalSet.Default.DefaultBuilder<string>, string>;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using IntervalSet.Interval.Default;
 using Newtonsoft.Json.Serialization;
 
 namespace IntervalSetTest.SerializationTest
@@ -52,11 +57,11 @@ namespace IntervalSetTest.SerializationTest
         [Test]
         public void TestSets()
         {
-            TestSetSerialization(new DefaultIntervalSet<int>(6,7));
-            TestSetSerialization(DefaultIntervalSet<int>.All.Minus(new DefaultIntervalSet<int>(6, 7)));
-            TestSetSerialization(DefaultIntervalSet<int>.All);
-            TestSetSerialization(new DefaultIntervalSet<string>("a","b"));
-            TestSetSerialization(new DefaultIntervalSet<ComparableType>(new ComparableType{Value = 3}, new ComparableType{Value = 4}));
+            TestSetSerialization(new IntSet(6,7));
+            TestSetSerialization(IntSet.All.Minus(new IntSet(6, 7)));
+            TestSetSerialization(IntSet.All);
+            TestSetSerialization(new StringSet("a","b"));
+            TestSetSerialization(new DefaultIntervalSet<DefaultBuilder<ComparableType>,ComparableType>(new ComparableType{Value = 3}, new ComparableType{Value = 4}));
         }
 
         [Test]
@@ -79,25 +84,25 @@ namespace IntervalSetTest.SerializationTest
             deserializedThing.DoubleList.Should().Contain(double2);
         }
 
-        private void TestSetSerialization<T>(DefaultIntervalSet<T> set) where T:IComparable<T>,IEquatable<T>
+        private void TestSetSerialization<TBuilder, T>(DefaultIntervalSet<TBuilder,T> set) where T:IComparable<T>,IEquatable<T> where TBuilder : IBuilder<IDefaultInterval<T>,T>,new()
         {
             TestSetSerializationJson(set);
             TestSetSerializationBinary(set);
         }
 
-        private void TestSetSerializationJson<T>(DefaultIntervalSet<T> set) where T : IComparable<T>, IEquatable<T>
+        private void TestSetSerializationJson<TBuilder, T>(DefaultIntervalSet<TBuilder, T> set) where T : IComparable<T>, IEquatable<T> where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
         {
             string serialized = JsonConvert.SerializeObject(set);
-            DefaultIntervalSet<T> deserialized = JsonConvert.DeserializeObject<DefaultIntervalSet<T>>(serialized);
+            DefaultIntervalSet<TBuilder,T> deserialized = JsonConvert.DeserializeObject<DefaultIntervalSet<TBuilder,T>>(serialized);
             deserialized.Should().Be(set);
         }
 
-        private void TestSetSerializationBinary<T>(DefaultIntervalSet<T> set) where T : IComparable<T>, IEquatable<T>
+        private void TestSetSerializationBinary<TBuilder, T>(DefaultIntervalSet<TBuilder, T> set) where T : IComparable<T>, IEquatable<T> where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
         {
             Stream stream = new MemoryStream();
             new BinaryFormatter().Serialize(stream, set);
             stream.Position = 0;
-            DefaultIntervalSet<T> deserialized = (DefaultIntervalSet<T>) new BinaryFormatter().Deserialize(stream);
+            DefaultIntervalSet<TBuilder,T> deserialized = (DefaultIntervalSet<TBuilder,T>) new BinaryFormatter().Deserialize(stream);
             deserialized.Should().Be(set);
         }
     }

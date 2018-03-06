@@ -13,7 +13,7 @@ namespace IntervalSet
     /// </summary>
     public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TInterval, T>, new()
         where TInterval : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
@@ -44,7 +44,7 @@ namespace IntervalSet
         /// <param name="set"></param>
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
-            _intervalList = Builder.Build(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
+            _intervalList = Builder.Build<TBuilder>(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
         }
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace IntervalSet
         {
             if (from.Location.Equals(to.Location))
             {
-                IntervalList.Add(Builder.MakeDegenerate(new Degenerate<T>(from.Location)));
+                IntervalList.Add(Builder.MakeDegenerate<TBuilder>(new Degenerate<T>(from.Location)));
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartEndingInterval(from, to));
+                IntervalList.Add(Builder.MakeStartEndingInterval<TBuilder>(from, to));
             }
         }
 
@@ -96,8 +96,10 @@ namespace IntervalSet
         /// </summary>
         protected MultipleIntervalSet(Start<T> from) : this()
         {
-            IntervalList.Add(Builder.MakeStartingInterval(from));
+            IntervalList.Add(Builder.MakeStartingInterval<TBuilder>(from));
         }
+
+        protected abstract TInterval MakeNonEmptySet();
 
         /// <inheritdoc />
         public override int GetHashCode()
@@ -139,7 +141,7 @@ namespace IntervalSet
         {
             if (IntervalList.Any())
             {
-                nonEmpty = Builder.MakeNonEmptySet(IntervalList);
+                nonEmpty = MakeNonEmptySet();
                 return true;
             }
             nonEmpty = default(TInterval);
