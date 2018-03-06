@@ -25,11 +25,13 @@ namespace IntervalSet
         {
             return IntervalList.Any(p => p.ContainsNegativeInfinity());
         }
-        
+
         /// <summary>
         /// The list of <typeparamref name="TInterval"/>s for this instance
         /// </summary>
-        protected IList<TInterval> IntervalList { get; private set; }
+        protected IList<TInterval> IntervalList => _intervalList;
+
+        private IList<TInterval> _intervalList = new List<TInterval>();
 
         /// <summary>
         /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
@@ -45,7 +47,7 @@ namespace IntervalSet
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
             TStartingInterval start = set.ContainsNegativeInfinity() ? Builder.MakeStartingInterval() : null;
-            IntervalList = Builder.Build(set.Boundaries.ToList(), start).ToList();
+            _intervalList = Builder.Build(set.Boundaries.ToList(), start).ToList();
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace IntervalSet
         [OnDeserialized]
         public void OnDeserialization(StreamingContext context)
         {
-            IntervalList = MakeIntervals(_info);
+            _intervalList = MakeIntervals(_info);
         }
 
         /// <summary>
@@ -74,7 +76,7 @@ namespace IntervalSet
         /// <param name="list"></param>
         protected MultipleIntervalSet(IList<TInterval> list)
         {
-            IntervalList = list;
+            _intervalList = list;
         }
 
         /// <summary>
