@@ -12,7 +12,6 @@ namespace IntervalSet
     /// <typeparam name="T"></typeparam>
     public interface IBuilder<TSet, TInterval, T>
         where T : IEquatable<T>, IComparable<T>
-        where TInterval : class
     {
         /// <summary>
         /// Builds a list of <typeparamref name="TInterval"/>s given a list of <see cref="Boundary{T}"/>s

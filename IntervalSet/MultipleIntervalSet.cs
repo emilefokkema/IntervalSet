@@ -14,7 +14,7 @@ namespace IntervalSet
     public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
-        where TInterval : class, IIntervalSet<T>
+        where TInterval : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
         private readonly SerializationInfo _info;

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
@@ -14,7 +13,6 @@ namespace IntervalSet
     public abstract class IntervalSet<TSet, TBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
-        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

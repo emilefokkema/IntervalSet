@@ -11,7 +11,6 @@ namespace IntervalSet.Interval
     public abstract class DoubleBoundaryInterval<TSet, TBuilder, TInterval, T> : SingleBoundaryInterval<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
-        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />

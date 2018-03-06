@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries.Kind;
 
 namespace IntervalSet
@@ -11,7 +10,6 @@ namespace IntervalSet
     public abstract class EmptyIntervalSet<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
-        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />

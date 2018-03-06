@@ -8,7 +8,6 @@ namespace IntervalSet
     /// <inheritdoc />
     public abstract class Builder<TSet, TInterval, T> : IBuilder<TSet, TInterval, T>
         where T : IEquatable<T>, IComparable<T>
-        where TInterval : class
     {
         /// <inheritdoc />
         public abstract TInterval MakeNonEmptySet(IList<TInterval> intervals);
