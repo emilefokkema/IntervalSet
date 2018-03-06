@@ -8,7 +8,7 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IDefaultInterval{T}"/> with only a start <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultStartingInterval<T> : SingleBoundaryInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultStartingInterval<T>, IDefaultInterval<T>, T>, IDefaultStartingInterval<T>
+    public class DefaultStartingInterval<T> : SingleBoundaryInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
         where T : IComparable<T>, IEquatable<T>
     {
         private readonly Start<T> _start;
@@ -26,12 +26,6 @@ namespace IntervalSet.Interval.Default
         protected override IDefaultInterval<T> GetInterval()
         {
             return this;
-        }
-
-        /// <inheritdoc />
-        public IDefaultInterval<T> MakeEndingInterval(End<T> end)
-        {
-            return new DefaultStartEndingInterval<T>(_start, end);
         }
 
         /// <inheritdoc />

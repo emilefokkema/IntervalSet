@@ -17,6 +17,11 @@ namespace IntervalSet.Interval.Boundaries.Kind
         {
         }
 
+        /// <summary>
+        /// Deserializes an <see cref="EndKind"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public EndKind(SerializationInfo info, StreamingContext context):base(info, context)
         {
         }

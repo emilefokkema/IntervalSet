@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntervalSet.Interval;
 
 namespace IntervalSet
 {
     /// <summary>
-    /// A <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/> that contains at least one <typeparamref name="TInterval"/>
+    /// A <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/> that contains at least one <typeparamref name="TInterval"/>
     /// </summary>
-    public abstract class NonEmptyIntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : MultipleIntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T>
+    public abstract class NonEmptyIntervalSet<TSet, TBuilder, TInterval, T> : MultipleIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
-        where TInterval : IIntervalSet<T>
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TInterval : class, IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc/>

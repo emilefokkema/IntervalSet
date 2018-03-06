@@ -2,21 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 
 namespace IntervalSet
 {
-    /// <inheritdoc cref="EmptyIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
+    /// <inheritdoc cref="EmptyIntervalSet{TSet,TBuilder,TInterval,T}"/>
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of zero or more <see cref="IIntervalSet{T}"/>s
     /// </summary>
-    public abstract class MultipleIntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T>
+    public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
-        where TInterval : IIntervalSet<T>
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TInterval : class, IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
         private readonly SerializationInfo _info;
@@ -34,24 +32,23 @@ namespace IntervalSet
         private IList<TInterval> _intervalList = new List<TInterval>();
 
         /// <summary>
-        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
+        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/>
         /// </summary>
         protected MultipleIntervalSet() : this(new List<TInterval>())
         {
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/> based on a given <see cref="IIntervalSet{T}"/>
+        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/> based on a given <see cref="IIntervalSet{T}"/>
         /// </summary>
         /// <param name="set"></param>
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
-            TStartingInterval start = set.ContainsNegativeInfinity() ? Builder.MakeStartingInterval() : null;
-            _intervalList = Builder.Build(set.Boundaries.ToList(), start).ToList();
+            _intervalList = Builder.Build(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
         }
 
         /// <summary>
-        /// Deserializes a <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/>
+        /// Deserializes a <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/>
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -71,7 +68,7 @@ namespace IntervalSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/> based on a given list of <typeparamref name="TInterval"/>s
+        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/> based on a given list of <typeparamref name="TInterval"/>s
         /// </summary>
         /// <param name="list"></param>
         protected MultipleIntervalSet(IList<TInterval> list)
@@ -80,7 +77,7 @@ namespace IntervalSet
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/> containing a <typeparamref name="TInterval"/> with a given start and end
+        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/> containing a <typeparamref name="TInterval"/> with a given start and end
         /// </summary>
         protected MultipleIntervalSet(Start<T> from, End<T> to) : this()
         {
@@ -90,12 +87,12 @@ namespace IntervalSet
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartingInterval(from).MakeEndingInterval(to));
+                IntervalList.Add(Builder.MakeStartEndingInterval(from, to));
             }
         }
 
         /// <summary>
-        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TStartingInterval,TInterval,T}"/> containing a <typeparamref name="TInterval"/> with a given start
+        /// Initializes a new <see cref="MultipleIntervalSet{TSet,TBuilder,TInterval,T}"/> containing a <typeparamref name="TInterval"/> with a given start
         /// </summary>
         protected MultipleIntervalSet(Start<T> from) : this()
         {

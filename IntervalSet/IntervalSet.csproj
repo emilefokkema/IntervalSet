@@ -51,7 +51,6 @@
     <Compile Include="Interval\Default\DefaultStartingInterval.cs" />
     <Compile Include="Interval\Default\DefaultDegenerateInterval.cs" />
     <Compile Include="Interval\Default\IDefaultInterval.cs" />
-    <Compile Include="Interval\Default\IDefaultStartingInterval.cs" />
     <Compile Include="Interval\DoubleBoundaryInterval.cs" />
     <Compile Include="Interval\SingleBoundaryInterval.cs" />
     <Compile Include="NonEmptyIntervalSet.cs" />
@@ -72,7 +71,6 @@
     <Compile Include="Interval\Boundaries\Kind\Inclusivity.cs" />
     <Compile Include="Interval\Boundaries\Kind\StartKind.cs" />
     <Compile Include="Interval\Boundaries\Start.cs" />
-    <Compile Include="Interval\IStartingInterval.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

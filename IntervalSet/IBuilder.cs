@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 
 namespace IntervalSet
@@ -9,33 +8,48 @@ namespace IntervalSet
     /// Helps build up an <see cref="IIntervalSet{T}"/>
     /// </summary>
     /// <typeparam name="TInterval">the type of period to build</typeparam>
-    /// <typeparam name="TStartingInterval">the type of period to start with</typeparam>
     /// <typeparam name="TSet">the type of <see cref="IIntervalSet{T}"/> to build</typeparam>
     /// <typeparam name="T"></typeparam>
-    public interface IBuilder<TSet, TInterval, TStartingInterval, T>
-        where T : IEquatable<T>
-        where TStartingInterval : TInterval, IStartingInterval<TInterval, T>
+    public interface IBuilder<TSet, TInterval, T>
+        where T : IEquatable<T>, IComparable<T>
+        where TInterval : class
     {
         /// <summary>
         /// Builds a list of <typeparamref name="TInterval"/>s given a list of <see cref="Boundary{T}"/>s
         /// </summary>
         /// <param name="boundaries"></param>
-        /// <param name="currentInterval"></param>
+        /// <param name="containsNegativeInfinity"></param>
         /// <returns></returns>
-        IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentInterval);
+        IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity);
 
         /// <summary>
-        /// Returns a <typeparamref name="TStartingInterval"/> starting at <paramref name="from"/>
+        /// Returns a <typeparamref name="TInterval"/> starting at <paramref name="from"/>
         /// </summary>
         /// <param name="from"></param>
         /// <returns></returns>
-        TStartingInterval MakeStartingInterval(Start<T> from);
+        TInterval MakeStartingInterval(Start<T> from);
 
         /// <summary>
-        /// Returns a <typeparamref name="TStartingInterval"/> "starting" at negative infinity
+        /// Returns a <typeparamref name="TInterval"/> ending at <paramref name="end"/>
+        /// </summary>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        TInterval MakeEndingInterval(End<T> end);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TInterval"/> starting at <paramref name="from"/> and ending at <paramref name="to"/>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        TInterval MakeStartEndingInterval(Start<T> from, End<T> to);
+
+
+        /// <summary>
+        /// Returns a <typeparamref name="TInterval"/> "starting" at negative infinity
         /// </summary>
         /// <returns></returns>
-        TStartingInterval MakeStartingInterval();
+        TInterval MakeStartingInterval();
 
         /// <summary>
         /// Returns a <typeparamref name="TInterval"/> that represents an interval containing only one <typeparamref name="T"/>

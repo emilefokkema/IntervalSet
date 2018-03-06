@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IntervalSet.Interval;
 using IntervalSet.Interval.Boundaries;
 
 namespace IntervalSet
 {
     /// <inheritdoc />
-    public abstract class Builder<TSet, TInterval, TStartingInterval, T> : IBuilder<TSet, TInterval, TStartingInterval, T>
+    public abstract class Builder<TSet, TInterval, T> : IBuilder<TSet, TInterval, T>
         where T : IEquatable<T>, IComparable<T>
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TInterval : class
     {
         /// <inheritdoc />
         public abstract TInterval MakeNonEmptySet(IList<TInterval> intervals);
@@ -18,10 +17,16 @@ namespace IntervalSet
         public abstract TSet MakeSet(IList<TInterval> intervals);
 
         /// <inheritdoc />
-        public abstract TStartingInterval MakeStartingInterval(Start<T> from);
+        public abstract TInterval MakeStartingInterval(Start<T> from);
 
         /// <inheritdoc />
-        public abstract TStartingInterval MakeStartingInterval();
+        public abstract TInterval MakeEndingInterval(End<T> end);
+
+        /// <inheritdoc />
+        public abstract TInterval MakeStartEndingInterval(Start<T> from, End<T> to);
+
+        /// <inheritdoc />
+        public abstract TInterval MakeStartingInterval();
 
         /// <inheritdoc />
         public abstract TInterval MakeDegenerate(Degenerate<T> degenerate);
@@ -37,28 +42,39 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, TStartingInterval currentInterval)
+        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity)
         {
+            bool currentlyTrue = containsNegativeInfinity;
+            Start<T> mostRecentStart = null;
             foreach (Boundary<T> boundary in OrderBoundaries(boundaries))
             {
                 if (boundary.IsStart)
                 {
-                    if (currentInterval == null)
+                    if (!currentlyTrue)
                     {
-                        currentInterval = MakeStartingInterval(new Start<T>(boundary));
+                        mostRecentStart = new Start<T>(boundary);
                     }
                     else
                     {
                         if (boundary.IsEnd && !boundary.Inclusive)
                         {
-                            yield return currentInterval.MakeEndingInterval(new End<T>(boundary));
-                            currentInterval = MakeStartingInterval(new Start<T>(boundary));
+                            if (mostRecentStart == null)
+                            {
+                                yield return MakeEndingInterval(new End<T>(boundary));
+                            }
+                            else
+                            {
+                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
+                            }
+
+                            mostRecentStart = new Start<T>(boundary);
                         }
                     }
+                    currentlyTrue = true;
                 }
                 else
                 {
-                    if (currentInterval == null)
+                    if (!currentlyTrue)
                     {
                         if (!boundary.IsEnd)
                         {
@@ -69,16 +85,31 @@ namespace IntervalSet
                     {
                         if (boundary.IsEnd)
                         {
-                            yield return currentInterval.MakeEndingInterval(new End<T>(boundary));
-                            currentInterval = null;
+                            if (mostRecentStart == null)
+                            {
+                                yield return MakeEndingInterval(new End<T>(boundary));
+                            }
+                            else
+                            {
+                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
+                            }
+                            mostRecentStart = null;
+                            currentlyTrue = false;
                         }
                     }
                 }
             }
 
-            if (currentInterval != null)
+            if (currentlyTrue)
             {
-                yield return currentInterval;
+                if (mostRecentStart != null)
+                {
+                    yield return MakeStartingInterval(mostRecentStart);
+                }
+                else
+                {
+                    yield return MakeStartingInterval();
+                }
             }
         }
     }

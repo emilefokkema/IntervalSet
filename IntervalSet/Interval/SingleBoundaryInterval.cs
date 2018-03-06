@@ -8,10 +8,10 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a single boundary
     /// </summary>
-    public abstract class SingleBoundaryInterval<TSet, TBuilder, TStartingInterval, TInterval, T> : IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T>
+    public abstract class SingleBoundaryInterval<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -32,7 +32,7 @@ namespace IntervalSet.Interval
         public Boundary<T> Boundary { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="SingleBoundaryInterval{TSet,TBuilder,TStartingInterval,TInterval,T}"/> with a given boundary
+        /// Initializes a new <see cref="SingleBoundaryInterval{TSet,TBuilder,TInterval,T}"/> with a given boundary
         /// </summary>
         /// <param name="boundary"></param>
         protected SingleBoundaryInterval(Boundary<T> boundary)

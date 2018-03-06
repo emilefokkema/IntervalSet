@@ -12,7 +12,7 @@ namespace PeriodSet
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod,IBoundedPeriod,DateTime>, IBoundedPeriod
+    public class NonEmptyBoundedPeriodSet : NonEmptyIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod,DateTime>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IIntervalSet<DateTime> set):base(set)
@@ -38,7 +38,7 @@ namespace PeriodSet
                 {
                     return new BoundedPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
                 }
-                return new BoundedPeriodListBuilder().MakeStartingInterval(start).MakeEndingInterval(new End<DateTime>(to.Value, Inclusivity.Exclusive));
+                return new BoundedPeriodListBuilder().MakeStartEndingInterval(start, new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
             return new BoundedPeriodListBuilder().MakeStartingInterval(start);
         }

@@ -7,17 +7,17 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, IStartingOpenPeriod, DateTime>
+    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, DateTime>
     {
 
         /// <inheritdoc />
-        public override IStartingOpenPeriod MakeStartingInterval(Start<DateTime> from)
+        public override IOpenPeriod MakeStartingInterval(Start<DateTime> from)
         {
             return new StartingOpenPeriod(from);
         }
 
         /// <inheritdoc />
-        public override IStartingOpenPeriod MakeStartingInterval()
+        public override IOpenPeriod MakeStartingInterval()
         {
             return new EntireOpenPeriod();
         }
@@ -26,6 +26,18 @@ namespace PeriodSet
         public override IOpenPeriod MakeDegenerate(Degenerate<DateTime> degenerate)
         {
             return new DegenerateOpenPeriod(degenerate);
+        }
+
+        /// <inheritdoc />
+        public override IOpenPeriod MakeEndingInterval(End<DateTime> end)
+        {
+            return new EndingOpenPeriod(end);
+        }
+
+        /// <inheritdoc />
+        public override IOpenPeriod MakeStartEndingInterval(Start<DateTime> from, End<DateTime> to)
+        {
+            return new StartEndingOpenPeriod(from, to);
         }
 
         /// <inheritdoc />

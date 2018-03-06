@@ -8,10 +8,10 @@ namespace IntervalSet
     /// <summary>
     /// Base class for implementations of <see cref="IIntervalSet{T}"/> that do not represent the entire <typeparamref name="T"/> space
     /// </summary>
-    public abstract class EmptyIntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T> : IntervalSet<TSet, TBuilder, TStartingInterval, TInterval, T>
+    public abstract class EmptyIntervalSet<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />

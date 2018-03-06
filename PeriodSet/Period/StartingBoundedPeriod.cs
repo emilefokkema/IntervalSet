@@ -7,7 +7,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and <see cref="DateTime.MaxValue"/> as end date (i.e. no end date)
     /// </summary>
-    public class StartingBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod, DateTime>, IStartingBoundedPeriod
+    public class StartingBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
         private readonly Start<DateTime> _start;
 
@@ -21,12 +21,6 @@ namespace PeriodSet.Period
         protected override IBoundedPeriod GetInterval()
         {
             return this;
-        }
-
-        /// <inheritdoc />
-        public IBoundedPeriod MakeEndingInterval(End<DateTime> end)
-        {
-            return new StartEndingBoundedPeriod(_start, end);
         }
 
         /// <inheritdoc />

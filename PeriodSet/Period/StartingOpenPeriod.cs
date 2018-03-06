@@ -7,7 +7,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and <c>(DateTime?)null</c> as end date (i.e. no end date)
     /// </summary>
-    public class StartingOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod,DateTime>, IStartingOpenPeriod
+    public class StartingOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod,DateTime>, IOpenPeriod
     {
         private Start<DateTime> _start;
         /// <inheritdoc />
@@ -20,12 +20,6 @@ namespace PeriodSet.Period
         protected override IOpenPeriod GetInterval()
         {
             return this;
-        }
-
-        /// <inheritdoc />
-        public IOpenPeriod MakeEndingInterval(End<DateTime> end)
-        {
-            return new StartEndingOpenPeriod(_start, end);
         }
 
         /// <summary>

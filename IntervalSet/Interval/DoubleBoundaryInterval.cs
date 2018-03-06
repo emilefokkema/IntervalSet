@@ -8,10 +8,10 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a start and an end
     /// </summary>
-    public abstract class DoubleBoundaryInterval<TSet, TBuilder, TStartingInterval, TInterval, T> : SingleBoundaryInterval<TSet, TBuilder, TStartingInterval, TInterval, T>
+    public abstract class DoubleBoundaryInterval<TSet, TBuilder, TInterval, T> : SingleBoundaryInterval<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TSet, TInterval, TStartingInterval, T>, new()
-        where TStartingInterval : class, TInterval, IStartingInterval<TInterval, T>
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
+        where TInterval : class
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
@@ -36,7 +36,7 @@ namespace IntervalSet.Interval
         protected Boundary<T> Max { get; }
 
         /// <summary>
-        /// Initializes a new <see cref="DoubleBoundaryInterval{TSet,TBuilder,TStartingInterval,TInterval,T}"/> with two <see cref="Boundary{T}"/>s
+        /// Initializes a new <see cref="DoubleBoundaryInterval{TSet,TBuilder,TInterval,T}"/> with two <see cref="Boundary{T}"/>s
         /// </summary>
         /// <param name="one"></param>
         /// <param name="other"></param>

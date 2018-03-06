@@ -10,7 +10,7 @@ namespace IntervalSet.Default
     /// A default implementation of an <see cref="IIntervalSet{T}"/> that contains at least one <see cref="IDefaultInterval{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultNonEmptyIntervalSet<T> : NonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultStartingInterval<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    public class DefaultNonEmptyIntervalSet<T> : NonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

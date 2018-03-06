@@ -1,6 +1,5 @@
 ﻿using System;
 using IntervalSet.Default;
-using IntervalSet.Interval.Boundaries;
 
 namespace IntervalSet.Interval.Default
 {
@@ -8,15 +7,9 @@ namespace IntervalSet.Interval.Default
     /// A default impementation of an <see cref="IIntervalSet{T}"/> representing the entire <typeparamref name="T"/> space
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultEntireInterval<T> : IntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultStartingInterval<T>, IDefaultInterval<T>, T>, IDefaultStartingInterval<T>
+    public class DefaultEntireInterval<T> : IntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
         where T : IComparable<T>, IEquatable<T>
     {
-        /// <inheritdoc />
-        public IDefaultInterval<T> MakeEndingInterval(End<T> end)
-        {
-            return new DefaultEndingInterval<T>(end);
-        }
-
         /// <inheritdoc />
         public bool HasEnd => false;
 

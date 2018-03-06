@@ -13,7 +13,7 @@ namespace IntervalSet.Default
     /// </summary>
     /// <typeparam name="T"></typeparam>
     [Serializable]
-    public class DefaultIntervalSet<T> : MultipleIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultStartingInterval<T>, IDefaultInterval<T>, T>
+    public class DefaultIntervalSet<T> : MultipleIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, IDefaultInterval<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

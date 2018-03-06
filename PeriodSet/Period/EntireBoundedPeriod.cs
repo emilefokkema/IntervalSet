@@ -7,7 +7,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// The entire <see cref="DateTime"/> space, represented as an <see cref="IBoundedPeriod"/> with <see cref="DateTime.MinValue"/> as start date and <see cref="DateTime.MaxValue"/> as end date
     /// </summary>
-    public class EntireBoundedPeriod : IntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IStartingBoundedPeriod, IBoundedPeriod, DateTime>, IStartingBoundedPeriod
+    public class EntireBoundedPeriod : IntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
@@ -20,11 +20,5 @@ namespace PeriodSet.Period
 
         /// <inheritdoc />
         public DateTime To => DateTime.MaxValue;
-
-        /// <inheritdoc />
-        public IBoundedPeriod MakeEndingInterval(End<DateTime> end)
-        {
-            return new EndingBoundedPeriod(end);
-        }
     }
 }

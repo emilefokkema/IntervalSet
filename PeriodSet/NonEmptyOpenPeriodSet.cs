@@ -12,7 +12,7 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="OpenPeriodSet"/> that contains at least one <see cref="IOpenPeriod"/>
     /// </summary>
-    public class NonEmptyOpenPeriodSet : NonEmptyIntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IStartingOpenPeriod, IOpenPeriod, DateTime>, IOpenPeriod
+    public class NonEmptyOpenPeriodSet : NonEmptyIntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
     {
         /// <inheritdoc />
         public NonEmptyOpenPeriodSet(IIntervalSet<DateTime> set):base(set)
@@ -39,7 +39,7 @@ namespace PeriodSet
                 {
                     return new OpenPeriodListBuilder().MakeDegenerate(new Degenerate<DateTime>(from));
                 }
-                return new OpenPeriodListBuilder().MakeStartingInterval(start).MakeEndingInterval(new End<DateTime>(to.Value, Inclusivity.Exclusive));
+                return new OpenPeriodListBuilder().MakeStartEndingInterval(start, new End<DateTime>(to.Value, Inclusivity.Exclusive));
             }
             return new OpenPeriodListBuilder().MakeStartingInterval(start);
         }

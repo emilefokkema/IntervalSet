@@ -7,18 +7,30 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, IStartingBoundedPeriod, DateTime>
+    public class BoundedPeriodListBuilder : Builder<BoundedPeriodSet, IBoundedPeriod, DateTime>
     {
         /// <inheritdoc />
-        public override IStartingBoundedPeriod MakeStartingInterval(Start<DateTime> from)
+        public override IBoundedPeriod MakeStartingInterval(Start<DateTime> from)
         {
             return new StartingBoundedPeriod(from);
         }
 
         /// <inheritdoc />
-        public override IStartingBoundedPeriod MakeStartingInterval()
+        public override IBoundedPeriod MakeStartingInterval()
         {
             return new EntireBoundedPeriod();
+        }
+
+        /// <inheritdoc />
+        public override IBoundedPeriod MakeStartEndingInterval(Start<DateTime> @from, End<DateTime> to)
+        {
+            return new StartEndingBoundedPeriod(from, to);
+        }
+
+        /// <inheritdoc />
+        public override IBoundedPeriod MakeEndingInterval(End<DateTime> end)
+        {
+            return new EndingBoundedPeriod(end);
         }
 
         /// <inheritdoc />
