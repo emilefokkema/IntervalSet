@@ -38,11 +38,5 @@ namespace IntervalSet.Interval.Default
 
         /// <inheritdoc />
         public T Start => Min.Location;
-
-        /// <inheritdoc />
-        public bool HasStart => true;
-
-        /// <inheritdoc />
-        public bool HasEnd => true;
     }
 }

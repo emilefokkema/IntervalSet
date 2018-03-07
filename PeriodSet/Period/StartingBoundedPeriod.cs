@@ -10,12 +10,9 @@ namespace PeriodSet.Period
     /// </summary>
     public class StartingBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
-        private readonly Start<DateTime> _start;
-
         /// <inheritdoc />
         public StartingBoundedPeriod(Start<DateTime> from):base(from)
         {
-            _start = from;
         }
 
         /// <inheritdoc />

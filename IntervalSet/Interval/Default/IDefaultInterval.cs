@@ -10,22 +10,12 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Whether this interval has a start
-        /// </summary>
-        bool HasStart { get; }
-
-        /// <summary>
-        /// The start of this interval (if <see cref="HasStart"/> returns <c>true</c>)
+        /// The start of this interval (or some <see cref="Infinity{T}.Value"/>)
         /// </summary>
         T Start { get; }
 
         /// <summary>
-        /// Whether this interval has an end
-        /// </summary>
-        bool HasEnd { get; }
-
-        /// <summary>
-        /// The end of this interval (if <see cref="HasEnd"/> returns <c>true</c>)
+        /// The end of this interval (or some <see cref="Infinity{T}.Value"/>)
         /// </summary>
         T End { get; }
     }

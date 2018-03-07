@@ -13,15 +13,12 @@ namespace IntervalSet.Interval.Default
         where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
-        private readonly Start<T> _start;
-
         /// <summary>
         /// Initializes a new <see cref="DefaultStartingInterval{T}"/> with a given <see cref="Boundaries.Start{T}"/>
         /// </summary>
         /// <param name="from"></param>
         public DefaultStartingInterval(Start<T> from):base(from)
         {
-            _start = from;
         }
 
         /// <inheritdoc />
@@ -36,20 +33,9 @@ namespace IntervalSet.Interval.Default
         }
 
         /// <inheritdoc />
-        public T End {
-            get
-            {
-                return Builder.PositiveInfinity;
-            }
-        }
+        public T End => Builder.PositiveInfinity;
 
         /// <inheritdoc />
-        public T Start => _start.Location;
-
-        /// <inheritdoc />
-        public bool HasEnd => false;
-
-        /// <inheritdoc />
-        public bool HasStart => true;
+        public T Start => Boundary.Location;
     }
 }

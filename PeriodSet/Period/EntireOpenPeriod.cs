@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using IntervalSet.Interval.Boundaries;
 using IntervalSet;
 
 namespace PeriodSet.Period
@@ -10,12 +9,6 @@ namespace PeriodSet.Period
     /// </summary>
     public class EntireOpenPeriod : IntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod,DateTime>, IOpenPeriod
     {
-        /// <inheritdoc />
-        public override bool ContainsNegativeInfinity()
-        {
-            return true;
-        }
-
         protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
         {
             return new OpenPeriodSet(intervals);

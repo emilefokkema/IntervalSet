@@ -69,7 +69,7 @@ namespace IntervalSet
         /// <inheritdoc />
         public override string ToString(string format, IFormatProvider provider)
         {
-            return "(empty)";
+            return "\u2205";
         }
     }
 }

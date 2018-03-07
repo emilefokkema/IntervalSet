@@ -10,11 +10,9 @@ namespace PeriodSet.Period
     /// </summary>
     public class StartingOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod,DateTime>, IOpenPeriod
     {
-        private Start<DateTime> _start;
         /// <inheritdoc />
         public StartingOpenPeriod(Start<DateTime> from) : base(from)
         {
-            _start = from;
         }
 
         /// <inheritdoc />

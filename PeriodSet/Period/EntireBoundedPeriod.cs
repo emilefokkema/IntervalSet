@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntervalSet;
-using IntervalSet.Interval.Boundaries;
 
 namespace PeriodSet.Period
 {
@@ -10,12 +9,6 @@ namespace PeriodSet.Period
     /// </summary>
     public class EntireBoundedPeriod : IntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
-        /// <inheritdoc />
-        public override bool ContainsNegativeInfinity()
-        {
-            return true;
-        }
-
         protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
         {
             return new BoundedPeriodSet(intervals);

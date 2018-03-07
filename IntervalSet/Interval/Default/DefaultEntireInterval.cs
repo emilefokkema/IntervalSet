@@ -16,11 +16,6 @@ namespace IntervalSet.Interval.Default
         {
             return new DefaultIntervalSet<TBuilder,T>(intervals);
         }
-        /// <inheritdoc />
-        public bool HasEnd => false;
-
-        /// <inheritdoc />
-        public bool HasStart => false;
 
         /// <inheritdoc />
         public T Start => Builder.PositiveInfinity;

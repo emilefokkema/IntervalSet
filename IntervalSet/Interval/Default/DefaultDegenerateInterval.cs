@@ -33,15 +33,9 @@ namespace IntervalSet.Interval.Default
         }
 
         /// <inheritdoc />
-        public bool HasEnd => true;
-
-        /// <inheritdoc />
         public T End => Boundary.Location;
 
         /// <inheritdoc />
         public T Start => Boundary.Location;
-
-        /// <inheritdoc />
-        public bool HasStart => true;
     }
 }

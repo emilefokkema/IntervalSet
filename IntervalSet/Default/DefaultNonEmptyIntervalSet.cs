@@ -22,12 +22,6 @@ namespace IntervalSet.Default
         {
         }
 
-        /// <inheritdoc />
-        public bool HasStart => IntervalList.First().HasStart;
-
-        /// <inheritdoc />
-        public bool HasEnd => IntervalList.Last().HasEnd;
-
         protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
         {
             return new DefaultIntervalSet<TBuilder,T>(intervals);
