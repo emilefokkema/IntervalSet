@@ -8,13 +8,13 @@ namespace IntervalSet.Interval.Default
     /// A default impementation of an <see cref="IIntervalSet{T}"/> representing the entire <typeparamref name="T"/> space
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultEntireInterval<TBuilder, T> : IntervalSet<DefaultIntervalSet<TBuilder,T>, TBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
+    public class DefaultEntireInterval<TIntervalBuilder, T> : IntervalSet<DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
-        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        protected override DefaultIntervalSet<TIntervalBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
         {
-            return new DefaultIntervalSet<TBuilder,T>(intervals);
+            return new DefaultIntervalSet<TIntervalBuilder,T>(intervals);
         }
 
         /// <inheritdoc />

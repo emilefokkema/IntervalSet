@@ -8,9 +8,9 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a single boundary
     /// </summary>
-    public abstract class SingleBoundaryInterval<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>
+    public abstract class SingleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T> : IntervalSet<TSet, TIntervalBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IIntervalBuilder<TInterval, T>, new()
+        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

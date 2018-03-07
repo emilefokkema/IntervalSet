@@ -10,8 +10,8 @@ namespace IntervalSet.Default
     /// A default implementation of an <see cref="IIntervalSet{T}"/> that contains at least one <see cref="IDefaultInterval{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultNonEmptyIntervalSet<TBuilder, T> : NonEmptyIntervalSet<DefaultIntervalSet<TBuilder, T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
+    public class DefaultNonEmptyIntervalSet<TIntervalBuilder, T> : NonEmptyIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -22,9 +22,9 @@ namespace IntervalSet.Default
         {
         }
 
-        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        protected override DefaultIntervalSet<TIntervalBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
         {
-            return new DefaultIntervalSet<TBuilder,T>(intervals);
+            return new DefaultIntervalSet<TIntervalBuilder,T>(intervals);
         }
 
         protected override IDefaultInterval<T> MakeNonEmptySet()

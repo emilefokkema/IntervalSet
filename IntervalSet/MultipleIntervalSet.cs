@@ -11,9 +11,9 @@ namespace IntervalSet
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of zero or more <see cref="IIntervalSet{T}"/>s
     /// </summary>
-    public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
+    public abstract class MultipleIntervalSet<TSet, TIntervalBuilder, TInterval, T> : EmptyIntervalSet<TSet, TIntervalBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IIntervalBuilder<TInterval, T>, new()
+        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, new()
         where TInterval : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
@@ -44,7 +44,7 @@ namespace IntervalSet
         /// <param name="set"></param>
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
-            _intervalList = Builder.Build<TBuilder>(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
+            _intervalList = Builder.Build<TIntervalBuilder>(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
         }
 
         /// <summary>
@@ -83,11 +83,11 @@ namespace IntervalSet
         {
             if (from.Location.Equals(to.Location))
             {
-                IntervalList.Add(Builder.MakeDegenerate<TBuilder>(new Degenerate<T>(from.Location)));
+                IntervalList.Add(Builder.MakeDegenerate<TIntervalBuilder>(new Degenerate<T>(from.Location)));
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartEndingInterval<TBuilder>(from, to));
+                IntervalList.Add(Builder.MakeStartEndingInterval<TIntervalBuilder>(from, to));
             }
         }
 
@@ -96,7 +96,7 @@ namespace IntervalSet
         /// </summary>
         protected MultipleIntervalSet(Start<T> from) : this()
         {
-            IntervalList.Add(Builder.MakeStartingInterval<TBuilder>(from));
+            IntervalList.Add(Builder.MakeStartingInterval<TIntervalBuilder>(from));
         }
 
         protected abstract TInterval MakeNonEmptySet();

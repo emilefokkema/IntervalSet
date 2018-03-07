@@ -12,9 +12,10 @@ namespace IntervalSet.Default
     /// A default implementation of <see cref="IIntervalSet{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TIntervalBuilder"></typeparam>
     [Serializable]
-    public class DefaultIntervalSet<TBuilder, T> : MultipleIntervalSet<DefaultIntervalSet<TBuilder, T>, TBuilder, IDefaultInterval<T>, T>
-        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
+    public class DefaultIntervalSet<TIntervalBuilder, T> : MultipleIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, IDefaultInterval<T>, T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -50,14 +51,14 @@ namespace IntervalSet.Default
         {
         }
 
-        protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
+        protected override DefaultIntervalSet<TIntervalBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
         {
-            return new DefaultIntervalSet<TBuilder,T>(intervals);
+            return new DefaultIntervalSet<TIntervalBuilder,T>(intervals);
         }
 
         protected override IDefaultInterval<T> MakeNonEmptySet()
         {
-            return new DefaultNonEmptyIntervalSet<TBuilder, T>(IntervalList);
+            return new DefaultNonEmptyIntervalSet<TIntervalBuilder, T>(IntervalList);
         }
 
         /// <inheritdoc />
@@ -69,11 +70,11 @@ namespace IntervalSet.Default
         /// <summary>
         /// A <see cref="DefaultIntervalSet{T}"/> representing the entire <typeparamref name="T"/> space
         /// </summary>
-        public static DefaultIntervalSet<TBuilder,T> All = new DefaultIntervalSet<TBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TBuilder,T>()});
+        public static DefaultIntervalSet<TIntervalBuilder,T> All = new DefaultIntervalSet<TIntervalBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TIntervalBuilder,T>()});
 
         /// <summary>
         /// A <see cref="DefaultIntervalSet{T}"/> representing the empty set as a set containing only <typeparamref name="T"/>s
         /// </summary>
-        public static DefaultIntervalSet<TBuilder,T> Empty = new DefaultIntervalSet<TBuilder,T>();
+        public static DefaultIntervalSet<TIntervalBuilder,T> Empty = new DefaultIntervalSet<TIntervalBuilder,T>();
     }
 }
