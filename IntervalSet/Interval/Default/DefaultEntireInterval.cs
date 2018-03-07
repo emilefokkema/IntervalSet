@@ -9,7 +9,7 @@ namespace IntervalSet.Interval.Default
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DefaultEntireInterval<TBuilder, T> : IntervalSet<DefaultIntervalSet<TBuilder,T>, TBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
+        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         protected override DefaultIntervalSet<TBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)

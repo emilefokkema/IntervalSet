@@ -7,7 +7,7 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : Builder<IBoundedPeriod, DateTime>
+    public class BoundedPeriodListBuilder : IntervalBuilder<IBoundedPeriod, DateTime>
     {
         /// <inheritdoc />
         public override IBoundedPeriod MakeStartingInterval<TBuilder>(Start<DateTime> from)

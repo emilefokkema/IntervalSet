@@ -13,7 +13,7 @@ namespace IntervalSet
     /// </summary>
     public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TBuilder : IBuilder<TInterval, T>, new()
+        where TBuilder : IIntervalBuilder<TInterval, T>, new()
         where TInterval : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {

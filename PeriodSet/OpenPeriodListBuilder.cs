@@ -6,7 +6,7 @@ using PeriodSet.Period;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class OpenPeriodListBuilder : Builder<IOpenPeriod, DateTime>
+    public class OpenPeriodListBuilder : IntervalBuilder<IOpenPeriod, DateTime>
     {
 
         /// <inheritdoc />

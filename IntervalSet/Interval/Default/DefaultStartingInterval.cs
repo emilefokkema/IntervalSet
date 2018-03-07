@@ -10,7 +10,7 @@ namespace IntervalSet.Interval.Default
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DefaultStartingInterval<TBuilder, T> : SingleBoundaryInterval<DefaultIntervalSet<TBuilder,T>, TBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
+        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         private readonly Start<T> _start;

@@ -5,10 +5,10 @@ using IntervalSet.Interval.Default;
 namespace IntervalSet.Default
 {
     /// <summary>
-    /// A default implementation of <see cref="IBuilder{TInterval,T}"/>
+    /// A default implementation of <see cref="IIntervalBuilder{TInterval,T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultBuilder<T> : Builder<IDefaultInterval<T>, T>
+    public class DefaultBuilder<T> : IntervalBuilder<IDefaultInterval<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />

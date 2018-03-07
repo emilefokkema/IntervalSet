@@ -6,23 +6,23 @@ using IntervalSet.Interval.Boundaries;
 namespace IntervalSet
 {
     /// <inheritdoc />
-    public abstract class Builder<TInterval, T> : IBuilder<TInterval, T>
+    public abstract class IntervalBuilder<TInterval, T> : IIntervalBuilder<TInterval, T>
         where T : IEquatable<T>, IComparable<T>
     {
         /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval<TBuilder>(Start<T> from) where TBuilder : IBuilder<TInterval,T>, new();
+        public abstract TInterval MakeStartingInterval<TBuilder>(Start<T> from) where TBuilder : IIntervalBuilder<TInterval,T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeEndingInterval<TBuilder>(End<T> end) where TBuilder : IBuilder<TInterval, T>, new();
+        public abstract TInterval MakeEndingInterval<TBuilder>(End<T> end) where TBuilder : IIntervalBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to) where TBuilder : IBuilder<TInterval, T>, new();
+        public abstract TInterval MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to) where TBuilder : IIntervalBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval<TBuilder>() where TBuilder : IBuilder<TInterval, T>, new();
+        public abstract TInterval MakeStartingInterval<TBuilder>() where TBuilder : IIntervalBuilder<TInterval, T>, new();
 
         /// <inheritdoc />
-        public abstract TInterval MakeDegenerate<TBuilder>(Degenerate<T> degenerate) where TBuilder : IBuilder<TInterval, T>, new();
+        public abstract TInterval MakeDegenerate<TBuilder>(Degenerate<T> degenerate) where TBuilder : IIntervalBuilder<TInterval, T>, new();
 
         private List<Boundary<T>> OrderBoundaries(IList<Boundary<T>> boundaries)
         {
@@ -35,7 +35,7 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TInterval> Build<TBuilder>(IList<Boundary<T>> boundaries, bool containsNegativeInfinity) where TBuilder : IBuilder<TInterval, T>, new()
+        public IEnumerable<TInterval> Build<TBuilder>(IList<Boundary<T>> boundaries, bool containsNegativeInfinity) where TBuilder : IIntervalBuilder<TInterval, T>, new()
         {
             bool currentlyTrue = containsNegativeInfinity;
             Start<T> mostRecentStart = null;

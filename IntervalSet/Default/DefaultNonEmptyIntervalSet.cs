@@ -11,7 +11,7 @@ namespace IntervalSet.Default
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DefaultNonEmptyIntervalSet<TBuilder, T> : NonEmptyIntervalSet<DefaultIntervalSet<TBuilder, T>, DefaultBuilder<T>, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TBuilder : IBuilder<IDefaultInterval<T>, T>, new()
+        where TBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
