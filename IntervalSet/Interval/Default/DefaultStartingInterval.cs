@@ -9,8 +9,9 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IDefaultInterval{T}"/> with only a start <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultStartingInterval<TIntervalBuilder, T> : SingleBoundaryInterval<DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultStartingInterval<TSet, TIntervalBuilder, T> : SingleBoundaryInterval<TSet, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TSet : IIntervalSet<T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -32,5 +33,18 @@ namespace IntervalSet.Interval.Default
 
         /// <inheritdoc />
         public T Start => Boundary.Location;
+    }
+
+    public class DefaultStartingInterval<TIntervalBuilder, T> : DefaultStartingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultStartingInterval{T}"/> with a given <see cref="Boundaries.Start{T}"/>
+        /// </summary>
+        /// <param name="from"></param>
+        public DefaultStartingInterval(Start<T> from) : base(from)
+        {
+        }
     }
 }
