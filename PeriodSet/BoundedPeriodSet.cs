@@ -14,7 +14,7 @@ namespace PeriodSet
     /// An <see cref="IIntervalSet{T}" /> of <see cref="DateTime"/> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
     [Serializable]
-    public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod,DateTime>
+    public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSetBuilder, BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod,DateTime>
     {
         /// <inheritdoc />
         public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
@@ -71,16 +71,6 @@ namespace PeriodSet
         /// <inheritdoc />
         public BoundedPeriodSet(DateTime from) : base(new Start<DateTime>(from, Inclusivity.Inclusive))
         {
-        }
-
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
-        {
-            return new BoundedPeriodSet(intervals);
-        }
-
-        protected override IBoundedPeriod MakeNonEmptySet()
-        {
-            return new NonEmptyBoundedPeriodSet(IntervalList);
         }
 
         /// <summary>

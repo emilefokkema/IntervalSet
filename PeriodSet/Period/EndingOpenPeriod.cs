@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with an end date and <see cref="DateTime.MinValue"/> as start date (i.e. no start date)
     /// </summary>
-    public class EndingOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
+    public class EndingOpenPeriod : SingleBoundaryInterval<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
     {
         /// <summary>
         /// Initializes a new <see cref="EndingOpenPeriod"/> based on a given <see cref="End{T}"/>
@@ -28,11 +28,6 @@ namespace PeriodSet.Period
         protected override IOpenPeriod GetInterval()
         {
             return this;
-        }
-
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
-        {
-            return new OpenPeriodSet(intervals);
         }
     }
 }

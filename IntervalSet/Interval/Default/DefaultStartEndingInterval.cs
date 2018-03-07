@@ -9,7 +9,7 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IDefaultInterval{T}"/> with a start <typeparamref name="T"/> and an end <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultStartEndingInterval<TIntervalBuilder, T> : DoubleBoundaryInterval<DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    public class DefaultStartEndingInterval<TIntervalBuilder, T> : DoubleBoundaryInterval<DefaultSetBuilder<TIntervalBuilder, T>, DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
         where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
@@ -26,11 +26,6 @@ namespace IntervalSet.Interval.Default
         protected override IDefaultInterval<T> GetInterval()
         {
             return this;
-        }
-
-        protected override DefaultIntervalSet<TIntervalBuilder,T> MakeSet(IList<IDefaultInterval<T>> intervals)
-        {
-            return new DefaultIntervalSet<TIntervalBuilder,T>(intervals);
         }
 
         /// <inheritdoc />

@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="BoundedPeriodListBuilder.cs" />
     <Compile Include="BoundedPeriodSet.cs" />
+    <Compile Include="BoundedPeriodSetBuilder.cs" />
+    <Compile Include="OpenPeriodSetBuilder.cs" />
     <Compile Include="NonEmptyBoundedPeriodSet.cs" />
     <Compile Include="NonEmptyOpenPeriodSet.cs" />
     <Compile Include="OpenPeriodListBuilder.cs" />

@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time for which the start and end dates are the same
     /// </summary>
-    public class DegenerateBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
+    public class DegenerateBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSetBuilder, BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
         /// <summary>
         /// Initializes a new <see cref="DegenerateBoundedPeriod"/> based on a degenerate <see cref="Boundary{T}"/>
@@ -22,11 +22,6 @@ namespace PeriodSet.Period
         protected override IBoundedPeriod GetInterval()
         {
             return this;
-        }
-
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
-        {
-            return new BoundedPeriodSet(intervals);
         }
 
         /// <inheritdoc />

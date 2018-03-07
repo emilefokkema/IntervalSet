@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and an actual end date
     /// </summary>
-    public class StartEndingOpenPeriod : DoubleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod,DateTime>, IOpenPeriod
+    public class StartEndingOpenPeriod : DoubleBoundaryInterval<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod,DateTime>, IOpenPeriod
     {
         /// <inheritdoc />
         public StartEndingOpenPeriod(Start<DateTime> from, End<DateTime> to):base(from, to)
@@ -19,11 +19,6 @@ namespace PeriodSet.Period
         protected override IOpenPeriod GetInterval()
         {
             return this;
-        }
-
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
-        {
-            return new OpenPeriodSet(intervals);
         }
 
         /// <inheritdoc />

@@ -11,7 +11,8 @@ namespace IntervalSet
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of zero or more <see cref="IIntervalSet{T}"/>s
     /// </summary>
-    public abstract class MultipleIntervalSet<TSet, TIntervalBuilder, TInterval, T> : EmptyIntervalSet<TSet, TIntervalBuilder, TInterval, T>
+    public abstract class MultipleIntervalSet<TSetBuilder, TSet, TIntervalBuilder, TInterval, T> : EmptyIntervalSet<TSetBuilder, TSet, TIntervalBuilder, TInterval, T>
+        where TSetBuilder : ISetBuilder<TSet, TInterval, T>, new()
         where TSet : IIntervalSet<T>
         where TIntervalBuilder : IIntervalBuilder<TInterval, T>, new()
         where TInterval : IIntervalSet<T>
@@ -44,7 +45,7 @@ namespace IntervalSet
         /// <param name="set"></param>
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
-            _intervalList = Builder.Build<TIntervalBuilder>(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
+            _intervalList = IntervalBuilder.Build<TIntervalBuilder>(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
         }
 
         /// <summary>
@@ -83,11 +84,11 @@ namespace IntervalSet
         {
             if (from.Location.Equals(to.Location))
             {
-                IntervalList.Add(Builder.MakeDegenerate<TIntervalBuilder>(new Degenerate<T>(from.Location)));
+                IntervalList.Add(IntervalBuilder.MakeDegenerate<TIntervalBuilder>(new Degenerate<T>(from.Location)));
             }
             else
             {
-                IntervalList.Add(Builder.MakeStartEndingInterval<TIntervalBuilder>(from, to));
+                IntervalList.Add(IntervalBuilder.MakeStartEndingInterval<TIntervalBuilder>(from, to));
             }
         }
 
@@ -96,10 +97,8 @@ namespace IntervalSet
         /// </summary>
         protected MultipleIntervalSet(Start<T> from) : this()
         {
-            IntervalList.Add(Builder.MakeStartingInterval<TIntervalBuilder>(from));
+            IntervalList.Add(IntervalBuilder.MakeStartingInterval<TIntervalBuilder>(from));
         }
-
-        protected abstract TInterval MakeNonEmptySet();
 
         /// <inheritdoc />
         public override int GetHashCode()
@@ -141,7 +140,7 @@ namespace IntervalSet
         {
             if (IntervalList.Any())
             {
-                nonEmpty = MakeNonEmptySet();
+                nonEmpty = SetBuilder.MakeNonEmptySet(IntervalList);
                 return true;
             }
             nonEmpty = default(TInterval);

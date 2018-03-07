@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time for which the start and end dates are the same
     /// </summary>
-    public class DegenerateOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
+    public class DegenerateOpenPeriod : SingleBoundaryInterval<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
     {
         /// <summary>
         /// Initializes a new <see cref="DegenerateOpenPeriod"/> based on a degenerate <see cref="Boundary{T}"/>
@@ -22,11 +22,6 @@ namespace PeriodSet.Period
         protected override IOpenPeriod GetInterval()
         {
             return this;
-        }
-
-        protected override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
-        {
-            return new OpenPeriodSet(intervals);
         }
 
         /// <inheritdoc />

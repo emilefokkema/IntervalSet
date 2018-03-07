@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with an end date and <see cref="DateTime.MinValue"/> as start date (i.e. no start date)
     /// </summary>
-    public class EndingBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
+    public class EndingBoundedPeriod : SingleBoundaryInterval<BoundedPeriodSetBuilder, BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod, DateTime>, IBoundedPeriod
     {
         /// <summary>
         /// Initializes a new <see cref="EndingBoundedPeriod"/> based on a given <see cref="End{T}"/>
@@ -28,11 +28,6 @@ namespace PeriodSet.Period
         protected override IBoundedPeriod GetInterval()
         {
             return this;
-        }
-
-        protected override BoundedPeriodSet MakeSet(IList<IBoundedPeriod> intervals)
-        {
-            return new BoundedPeriodSet(intervals);
         }
     }
 }
