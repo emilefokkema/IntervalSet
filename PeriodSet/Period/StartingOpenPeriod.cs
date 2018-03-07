@@ -8,7 +8,7 @@ namespace PeriodSet.Period
     /// <summary>
     /// Represents a period of time with a start date and <c>(DateTime?)null</c> as end date (i.e. no end date)
     /// </summary>
-    public class StartingOpenPeriod : SingleBoundaryInterval<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod,DateTime>, IOpenPeriod
+    public class StartingOpenPeriod : SingleBoundaryInterval<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod,DateTime>, IOpenPeriod
     {
         /// <inheritdoc />
         public StartingOpenPeriod(Start<DateTime> from) : base(from)

@@ -14,8 +14,8 @@ namespace IntervalSet.Default
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TIntervalBuilder"></typeparam>
     [Serializable]
-    public class DefaultIntervalSet<TIntervalBuilder, T> : MultipleIntervalSet<DefaultSetBuilder<TIntervalBuilder, T>, DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, IDefaultInterval<T>, T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
+    public class DefaultIntervalSet<TIntervalBuilder, T> : MultipleIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, IDefaultInterval<T>, T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

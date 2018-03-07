@@ -10,21 +10,15 @@ namespace IntervalSet
     /// <summary>
     /// A base class for implementations of <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public abstract class IntervalSet<TSetBuilder, TSet, TIntervalBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
-        where TSetBuilder : ISetBuilder<TSet, TInterval, T>, new()
+    public abstract class IntervalSet<TSet, TIntervalBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, new()
+        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
         /// The <typeparamref name="TIntervalBuilder"/> for this instance
         /// </summary>
         protected readonly TIntervalBuilder IntervalBuilder = new TIntervalBuilder();
-
-        /// <summary>
-        /// The <typeparamref name="TSetBuilder"/> for this instance
-        /// </summary>
-        protected readonly TSetBuilder SetBuilder = new TSetBuilder();
 
         /// <inheritdoc />
         public virtual bool Contains(T item)
@@ -54,10 +48,10 @@ namespace IntervalSet
             {
                 List<Boundary<T>> whereBoundaries = changes.Select(c =>
                     trueFrom(c) && Contains(c) ? (Boundary<T>)new Start<T>(c, Inclusivity.Inclusive) : new End<T>(c, Inclusivity.Exclusive)).ToList();
-                return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(whereBoundaries, false).ToList());
+                return IntervalBuilder.MakeSet(IntervalBuilder.Build(whereBoundaries, false).ToList());
             }
 
-            return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(Boundaries.ToList(), ContainsNegativeInfinity()).ToList());
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(Boundaries.ToList(), ContainsNegativeInfinity()).ToList());
         }
 
         /// <inheritdoc />
@@ -74,7 +68,7 @@ namespace IntervalSet
                     boundaries.Add(new End<T>(tuple.Item2, Inclusivity.Exclusive));
                 }
             }
-            return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(boundaries, false).ToList());
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(boundaries, false).ToList());
         }
 
         /// <inheritdoc />
@@ -82,7 +76,7 @@ namespace IntervalSet
         {
             List<Boundary<T>> minusBoundaries = Boundaries.Where(b => !other.Contains(b.Location))
                 .Concat(MinusBoundaries(other)).ToList();
-            return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(minusBoundaries, !other.ContainsNegativeInfinity() && ContainsNegativeInfinity()).ToList());
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(minusBoundaries, !other.ContainsNegativeInfinity() && ContainsNegativeInfinity()).ToList());
         }
 
         private IEnumerable<Boundary<T>> MinusBoundaries(IIntervalSet<T> other)
@@ -130,14 +124,14 @@ namespace IntervalSet
         public TSet Plus(IIntervalSet<T> other)
         {
             List<Boundary<T>> plusBoundaries = PlusBoundaries(this, other).Concat(PlusBoundaries(other, this)).ToList();
-            return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(plusBoundaries, ContainsNegativeInfinity() || other.ContainsNegativeInfinity()).ToList());
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(plusBoundaries, ContainsNegativeInfinity() || other.ContainsNegativeInfinity()).ToList());
         }
 
         /// <inheritdoc />
         public TSet Cross(IIntervalSet<T> other)
         {
             List<Boundary<T>> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
-            return SetBuilder.MakeSet(IntervalBuilder.Build<TIntervalBuilder>(crossBoundaries, ContainsNegativeInfinity() && other.ContainsNegativeInfinity()).ToList());
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(crossBoundaries, ContainsNegativeInfinity() && other.ContainsNegativeInfinity()).ToList());
         }
 
         IIntervalSet<T> IIntervalSet<T>.Where(Func<T, bool> trueFrom, IList<T> changes)
@@ -168,7 +162,7 @@ namespace IntervalSet
         /// <inheritdoc />
         public virtual bool IsNonEmpty(out TInterval nonEmpty)
         {
-            nonEmpty = IntervalBuilder.MakeStartingInterval<TIntervalBuilder>();
+            nonEmpty = IntervalBuilder.MakeStartingInterval();
             return true;
         }
 
@@ -193,13 +187,13 @@ namespace IntervalSet
         /// <inheritdoc />
         public virtual IEnumerable<TT> Select<TT>(Func<TInterval, TT> selector) where TT : class
         {
-            yield return selector(IntervalBuilder.MakeStartingInterval<TIntervalBuilder>());
+            yield return selector(IntervalBuilder.MakeStartingInterval());
         }
 
         /// <inheritdoc />
         public virtual void ForEach(Action<TInterval> what)
         {
-            what(IntervalBuilder.MakeStartingInterval<TIntervalBuilder>());
+            what(IntervalBuilder.MakeStartingInterval());
         }
 
         /// <inheritdoc />
@@ -252,7 +246,7 @@ namespace IntervalSet
             TIntervalBuilder builder = new TIntervalBuilder();
             bool containsNegativeInfinity = (bool)info.GetValue("ContainsNegativeInfinity", typeof(bool));
             List<Boundary<T>> boundaries = (List<Boundary<T>>)info.GetValue("Boundaries", typeof(List<Boundary<T>>));
-            return builder.Build<TIntervalBuilder>(boundaries, containsNegativeInfinity).ToList();
+            return builder.Build(boundaries, containsNegativeInfinity).ToList();
         }
     }
 }

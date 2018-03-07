@@ -14,7 +14,7 @@ namespace PeriodSet
     /// An <see cref="IIntervalSet{T}"/> of <see cref="DateTime"/> in which each interval has an end of type <see cref="DateTime"/><c>?</c> and positive infinity is represented as (<see cref="DateTime"/>?)<c>null</c>
     /// </summary>
     [Serializable]
-    public class OpenPeriodSet : MultipleIntervalSet<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod,DateTime>
+    public class OpenPeriodSet : MultipleIntervalSet<OpenPeriodSet, OpenPeriodListBuilder,IOpenPeriod,DateTime>
     {
         /// <inheritdoc />
         public OpenPeriodSet(IList<IOpenPeriod> list) : base(list)

@@ -10,19 +10,19 @@ namespace IntervalSet
         where T : IEquatable<T>, IComparable<T>
     {
         /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval<TBuilder>(Start<T> from) where TBuilder : IIntervalBuilder<TInterval,T>, new();
+        public abstract TInterval MakeStartingInterval(Start<T> from);
 
         /// <inheritdoc />
-        public abstract TInterval MakeEndingInterval<TBuilder>(End<T> end) where TBuilder : IIntervalBuilder<TInterval, T>, new();
+        public abstract TInterval MakeEndingInterval(End<T> end);
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartEndingInterval<TBuilder>(Start<T> from, End<T> to) where TBuilder : IIntervalBuilder<TInterval, T>, new();
+        public abstract TInterval MakeStartEndingInterval(Start<T> from, End<T> to);
 
         /// <inheritdoc />
-        public abstract TInterval MakeStartingInterval<TBuilder>() where TBuilder : IIntervalBuilder<TInterval, T>, new();
+        public abstract TInterval MakeStartingInterval();
 
         /// <inheritdoc />
-        public abstract TInterval MakeDegenerate<TBuilder>(Degenerate<T> degenerate) where TBuilder : IIntervalBuilder<TInterval, T>, new();
+        public abstract TInterval MakeDegenerate(Degenerate<T> degenerate);
 
         private List<Boundary<T>> OrderBoundaries(IList<Boundary<T>> boundaries)
         {
@@ -35,7 +35,7 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public IEnumerable<TInterval> Build<TBuilder>(IList<Boundary<T>> boundaries, bool containsNegativeInfinity) where TBuilder : IIntervalBuilder<TInterval, T>, new()
+        public IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity)
         {
             bool currentlyTrue = containsNegativeInfinity;
             Start<T> mostRecentStart = null;
@@ -53,11 +53,11 @@ namespace IntervalSet
                         {
                             if (mostRecentStart == null)
                             {
-                                yield return MakeEndingInterval<TBuilder>(new End<T>(boundary));
+                                yield return MakeEndingInterval(new End<T>(boundary));
                             }
                             else
                             {
-                                yield return MakeStartEndingInterval<TBuilder>(mostRecentStart, new End<T>(boundary));
+                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
                             }
 
                             mostRecentStart = new Start<T>(boundary);
@@ -71,7 +71,7 @@ namespace IntervalSet
                     {
                         if (!boundary.IsEnd)
                         {
-                            yield return MakeDegenerate<TBuilder>(new Degenerate<T>(boundary.Location));
+                            yield return MakeDegenerate(new Degenerate<T>(boundary.Location));
                         }
                     }
                     else
@@ -80,11 +80,11 @@ namespace IntervalSet
                         {
                             if (mostRecentStart == null)
                             {
-                                yield return MakeEndingInterval<TBuilder>(new End<T>(boundary));
+                                yield return MakeEndingInterval(new End<T>(boundary));
                             }
                             else
                             {
-                                yield return MakeStartEndingInterval<TBuilder>(mostRecentStart, new End<T>(boundary));
+                                yield return MakeStartEndingInterval(mostRecentStart, new End<T>(boundary));
                             }
                             mostRecentStart = null;
                             currentlyTrue = false;
@@ -97,11 +97,11 @@ namespace IntervalSet
             {
                 if (mostRecentStart != null)
                 {
-                    yield return MakeStartingInterval<TBuilder>(mostRecentStart);
+                    yield return MakeStartingInterval(mostRecentStart);
                 }
                 else
                 {
-                    yield return MakeStartingInterval<TBuilder>();
+                    yield return MakeStartingInterval();
                 }
             }
         }

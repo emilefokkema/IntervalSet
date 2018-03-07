@@ -9,8 +9,8 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IDefaultInterval{T}"/> with a start <typeparamref name="T"/> and an end <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultStartEndingInterval<TIntervalBuilder, T> : DoubleBoundaryInterval<DefaultSetBuilder<TIntervalBuilder, T>, DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, new()
+    public class DefaultStartEndingInterval<TIntervalBuilder, T> : DoubleBoundaryInterval<DefaultIntervalSet<TIntervalBuilder,T>, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>

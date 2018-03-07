@@ -12,7 +12,7 @@ namespace PeriodSet
     /// <summary>
     /// An <see cref="OpenPeriodSet"/> that contains at least one <see cref="IOpenPeriod"/>
     /// </summary>
-    public class NonEmptyOpenPeriodSet : NonEmptyIntervalSet<OpenPeriodSetBuilder, OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
+    public class NonEmptyOpenPeriodSet : NonEmptyIntervalSet<OpenPeriodSet, OpenPeriodListBuilder, IOpenPeriod, DateTime>, IOpenPeriod
     {
         /// <inheritdoc />
         public NonEmptyOpenPeriodSet(IIntervalSet<DateTime> set):base(set)

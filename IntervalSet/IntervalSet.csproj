@@ -41,7 +41,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default\DefaultSetBuilder.cs" />
     <Compile Include="ISetBuilder.cs" />
     <Compile Include="IntervalBuilder.cs" />
     <Compile Include="Infinity.cs" />

@@ -10,7 +10,7 @@ namespace IntervalSetTest.DefaultImplementation
     [TestFixture]
     public class DefaultTests
     {
-        public class DoubleBuilder : DefaultBuilder<double>
+        public class DoubleBuilder : DefaultBuilder<DoubleBuilder,double>
         {
             public override Infinity<double> PositiveInfinity => new Infinity<double>(double.PositiveInfinity);
             public override Infinity<double> NegativeInfinity => new Infinity<double>(double.NegativeInfinity);

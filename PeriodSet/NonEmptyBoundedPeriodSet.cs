@@ -12,7 +12,7 @@ namespace PeriodSet
     /// <summary>
     /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
     /// </summary>
-    public class NonEmptyBoundedPeriodSet : NonEmptyIntervalSet<BoundedPeriodSetBuilder, BoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod,DateTime>, IBoundedPeriod
+    public class NonEmptyBoundedPeriodSet : NonEmptyIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder,IBoundedPeriod,DateTime>, IBoundedPeriod
     {
         /// <inheritdoc />
         public NonEmptyBoundedPeriodSet(IIntervalSet<DateTime> set):base(set)
