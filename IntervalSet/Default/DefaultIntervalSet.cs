@@ -14,8 +14,9 @@ namespace IntervalSet.Default
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TIntervalBuilder"></typeparam>
     [Serializable]
-    public class DefaultIntervalSet<TIntervalBuilder, T> : MultipleIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, IDefaultInterval<T>, T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultIntervalSet<TSet, TIntervalBuilder, T> : MultipleIntervalSet<TSet, TIntervalBuilder, IDefaultInterval<T>, T>
+        where TSet : IIntervalSet<T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -55,6 +56,47 @@ namespace IntervalSet.Default
         public override string ToString()
         {
             return ToString("G", CultureInfo.CurrentCulture);
+        }
+
+        
+    }
+
+    [Serializable]
+    public class DefaultIntervalSet<TIntervalBuilder, T> : DefaultIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
+        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new, empty, <see cref="DefaultIntervalSet{T}"/>
+        /// </summary>
+        public DefaultIntervalSet()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="DefaultIntervalSet{T}"/> with a given list of <see cref="IDefaultInterval{T}"/>s
+        /// </summary>
+        /// <param name="intervals"></param>
+        public DefaultIntervalSet(IList<IDefaultInterval<T>> intervals) : base(intervals)
+        {
+        }
+
+        /// <summary>
+        /// Deserializes a <see cref="DefaultIntervalSet{T}"/>
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public DefaultIntervalSet(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="DefaultIntervalSet{T}"/> with a given start <typeparamref name="T"/> and end <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public DefaultIntervalSet(T from, T to) : base(from, to)
+        {
         }
 
         /// <summary>
