@@ -1,9 +1,12 @@
-﻿using FluentAssertions;
+﻿using System.Collections.Generic;
+using FluentAssertions;
 using IntervalSet;
 using IntervalSet.Default;
+using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Default;
 using NUnit.Framework;
 using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSetTest.DefaultImplementation.DefaultTests.DoubleBuilder, double>;
+using IntSet = IntervalSet.Default.DefaultIntervalSet<IntervalSet.Default.DefaultBuilder<int>, int>;
 
 namespace IntervalSetTest.DefaultImplementation
 {
@@ -42,6 +45,20 @@ namespace IntervalSetTest.DefaultImplementation
             nonEmptyDifference.End.Should().Be(double.PositiveInfinity);
 
             product.Cross(fiveSix).Should().Be(DoubleSet.Empty);
+        }
+
+        [Test]
+        public void Test2()
+        {
+            IntSet set = new IntSet(new List<IDefaultInterval<int>> {new DefaultDegenerateInterval<DefaultBuilder<int>,int>(new Degenerate<int>(5))});
+            IntSet set2 = set.Plus(new IntSet(6, 7));
+            set2.Contains(5).Should().BeTrue();
+            set2.Contains(6).Should().BeTrue();
+            set2.Contains(7).Should().BeFalse();
+            IDefaultInterval<int> nonEmptySet2;
+            set2.IsNonEmpty(out nonEmptySet2).Should().BeTrue();
+            nonEmptySet2.Start.Should().Be(5);
+            nonEmptySet2.End.Should().Be(7);
         }
     }
 }
