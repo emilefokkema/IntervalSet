@@ -13,9 +13,9 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
-        public T Start => IntervalBuilder.PositiveInfinity;
+        public T Start => IntervalBuilder.NegativeInfinity;
 
         /// <inheritdoc />
-        public T End => IntervalBuilder.NegativeInfinity;
+        public T End => IntervalBuilder.PositiveInfinity;
     }
 }

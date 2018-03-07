@@ -21,6 +21,10 @@ namespace IntervalSetTest.DefaultImplementation
         {
             DoubleSet fiveSix = new DoubleSet(5, 6);
             DoubleSet all = DoubleSet.All;
+            IDefaultInterval<double> nonEmptyAll;
+            all.IsNonEmpty(out nonEmptyAll).Should().BeTrue();
+            nonEmptyAll.Start.Should().Be(double.NegativeInfinity);
+            nonEmptyAll.End.Should().Be(double.PositiveInfinity);
             DoubleSet difference = all.Minus(fiveSix);
             DoubleSet product = difference.Cross(new DoubleSet(4, 7));
             product.Should().Be(new DoubleSet(4, 5).Plus(new DoubleSet(6, 7)));
