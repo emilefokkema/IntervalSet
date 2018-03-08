@@ -49,9 +49,9 @@ namespace PeriodSet
         }
 
         /// <inheritdoc />
-        public override Infinity<DateTime> PositiveInfinity => new Infinity<DateTime>(DateTime.MaxValue);
+        protected override DateTime PositiveInfinity => DateTime.MaxValue;
 
         /// <inheritdoc />
-        public override Infinity<DateTime> NegativeInfinity => new Infinity<DateTime>(DateTime.MinValue);
+        protected override DateTime NegativeInfinity => DateTime.MinValue;
     }
 }

@@ -29,10 +29,10 @@ namespace IntervalSet.Interval.Default
         }
 
         /// <inheritdoc />
-        public T End => Boundary.Location;
+        public Boundary<T> End => Boundary;
 
         /// <inheritdoc />
-        public T Start => IntervalBuilder.NegativeInfinity;
+        public Boundary<T> Start => IntervalBuilder.NegativeInfinityBoundary;
     }
 
     public class DefaultEndingInterval<TIntervalBuilder, T> : DefaultEndingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>

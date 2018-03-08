@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntervalSet.Default;
+using IntervalSet.Interval.Boundaries;
 
 namespace IntervalSet.Interval.Default
 {
@@ -14,10 +15,10 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
-        public T Start => IntervalBuilder.NegativeInfinity;
+        public Boundary<T> Start => IntervalBuilder.NegativeInfinityBoundary;
 
         /// <inheritdoc />
-        public T End => IntervalBuilder.PositiveInfinity;
+        public Boundary<T> End => IntervalBuilder.PositiveInfinityBoundary;
     }
 
     public class DefaultEntireInterval<TIntervalBuilder, T> : DefaultEntireInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>

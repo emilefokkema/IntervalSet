@@ -122,23 +122,23 @@ namespace IntervalSet.Interval
         public override string ToString(string format, IFormatProvider formatProvider)
         {
             string boundaryString = Boundary.ToString(format, formatProvider);
-            string negativeInfinity = IntervalBuilder.NegativeInfinity.ToString(format, formatProvider);
-            string positiveInfinity = IntervalBuilder.PositiveInfinity.ToString(format, formatProvider);
+            string negativeInfinity = IntervalBuilder.NegativeInfinityBoundary.ToString(format, formatProvider);
+            string positiveInfinity = IntervalBuilder.PositiveInfinityBoundary.ToString(format, formatProvider);
             if (Boundary.IsContinuation)
             {
-                return $"({negativeInfinity}, {positiveInfinity})";
+                return $"{negativeInfinity}, {positiveInfinity}";
             }
             if (Boundary.IsEnd)
             {
                 if (Boundary.IsStart)
                 {
-                    return $"({negativeInfinity}, {boundaryString}, {positiveInfinity})";
+                    return $"{negativeInfinity}, {boundaryString}, {positiveInfinity}";
                 }
-                return $"({negativeInfinity}, {boundaryString}";
+                return $"{negativeInfinity}, {boundaryString}";
             }
             if (Boundary.IsStart)
             {
-                return $"{boundaryString}, {positiveInfinity})";
+                return $"{boundaryString}, {positiveInfinity}";
             }
             return boundaryString;
         }

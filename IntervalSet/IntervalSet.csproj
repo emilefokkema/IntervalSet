@@ -41,9 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interval\Boundaries\PositiveInfinity.cs" />
+    <Compile Include="Interval\Boundaries\NegativeInfinity.cs" />
     <Compile Include="ISetBuilder.cs" />
     <Compile Include="IntervalBuilder.cs" />
-    <Compile Include="Infinity.cs" />
     <Compile Include="Default\DefaultNonEmptyIntervalSet.cs" />
     <Compile Include="Default\DefaultIntervalSet.cs" />
     <Compile Include="Default\DefaultBuilder.cs" />

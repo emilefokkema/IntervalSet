@@ -107,9 +107,15 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
-        public abstract Infinity<T> PositiveInfinity { get; }
+        protected abstract T PositiveInfinity { get; }
 
         /// <inheritdoc />
-        public abstract Infinity<T> NegativeInfinity { get; }
+        protected abstract T NegativeInfinity { get; }
+
+        /// <inheritdoc />
+        public Boundary<T> PositiveInfinityBoundary => new PositiveInfinity<T>(PositiveInfinity);
+
+        /// <inheritdoc />
+        public Boundary<T> NegativeInfinityBoundary => new NegativeInfinity<T>(NegativeInfinity);
     }
 }

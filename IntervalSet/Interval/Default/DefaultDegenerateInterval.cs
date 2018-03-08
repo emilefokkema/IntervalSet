@@ -29,10 +29,10 @@ namespace IntervalSet.Interval.Default
         }
 
         /// <inheritdoc />
-        public T End => Boundary.Location;
+        public Boundary<T> End => Boundary;
 
         /// <inheritdoc />
-        public T Start => Boundary.Location;
+        public Boundary<T> Start => Boundary;
     }
 
     public class DefaultDegenerateInterval<TIntervalBuilder, T> : DefaultDegenerateInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>

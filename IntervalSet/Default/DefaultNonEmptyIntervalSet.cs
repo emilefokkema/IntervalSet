@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Default;
 
 namespace IntervalSet.Default
@@ -24,10 +25,10 @@ namespace IntervalSet.Default
         }
 
         /// <inheritdoc />
-        public T Start => IntervalList.First().Start;
+        public Boundary<T> Start => IntervalList.First().Start;
 
         /// <inheritdoc />
-        public T End => IntervalList.Last().End;
+        public Boundary<T> End => IntervalList.Last().End;
 
         /// <inheritdoc />
         public override string ToString()

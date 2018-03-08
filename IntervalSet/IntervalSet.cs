@@ -233,7 +233,7 @@ namespace IntervalSet
         /// <inheritdoc />
         public virtual string ToString(string format, IFormatProvider provider)
         {
-            return $"({IntervalBuilder.NegativeInfinity.ToString(format, provider)}, {IntervalBuilder.PositiveInfinity.ToString(format, provider)})";
+            return $"{IntervalBuilder.NegativeInfinityBoundary.ToString(format, provider)}, {IntervalBuilder.PositiveInfinityBoundary.ToString(format, provider)}";
         }
 
         /// <summary>

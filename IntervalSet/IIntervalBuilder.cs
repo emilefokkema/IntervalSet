@@ -55,8 +55,8 @@ namespace IntervalSet
         /// <returns></returns>
         TInterval MakeDegenerate(Degenerate<T> degenerate);
 
-        Infinity<T> NegativeInfinity { get; }
+        Boundary<T> NegativeInfinityBoundary { get; }
 
-        Infinity<T> PositiveInfinity { get; }
+        Boundary<T> PositiveInfinityBoundary { get; }
     }
 }

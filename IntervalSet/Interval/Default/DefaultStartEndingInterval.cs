@@ -30,10 +30,10 @@ namespace IntervalSet.Interval.Default
         }
 
         /// <inheritdoc />
-        public T End => Max.Location;
+        public Boundary<T> End => Max;
 
         /// <inheritdoc />
-        public T Start => Min.Location;
+        public Boundary<T> Start => Min;
     }
 
     public class DefaultStartEndingInterval<TIntervalBuilder, T> : DefaultStartEndingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>

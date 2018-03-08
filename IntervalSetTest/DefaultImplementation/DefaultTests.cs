@@ -19,8 +19,8 @@ namespace IntervalSetTest.DefaultImplementation
             FloatSet join = set1.Plus(set2);
             IDefaultInterval<float> nonEmptyJoin;
             join.IsNonEmpty(out nonEmptyJoin).Should().BeTrue();
-            nonEmptyJoin.Start.Should().Be(5);
-            nonEmptyJoin.End.Should().Be(6.5f);
+            nonEmptyJoin.Start.Location.Should().Be(5f);
+            nonEmptyJoin.End.Location.Should().Be(6.5f);
         }
 
         [Test]
@@ -30,23 +30,23 @@ namespace IntervalSetTest.DefaultImplementation
             DoubleSet all = DoubleSet.All;
             IDefaultInterval<double> nonEmptyAll;
             all.IsNonEmpty(out nonEmptyAll).Should().BeTrue();
-            nonEmptyAll.Start.Should().Be(double.NegativeInfinity);
-            nonEmptyAll.End.Should().Be(double.PositiveInfinity);
+            nonEmptyAll.Start.Location.Should().Be(double.NegativeInfinity);
+            nonEmptyAll.End.Location.Should().Be(double.PositiveInfinity);
             DoubleSet difference = all.Minus(fiveSix);
             DoubleSet product = difference.Cross(new DoubleSet(4, 7));
             product.Should().Be(new DoubleSet(4, 5).Plus(new DoubleSet(6, 7)));
 
             IDefaultInterval<double> nonEmptyProduct;
             product.IsNonEmpty(out nonEmptyProduct).Should().BeTrue();
-            nonEmptyProduct.Start.Should().Be(4);
-            nonEmptyProduct.End.Should().Be(7);
+            nonEmptyProduct.Start.Location.Should().Be(4d);
+            nonEmptyProduct.End.Location.Should().Be(7d);
 
             product.Contains(4.5).Should().BeTrue();
             product.Contains(5.5).Should().BeFalse();
             difference.Contains(double.PositiveInfinity).Should().BeTrue();
             IDefaultInterval<double> nonEmptyDifference;
             difference.IsNonEmpty(out nonEmptyDifference).Should().BeTrue();
-            nonEmptyDifference.End.Should().Be(double.PositiveInfinity);
+            nonEmptyDifference.End.Location.Should().Be(double.PositiveInfinity);
 
             product.Cross(fiveSix).Should().Be(DoubleSet.Empty);
         }
@@ -61,8 +61,8 @@ namespace IntervalSetTest.DefaultImplementation
             set2.Contains(7).Should().BeFalse();
             IDefaultInterval<int> nonEmptySet2;
             set2.IsNonEmpty(out nonEmptySet2).Should().BeTrue();
-            nonEmptySet2.Start.Should().Be(5);
-            nonEmptySet2.End.Should().Be(7);
+            nonEmptySet2.Start.Location.Should().Be(5);
+            nonEmptySet2.End.Location.Should().Be(7);
         }
     }
 }

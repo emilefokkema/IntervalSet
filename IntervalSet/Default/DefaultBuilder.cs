@@ -15,10 +15,10 @@ namespace IntervalSet.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
-        public override Infinity<T> PositiveInfinity => new DefaultInfinity<T>(Sign.Positive);
+        protected override T PositiveInfinity => default(T);
 
         /// <inheritdoc />
-        public override Infinity<T> NegativeInfinity => new DefaultInfinity<T>(Sign.Negative);
+        protected override T NegativeInfinity => default(T);
 
         public abstract TSet MakeSet(IList<IDefaultInterval<T>> intervals);
 

@@ -9,7 +9,7 @@ namespace IntervalSet.Interval.Boundaries
     /// Represents the boundary of an interval in an <see cref="IIntervalSet{T}"/>
     /// </summary>
     [Serializable]
-    public class Boundary<T> : IEquatable<Boundary<T>>, IFormattable, ISerializable
+    public class Boundary<T> : IEquatable<Boundary<T>>, IEquatable<T>, IFormattable, ISerializable
         where T:IEquatable<T>
     {
         /// <summary>
@@ -86,6 +86,17 @@ namespace IntervalSet.Interval.Boundaries
         }
 
         /// <inheritdoc />
+        public bool Equals(T location)
+        {
+            if (location == null)
+            {
+                return false;
+            }
+
+            return Location.Equals(location);
+        }
+
+        /// <inheritdoc />
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -93,6 +104,7 @@ namespace IntervalSet.Interval.Boundaries
                 return false;
             }
 
+            
             return Equals(obj as Boundary<T>);
         }
 
@@ -146,5 +158,10 @@ namespace IntervalSet.Interval.Boundaries
             }
             return GetLeftBracket() + result + ", " + result + GetRightBracket();
         }
+
+        //public static implicit operator T(Boundary<T> boundary)
+        //{
+        //    return boundary.Location;
+        //}
     }
 }

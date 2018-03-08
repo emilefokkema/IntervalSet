@@ -1,4 +1,5 @@
 ﻿using System;
+using IntervalSet.Interval.Boundaries;
 
 namespace IntervalSet.Interval.Default
 {
@@ -10,13 +11,13 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// The start of this interval (or some <see cref="Infinity{T}.Value"/>)
+        /// The start of this interval
         /// </summary>
-        T Start { get; }
+        Boundary<T> Start { get; }
 
         /// <summary>
-        /// The end of this interval (or some <see cref="Infinity{T}.Value"/>)
+        /// The end of this interval
         /// </summary>
-        T End { get; }
+        Boundary<T> End { get; }
     }
 }
