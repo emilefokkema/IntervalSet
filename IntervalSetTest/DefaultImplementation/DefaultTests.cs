@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using IntervalSet;
-using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Default;
 using NUnit.Framework;
-using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSetTest.DefaultImplementation.DefaultTests.DoubleBuilder, double>;
+using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSetTest.DefaultImplementation.DoubleBuilder, double>;
 using IntSet = IntervalSet.Default.DefaultIntervalSet<int>;
 
 namespace IntervalSetTest.DefaultImplementation
@@ -13,14 +11,20 @@ namespace IntervalSetTest.DefaultImplementation
     [TestFixture]
     public class DefaultTests
     {
-        public class DoubleBuilder : DefaultBuilder<DoubleBuilder,double>
+        [Test]
+        public void Test_inheriting()
         {
-            public override Infinity<double> PositiveInfinity => new Infinity<double>(double.PositiveInfinity);
-            public override Infinity<double> NegativeInfinity => new Infinity<double>(double.NegativeInfinity);
+            FloatSet set1 = new FloatSet(5, 6);
+            FloatSet set2 = new FloatSet(5.5f, 6.5f);
+            FloatSet join = set1.Plus(set2);
+            IDefaultInterval<float> nonEmptyJoin;
+            join.IsNonEmpty(out nonEmptyJoin).Should().BeTrue();
+            nonEmptyJoin.Start.Should().Be(5);
+            nonEmptyJoin.End.Should().Be(6.5f);
         }
 
         [Test]
-        public void Test1()
+        public void Test_substituting_builder()
         {
             DoubleSet fiveSix = new DoubleSet(5, 6);
             DoubleSet all = DoubleSet.All;
@@ -48,7 +52,7 @@ namespace IntervalSetTest.DefaultImplementation
         }
 
         [Test]
-        public void Test2()
+        public void Test_default()
         {
             IntSet set = new IntSet(new List<IDefaultInterval<int>> {new DefaultDegenerateInterval<int>(new Degenerate<int>(5))});
             IntSet set2 = set.Plus(new IntSet(6, 7));

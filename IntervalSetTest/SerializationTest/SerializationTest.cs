@@ -11,6 +11,7 @@ using DoubleSet = IntervalSet.Default.DefaultIntervalSet<double>;
 using StringSet = IntervalSet.Default.DefaultIntervalSet<string>;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using IntervalSetTest.DefaultImplementation;
 
 namespace IntervalSetTest.SerializationTest
 {
@@ -57,6 +58,7 @@ namespace IntervalSetTest.SerializationTest
             TestSetSerialization(IntSet.All);
             TestSetSerialization(new StringSet("a","b"));
             TestSetSerialization(new DefaultIntervalSet<ComparableType>(new ComparableType{Value = 3}, new ComparableType{Value = 4}));
+            TestSetSerialization(new FloatSet(5,6));
         }
 
         [Test]
@@ -79,28 +81,25 @@ namespace IntervalSetTest.SerializationTest
             deserializedThing.DoubleList.Should().Contain(double2);
         }
 
-        private void TestSetSerialization<T>(DefaultIntervalSet<T> set) 
-            where T:IComparable<T>,IEquatable<T>
+        private void TestSetSerialization<TSet>(TSet set) 
         {
             TestSetSerializationJson(set);
             TestSetSerializationBinary(set);
         }
 
-        private void TestSetSerializationJson<T>(DefaultIntervalSet<T> set) 
-            where T : IComparable<T>, IEquatable<T> 
+        private void TestSetSerializationJson<TSet>(TSet set) 
         {
             string serialized = JsonConvert.SerializeObject(set);
-            DefaultIntervalSet<T> deserialized = JsonConvert.DeserializeObject<DefaultIntervalSet<T>>(serialized);
+            TSet deserialized = JsonConvert.DeserializeObject<TSet>(serialized);
             deserialized.Should().Be(set);
         }
 
-        private void TestSetSerializationBinary<T>(DefaultIntervalSet<T> set) 
-            where T : IComparable<T>, IEquatable<T> 
+        private void TestSetSerializationBinary<TSet>(TSet set)  
         {
             Stream stream = new MemoryStream();
             new BinaryFormatter().Serialize(stream, set);
             stream.Position = 0;
-            DefaultIntervalSet<T> deserialized = (DefaultIntervalSet<T>) new BinaryFormatter().Deserialize(stream);
+            TSet deserialized = (TSet) new BinaryFormatter().Deserialize(stream);
             deserialized.Should().Be(set);
         }
     }
