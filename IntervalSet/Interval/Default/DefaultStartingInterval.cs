@@ -47,4 +47,16 @@ namespace IntervalSet.Interval.Default
         {
         }
     }
+
+    public class DefaultStartingInterval<T> : DefaultStartingInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultStartingInterval{T}"/> with a given <see cref="Boundaries.Start{T}"/>
+        /// </summary>
+        /// <param name="from"></param>
+        public DefaultStartingInterval(Start<T> from) : base(from)
+        {
+        }
+    }
 }

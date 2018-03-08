@@ -25,4 +25,9 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
     }
+
+    public class DefaultEntireInterval<T> : DefaultEntireInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+    }
 }

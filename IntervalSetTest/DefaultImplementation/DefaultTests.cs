@@ -6,7 +6,7 @@ using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Default;
 using NUnit.Framework;
 using DoubleSet = IntervalSet.Default.DefaultIntervalSet<IntervalSetTest.DefaultImplementation.DefaultTests.DoubleBuilder, double>;
-using IntSet = IntervalSet.Default.DefaultIntervalSet<IntervalSet.Default.DefaultBuilder<int>, int>;
+using IntSet = IntervalSet.Default.DefaultIntervalSet<int>;
 
 namespace IntervalSetTest.DefaultImplementation
 {
@@ -50,7 +50,7 @@ namespace IntervalSetTest.DefaultImplementation
         [Test]
         public void Test2()
         {
-            IntSet set = new IntSet(new List<IDefaultInterval<int>> {new DefaultDegenerateInterval<DefaultBuilder<int>,int>(new Degenerate<int>(5))});
+            IntSet set = new IntSet(new List<IDefaultInterval<int>> {new DefaultDegenerateInterval<int>(new Degenerate<int>(5))});
             IntSet set2 = set.Plus(new IntSet(6, 7));
             set2.Contains(5).Should().BeTrue();
             set2.Contains(6).Should().BeTrue();

@@ -47,4 +47,16 @@ namespace IntervalSet.Interval.Default
         {
         }
     }
+
+    public class DefaultEndingInterval<T> : DefaultEndingInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultEndingInterval{T}"/> with a given <see cref="Boundaries.End{T}"/>
+        /// </summary>
+        /// <param name="end"></param>
+        public DefaultEndingInterval(End<T> end) : base(end)
+        {
+        }
+    }
 }

@@ -48,4 +48,16 @@ namespace IntervalSet.Default
         {
         }
     }
+
+    public class DefaultNonEmptyIntervalSet<T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultNonEmptyIntervalSet{T}"/> with a given non-empty list of <see cref="IDefaultInterval{T}"/>
+        /// </summary>
+        /// <param name="intervals"></param>
+        public DefaultNonEmptyIntervalSet(IList<IDefaultInterval<T>> intervals) : base(intervals)
+        {
+        }
+    }
 }

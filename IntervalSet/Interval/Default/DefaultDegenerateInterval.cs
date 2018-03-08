@@ -47,4 +47,16 @@ namespace IntervalSet.Interval.Default
         {
         }
     }
+
+    public class DefaultDegenerateInterval<T> : DefaultDegenerateInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultDegenerateInterval{T}"/> based on a given <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="boundary"></param>
+        public DefaultDegenerateInterval(Degenerate<T> boundary) : base(boundary)
+        {
+        }
+    }
 }

@@ -49,4 +49,17 @@ namespace IntervalSet.Interval.Default
         {
         }
     }
+
+    public class DefaultStartEndingInterval<T> : DefaultStartEndingInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+        where T : IComparable<T>, IEquatable<T>
+    {
+        /// <summary>
+        /// Initializes a new <see cref="DefaultStartEndingInterval{T}"/> with a given <see cref="Boundaries.Start{T}"/> and <see cref="Boundaries.End{T}"/>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <param name="to"></param>
+        public DefaultStartEndingInterval(Start<T> from, End<T> to) : base(from, to)
+        {
+        }
+    }
 }
