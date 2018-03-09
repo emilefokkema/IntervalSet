@@ -65,7 +65,7 @@ namespace IntervalSet.Default
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        public DefaultIntervalSet(T from, T to):base(new Start<T>(from, Inclusivity.Inclusive), new End<T>(to, Inclusivity.Exclusive))
+        public DefaultIntervalSet(T from, T to):base(new TBuilder().MakeStart(from), new TBuilder().MakeEnd(to))
         {
         }
 

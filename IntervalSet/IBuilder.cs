@@ -71,6 +71,20 @@ namespace IntervalSet
         TInterval MakeDegenerate(Degenerate<T> degenerate);
 
         /// <summary>
+        /// Returns the <see cref="Start{T}"/> with which to initialize a <typeparamref name="TSet"/> with a <typeparamref name="TInterval"/> that starts at <paramref name="from"/>
+        /// </summary>
+        /// <param name="from"></param>
+        /// <returns></returns>
+        Start<T> MakeStart(T from);
+
+        /// <summary>
+        /// Returns the <see cref="End{T}"/> with which to initialize a <typeparamref name="TSet"/> with a <typeparamref name="TInterval"/> that ends at <paramref name="to"/>
+        /// </summary>
+        /// <param name="to"></param>
+        /// <returns></returns>
+        End<T> MakeEnd(T to);
+
+        /// <summary>
         /// Negative infinity represented as a <see cref="Boundary{T}"/>
         /// </summary>
         Boundary<T> NegativeInfinityBoundary { get; }

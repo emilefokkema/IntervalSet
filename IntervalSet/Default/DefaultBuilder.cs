@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using IntervalSet.Interval.Default;
 
 namespace IntervalSet.Default
@@ -50,6 +51,18 @@ namespace IntervalSet.Default
         public override IDefaultInterval<T> MakeDegenerate(Degenerate<T> degenerate)
         {
             return new DefaultDegenerateInterval<TSet, TBuilder, T>(degenerate);
+        }
+
+        /// <inheritdoc />
+        public override Start<T> MakeStart(T @from)
+        {
+            return new Start<T>(from, Inclusivity.Inclusive);
+        }
+
+        /// <inheritdoc />
+        public override End<T> MakeEnd(T to)
+        {
+            return new End<T>(to, Inclusivity.Exclusive);
         }
     }
 

@@ -30,6 +30,12 @@ namespace IntervalSet
         /// <inheritdoc />
         public abstract TInterval MakeDegenerate(Degenerate<T> degenerate);
 
+        /// <inheritdoc />
+        public abstract Start<T> MakeStart(T from);
+
+        /// <inheritdoc />
+        public abstract End<T> MakeEnd(T to);
+
         private List<Boundary<T>> OrderBoundaries(IList<Boundary<T>> boundaries)
         {
             return boundaries

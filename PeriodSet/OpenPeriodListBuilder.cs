@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IntervalSet;
 using IntervalSet.Interval.Boundaries;
+using IntervalSet.Interval.Boundaries.Kind;
 using PeriodSet.Period;
 
 namespace PeriodSet
@@ -48,6 +49,18 @@ namespace PeriodSet
         public override IOpenPeriod MakeStartEndingInterval(Start<DateTime> from, End<DateTime> to)
         {
             return new StartEndingOpenPeriod(from, to);
+        }
+
+        /// <inheritdoc />
+        public override Start<DateTime> MakeStart(DateTime @from)
+        {
+            return new Start<DateTime>(from, Inclusivity.Inclusive);
+        }
+
+        /// <inheritdoc />
+        public override End<DateTime> MakeEnd(DateTime to)
+        {
+            return new End<DateTime>(to, Inclusivity.Exclusive);
         }
 
         /// <inheritdoc />

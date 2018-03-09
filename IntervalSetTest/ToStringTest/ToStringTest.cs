@@ -23,8 +23,8 @@ namespace IntervalSetTest.ToStringTest
             string negativeInfinity = (double.NegativeInfinity).ToString("G", CultureInfo.CurrentCulture);
             DoubleSet.All.ToString().Should().Be($"({negativeInfinity}, {positiveInfinity})");
             DoubleSet fiveSix = new DoubleSet(5, 6);
-            fiveSix.ToString().Should().Be("[5, 6)");
-            DoubleSet.All.Minus(fiveSix).ToString().Should().Be($"({negativeInfinity}, 5) + [6, {positiveInfinity})");
+            fiveSix.ToString().Should().Be("(5, 6)");
+            DoubleSet.All.Minus(fiveSix).ToString().Should().Be($"({negativeInfinity}, 5] + [6, {positiveInfinity})");
             new DefaultDegenerateInterval<DoubleBuilder, double>(new Degenerate<double>(5))
                 .ToString("G", CultureInfo.CurrentCulture).Should().Be("[5, 5]");
         }
