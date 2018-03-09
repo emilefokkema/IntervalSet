@@ -24,6 +24,10 @@ namespace IntervalSet.Default
         {
         }
 
+        public DefaultNonEmptyIntervalSet(IIntervalSet<T> set):base(set)
+        {
+        }
+
         /// <inheritdoc />
         public Boundary<T> StartingBoundary => IntervalList.First().StartingBoundary;
 

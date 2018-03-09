@@ -34,6 +34,14 @@ namespace IntervalSet.Default
         {
         }
 
+        public DefaultIntervalSet(IIntervalSet<T> set):base(set)
+        {
+        }
+
+        public DefaultIntervalSet(Start<T> start):base(start)
+        {
+        }
+
         /// <summary>
         /// Deserializes a <see cref="DefaultIntervalSet{T}"/>
         /// </summary>

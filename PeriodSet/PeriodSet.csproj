@@ -47,17 +47,11 @@
     <Compile Include="NonEmptyOpenPeriodSet.cs" />
     <Compile Include="OpenPeriodListBuilder.cs" />
     <Compile Include="OpenPeriodSet.cs" />
-    <Compile Include="Period\DegenerateBoundedPeriod.cs" />
     <Compile Include="Period\DegenerateOpenPeriod.cs" />
-    <Compile Include="Period\EndingBoundedPeriod.cs" />
     <Compile Include="Period\EndingOpenPeriod.cs" />
-    <Compile Include="Period\EntireBoundedPeriod.cs" />
     <Compile Include="Period\EntireOpenPeriod.cs" />
-    <Compile Include="Period\IBoundedPeriod.cs" />
     <Compile Include="Period\IOpenPeriod.cs" />
-    <Compile Include="Period\StartEndingBoundedPeriod.cs" />
     <Compile Include="Period\StartEndingOpenPeriod.cs" />
-    <Compile Include="Period\StartingBoundedPeriod.cs" />
     <Compile Include="Period\StartingOpenPeriod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

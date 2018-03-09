@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using IntervalSet;
+using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using IntervalSet.Interval.Default;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PeriodSet;
@@ -76,10 +78,10 @@ namespace IntervalSetTest.PeriodSet
             degenerate.Should().NotBe(BoundedPeriodSet.Empty);
             degenerate.Should().NotBe(OpenPeriodSet.Empty);
             degenerate.IsEmpty.Should().BeFalse();
-            IBoundedPeriod nonEmptyDegenerate;
+            IDefaultInterval<DateTime> nonEmptyDegenerate;
             degenerate.IsNonEmpty(out nonEmptyDegenerate).Should().BeTrue();
-            nonEmptyDegenerate.Earliest.Should().Be(startOne);
-            nonEmptyDegenerate.To.Should().Be(startOne);
+            nonEmptyDegenerate.Start.Should().Be(startOne);
+            nonEmptyDegenerate.End.Should().Be(startOne);
 
             (degenerate * one).Should().Be(degenerate);
             (one - degenerate).Cross(degenerate).Should().Be(empty);
@@ -127,8 +129,8 @@ namespace IntervalSetTest.PeriodSet
             
 
             NonEmptyBoundedPeriodSet nonEmptyBounded = new NonEmptyBoundedPeriodSet(startOne);
-            DateTime earliest = nonEmptyBounded.Earliest;
-            DateTime last = nonEmptyBounded.To;
+            DateTime earliest = nonEmptyBounded.Start;
+            DateTime last = nonEmptyBounded.End;
             earliest.Should().Be(startOne);
             last.Should().Be(DateTime.MaxValue);
             nonEmptyBounded.IntervalCount.Should().Be(1);
@@ -239,7 +241,7 @@ namespace IntervalSetTest.PeriodSet
 
             bounded = new OpenPeriodSet(startOne);
             NonEmptyBoundedPeriodSet nonEmptyBounded = (NonEmptyBoundedPeriodSet) bounded;
-            nonEmptyBounded.To.Should().Be(DateTime.MaxValue);
+            nonEmptyBounded.End.Should().Be(DateTime.MaxValue);
             nonEmptyBounded.Should().Be(new BoundedPeriodSet(startOne));
             new BoundedPeriodSet(startOne).Should().Be(nonEmptyBounded);
         }
@@ -266,14 +268,14 @@ namespace IntervalSetTest.PeriodSet
         [Test]
         public void Test_periods()
         {
-            StartingBoundedPeriod start1 = new StartingBoundedPeriod(new Start<DateTime>(startOne, Inclusivity.Inclusive));
-            StartingBoundedPeriod start2 = new StartingBoundedPeriod(new Start<DateTime>(startTwo, Inclusivity.Inclusive));
+            DefaultStartingInterval<DateTime> start1 = new DefaultStartingInterval<DateTime>(new Start<DateTime>(startOne, Inclusivity.Inclusive));
+            DefaultStartingInterval<DateTime> start2 = new DefaultStartingInterval<DateTime>(new Start<DateTime>(startTwo, Inclusivity.Inclusive));
 
 
-            BoundedPeriodSet difference = start1.Minus(start2);
+            DefaultIntervalSet<DateTime> difference = start1.Minus(start2);
             difference.Should().Be(one);
 
-            IBoundedPeriod period;
+            IDefaultInterval<DateTime> period;
             start1.IsNonEmpty(out period).Should().BeTrue();
             period.Should().Be(start1);
         }

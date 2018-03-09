@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.Serialization;
 using IntervalSet;
+using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
+using IntervalSet.Interval.Default;
 using PeriodSet.Period;
 
 namespace PeriodSet
@@ -14,10 +16,10 @@ namespace PeriodSet
     /// An <see cref="IIntervalSet{T}" /> of <see cref="DateTime"/> in which each period has an end of type <see cref="DateTime"/> and positive infinity is represented as <see cref="DateTime.MaxValue"/>
     /// </summary>
     [Serializable]
-    public class BoundedPeriodSet : MultipleIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, IBoundedPeriod,DateTime>
+    public class BoundedPeriodSet : DefaultIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, DateTime>
     {
         /// <inheritdoc />
-        public BoundedPeriodSet(IList<IBoundedPeriod> list):base(list)
+        public BoundedPeriodSet(IList<IDefaultInterval<DateTime>> list):base(list)
         {
         }
 
@@ -50,16 +52,16 @@ namespace PeriodSet
             {
                 if (to.Value == from)
                 {
-                    IntervalList.Add(new DegenerateBoundedPeriod(new Degenerate<DateTime>(from)));
+                    IntervalList.Add(new DefaultDegenerateInterval<DateTime>(new Degenerate<DateTime>(from)));
                 }
                 else
                 {
-                    IntervalList.Add(new StartEndingBoundedPeriod(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
+                    IntervalList.Add(new DefaultStartEndingInterval<DateTime>(start, new End<DateTime>(to.Value, Inclusivity.Exclusive)));
                 }
             }
             else
             {
-                IntervalList.Add(new StartingBoundedPeriod(start));
+                IntervalList.Add(new DefaultStartingInterval<DateTime>(start));
             }
         }
 
@@ -79,7 +81,7 @@ namespace PeriodSet
         /// <param name="what"></param>
         public void ForEach(Action<DateTime, DateTime> what)
         {
-            ForEach(p => what(p.Earliest,p.To));
+            ForEach(p => what(p.Start,p.End));
         }
 
         /// <summary>
@@ -90,7 +92,7 @@ namespace PeriodSet
         /// <returns></returns>
         public IEnumerable<T> Select<T>(Func<DateTime, DateTime, T> selector) where T : class
         {
-            return Select(p => selector(p.Earliest, p.To));
+            return Select(p => selector(p.Start, p.End));
         }
 
         /// <inheritdoc />
@@ -135,7 +137,7 @@ namespace PeriodSet
         /// <summary>
         /// The entire <see cref="DateTime"/> space, represented as a <see cref="BoundedPeriodSet"/> with <see cref="DateTime.MinValue"/> as start date and <see cref="DateTime.MaxValue"/> as end date
         /// </summary>
-        public static readonly BoundedPeriodSet All = new BoundedPeriodSet(new EntireBoundedPeriod());
+        public static readonly BoundedPeriodSet All = new BoundedPeriodSet(new DefaultEntireInterval<DateTime>());
 
         /// <summary>
         /// The empty set, represented as an empty <see cref="BoundedPeriodSet"/>
