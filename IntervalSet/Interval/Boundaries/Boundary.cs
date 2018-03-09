@@ -159,6 +159,10 @@ namespace IntervalSet.Interval.Boundaries
             return GetLeftBracket() + result + ", " + result + GetRightBracket();
         }
 
+        /// <summary>
+        /// Makes a <see cref="Boundary{T}"/> assignable to a <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="boundary"></param>
         public static implicit operator T(Boundary<T> boundary)
         {
             return boundary.Location;

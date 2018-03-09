@@ -7,7 +7,6 @@ using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using IntervalSet.Interval.Default;
-using PeriodSet.Period;
 
 namespace PeriodSet
 {
@@ -76,7 +75,7 @@ namespace PeriodSet
         }
 
         /// <summary>
-        /// Loops through each of the <see cref="IBoundedPeriod"/>s in this <see cref="BoundedPeriodSet"/> and applies a given <see cref="Action{T,T}" /> to their respective start and end dates
+        /// Loops through each of the <see cref="IDefaultInterval{T}"/>s in this <see cref="BoundedPeriodSet"/> and applies a given <see cref="Action{T,T}" /> to their respective start and end dates
         /// </summary>
         /// <param name="what"></param>
         public void ForEach(Action<DateTime, DateTime> what)
@@ -85,7 +84,7 @@ namespace PeriodSet
         }
 
         /// <summary>
-        /// Projects each respective start and end date of the <see cref="IBoundedPeriod"/>s in this <see cref="BoundedPeriodSet"/> to a new form
+        /// Projects each respective start and end date of the <see cref="IDefaultInterval{T}"/>s in this <see cref="BoundedPeriodSet"/> to a new form
         /// </summary>
         /// <typeparam name="T">The type of the value returned by the selector</typeparam>
         /// <param name="selector">A transform function to apply to each start and end date.</param>

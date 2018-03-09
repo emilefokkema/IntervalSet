@@ -10,15 +10,15 @@ namespace IntervalSet
     /// <summary>
     /// A base class for implementations of <see cref="IIntervalSet{T}"/>
     /// </summary>
-    public abstract class IntervalSet<TSet, TIntervalBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
+    public abstract class IntervalSet<TSet, TBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// The <typeparamref name="TIntervalBuilder"/> for this instance
+        /// The <typeparamref name="TBuilder"/> for this instance
         /// </summary>
-        protected readonly TIntervalBuilder IntervalBuilder = new TIntervalBuilder();
+        protected readonly TBuilder IntervalBuilder = new TBuilder();
 
         /// <inheritdoc />
         public virtual bool Contains(T item)
@@ -243,7 +243,7 @@ namespace IntervalSet
         /// <returns></returns>
         protected static IList<TInterval> MakeIntervals(SerializationInfo info)
         {
-            TIntervalBuilder builder = new TIntervalBuilder();
+            TBuilder builder = new TBuilder();
             bool containsNegativeInfinity = (bool)info.GetValue("ContainsNegativeInfinity", typeof(bool));
             List<Boundary<T>> boundaries = (List<Boundary<T>>)info.GetValue("Boundaries", typeof(List<Boundary<T>>));
             return builder.Build(boundaries, containsNegativeInfinity).ToList();

@@ -5,9 +5,16 @@ using IntervalSet.Interval.Default;
 
 namespace IntervalSet.Interval
 {
-    public abstract class Interval<TSet, TIntervalBuilder, TInterval, T> : IntervalSet<TSet, TIntervalBuilder, TInterval, T>, IDefaultInterval<T>
+    /// <summary>
+    /// Implementation of an <see cref="IIntervalSet{T}"/> that represents a single interval
+    /// </summary>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="TBuilder"></typeparam>
+    /// <typeparam name="TInterval"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    public abstract class Interval<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>, IDefaultInterval<T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -45,12 +52,16 @@ namespace IntervalSet.Interval
             what(GetInterval());
         }
 
+        /// <inheritdoc />
         public virtual Boundary<T> StartingBoundary => IntervalBuilder.NegativeInfinityBoundary;
 
+        /// <inheritdoc />
         public virtual Boundary<T> EndingBoundary => IntervalBuilder.PositiveInfinityBoundary;
 
+        /// <inheritdoc />
         public T Start => StartingBoundary;
 
+        /// <inheritdoc />
         public T End => EndingBoundary;
 
         /// <inheritdoc />

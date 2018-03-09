@@ -7,11 +7,26 @@ namespace IntervalSet
     /// <summary>
     /// Helps build up an <see cref="IIntervalSet{T}"/>
     /// </summary>
-    /// <typeparam name="TInterval">the type of interval to build</typeparam>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="TInterval"></typeparam>
     /// <typeparam name="T"></typeparam>
-    public interface IIntervalBuilder<TInterval, T>
+    public interface IBuilder<TSet, TInterval, T>
         where T : IEquatable<T>, IComparable<T>
     {
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> based on a list of <typeparamref name="TInterval"/>s
+        /// </summary>
+        /// <param name="intervals"></param>
+        /// <returns></returns>
+        TSet MakeSet(IList<TInterval> intervals);
+
+        /// <summary>
+        /// Returns a <typeparamref name="TInterval"/> representing the interval span of a list of <typeparamref name="TInterval"/>s
+        /// </summary>
+        /// <param name="intervals"></param>
+        /// <returns></returns>
+        TInterval MakeNonEmptySet(IList<TInterval> intervals);
+
         /// <summary>
         /// Builds a list of <typeparamref name="TInterval"/>s given a list of <see cref="Boundary{T}"/>s
         /// </summary>
@@ -55,8 +70,14 @@ namespace IntervalSet
         /// <returns></returns>
         TInterval MakeDegenerate(Degenerate<T> degenerate);
 
+        /// <summary>
+        /// Negative infinity represented as a <see cref="Boundary{T}"/>
+        /// </summary>
         Boundary<T> NegativeInfinityBoundary { get; }
 
+        /// <summary>
+        /// Positive infinity represented as a <see cref="Boundary{T}"/>
+        /// </summary>
         Boundary<T> PositiveInfinityBoundary { get; }
     }
 }

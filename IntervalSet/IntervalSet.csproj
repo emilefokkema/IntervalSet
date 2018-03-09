@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBuilder.cs" />
     <Compile Include="Interval\Boundaries\PositiveInfinity.cs" />
     <Compile Include="Interval\Boundaries\NegativeInfinity.cs" />
     <Compile Include="Interval\Interval.cs" />
-    <Compile Include="ISetBuilder.cs" />
-    <Compile Include="IntervalBuilder.cs" />
+    <Compile Include="Builder.cs" />
     <Compile Include="Default\DefaultNonEmptyIntervalSet.cs" />
     <Compile Include="Default\DefaultIntervalSet.cs" />
     <Compile Include="Default\DefaultBuilder.cs" />
@@ -62,7 +62,6 @@
     <Compile Include="EmptyIntervalSet.cs" />
     <Compile Include="IntervalSet.cs" />
     <Compile Include="IIntervalSet.cs" />
-    <Compile Include="IIntervalBuilder.cs" />
     <Compile Include="IEnumerableIntervalSet.cs" />
     <Compile Include="Interval\Boundaries\Boundary.cs" />
     <Compile Include="Interval\Boundaries\Degenerate.cs" />

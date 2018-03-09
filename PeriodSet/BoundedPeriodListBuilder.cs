@@ -8,11 +8,13 @@ namespace PeriodSet
     /// <inheritdoc />
     public class BoundedPeriodListBuilder : AbstractDefaultBuilder<BoundedPeriodSet, BoundedPeriodListBuilder, DateTime>
     {
+        /// <inheritdoc />
         public override BoundedPeriodSet MakeSet(IList<IDefaultInterval<DateTime>> intervals)
         {
             return new BoundedPeriodSet(intervals);
         }
 
+        /// <inheritdoc />
         public override IDefaultInterval<DateTime> MakeNonEmptySet(IList<IDefaultInterval<DateTime>> intervals)
         {
             return new NonEmptyBoundedPeriodSet(intervals);

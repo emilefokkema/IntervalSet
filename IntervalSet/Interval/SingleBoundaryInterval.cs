@@ -8,9 +8,9 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a single boundary
     /// </summary>
-    public abstract class SingleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T> : Interval<TSet, TIntervalBuilder, TInterval, T>
+    public abstract class SingleBoundaryInterval<TSet, TBuilder, TInterval, T> : Interval<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
@@ -83,6 +83,7 @@ namespace IntervalSet.Interval
             return Boundary.GetHashCode();
         }
 
+        /// <inheritdoc />
         public override Boundary<T> StartingBoundary {
             get
             {
@@ -94,6 +95,7 @@ namespace IntervalSet.Interval
             }
         }
 
+        /// <inheritdoc />
         public override Boundary<T> EndingBoundary {
             get
             {

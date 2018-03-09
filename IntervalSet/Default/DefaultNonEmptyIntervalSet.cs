@@ -11,9 +11,11 @@ namespace IntervalSet.Default
     /// A default implementation of an <see cref="IIntervalSet{T}"/> that contains at least one <see cref="IDefaultInterval{T}"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultNonEmptyIntervalSet<TSet, TIntervalBuilder, T> : NonEmptyIntervalSet<TSet, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="TBuilder"></typeparam>
+    public class DefaultNonEmptyIntervalSet<TSet, TBuilder, T> : NonEmptyIntervalSet<TSet, TBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<TSet, IDefaultInterval<T>, T>, new()
+        where TBuilder : IBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -24,6 +26,10 @@ namespace IntervalSet.Default
         {
         }
 
+        /// <summary>
+        /// Initializes a new <see cref="DefaultNonEmptyIntervalSet{TSet,TIntervalBuilder,T}"/> based on a given <see cref="IIntervalSet{T}"/>
+        /// </summary>
+        /// <param name="set"></param>
         public DefaultNonEmptyIntervalSet(IIntervalSet<T> set):base(set)
         {
         }
@@ -34,8 +40,10 @@ namespace IntervalSet.Default
         /// <inheritdoc />
         public Boundary<T> EndingBoundary => IntervalList.Last().EndingBoundary;
 
+        /// <inheritdoc />
         public T Start => StartingBoundary;
 
+        /// <inheritdoc />
         public T End => EndingBoundary;
 
         /// <inheritdoc />
@@ -45,8 +53,11 @@ namespace IntervalSet.Default
         }
     }
 
+    /// <summary>
+    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// </summary>
     public class DefaultNonEmptyIntervalSet<TIntervalBuilder, T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -58,6 +69,9 @@ namespace IntervalSet.Default
         }
     }
 
+    /// <summary>
+    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// </summary>
     public class DefaultNonEmptyIntervalSet<T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {

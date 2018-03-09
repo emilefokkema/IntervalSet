@@ -11,9 +11,9 @@ namespace IntervalSet
     /// <summary>
     /// A subset of the <typeparamref name="T"/> space consisting of zero or more <see cref="IIntervalSet{T}"/>s
     /// </summary>
-    public abstract class MultipleIntervalSet<TSet, TIntervalBuilder, TInterval, T> : EmptyIntervalSet<TSet, TIntervalBuilder, TInterval, T>
+    public abstract class MultipleIntervalSet<TSet, TBuilder, TInterval, T> : EmptyIntervalSet<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where TInterval : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {

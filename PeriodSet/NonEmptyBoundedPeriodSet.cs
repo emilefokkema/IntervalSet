@@ -1,18 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using IntervalSet;
 using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 using IntervalSet.Interval.Boundaries.Kind;
 using IntervalSet.Interval.Default;
-using PeriodSet.Period;
 
 namespace PeriodSet
 {
     /// <summary>
-    /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IBoundedPeriod"/>
+    /// A <see cref="BoundedPeriodSet"/> that contains at least one <see cref="IDefaultInterval{T}"/>
     /// </summary>
     public class NonEmptyBoundedPeriodSet : DefaultNonEmptyIntervalSet<BoundedPeriodSet, BoundedPeriodListBuilder, DateTime>
     {

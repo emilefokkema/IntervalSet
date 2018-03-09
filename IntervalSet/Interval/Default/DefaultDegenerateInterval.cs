@@ -8,13 +8,15 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IIntervalSet{T}"/> consisting of a single <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultDegenerateInterval<TSet, TIntervalBuilder, T> : SingleBoundaryInterval<TSet, TIntervalBuilder, IDefaultInterval<T>, T>
+    /// <typeparam name="TSet"></typeparam>
+    /// <typeparam name="TBuilder"></typeparam>
+    public class DefaultDegenerateInterval<TSet, TBuilder, T> : SingleBoundaryInterval<TSet, TBuilder, IDefaultInterval<T>, T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<TSet, IDefaultInterval<T>, T>, new()
+        where TBuilder : IBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultDegenerateInterval{T}"/> based on a given <typeparamref name="T"/>
+        /// Initializes a new <see cref="DefaultDegenerateInterval{TSet, TIntervalBuilder, T}"/> based on a given <typeparamref name="T"/>
         /// </summary>
         /// <param name="boundary"></param>
         public DefaultDegenerateInterval(Degenerate<T> boundary):base(boundary)
@@ -28,12 +30,15 @@ namespace IntervalSet.Interval.Default
         }
     }
 
+    /// <summary>
+    /// A default implementation of <see cref="DefaultDegenerateInterval{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// </summary>
     public class DefaultDegenerateInterval<TIntervalBuilder, T> : DefaultDegenerateInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultDegenerateInterval{T}"/> based on a given <typeparamref name="T"/>
+        /// Initializes a new <see cref="DefaultDegenerateInterval{TIntervalBuilder, T}"/> based on a given <typeparamref name="T"/>
         /// </summary>
         /// <param name="boundary"></param>
         public DefaultDegenerateInterval(Degenerate<T> boundary) : base(boundary)
@@ -41,6 +46,9 @@ namespace IntervalSet.Interval.Default
         }
     }
 
+    /// <summary>
+    /// A default implementation of <see cref="DefaultDegenerateInterval{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// </summary>
     public class DefaultDegenerateInterval<T> : DefaultDegenerateInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {

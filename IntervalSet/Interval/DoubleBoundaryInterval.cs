@@ -8,9 +8,9 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a start and an end
     /// </summary>
-    public abstract class DoubleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T> : SingleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T>
+    public abstract class DoubleBoundaryInterval<TSet, TBuilder, TInterval, T> : SingleBoundaryInterval<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
-        where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
+        where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />
@@ -24,13 +24,15 @@ namespace IntervalSet.Interval
         /// </summary>
         protected Boundary<T> OtherBoundary;
 
-        private readonly Boundary<T> Min;
+        private readonly Boundary<T> _min;
 
-        private readonly Boundary<T> Max;
+        private readonly Boundary<T> _max;
 
-        public override Boundary<T> StartingBoundary => Min;
+        /// <inheritdoc />
+        public override Boundary<T> StartingBoundary => _min;
 
-        public override Boundary<T> EndingBoundary => Max;
+        /// <inheritdoc />
+        public override Boundary<T> EndingBoundary => _max;
 
         /// <summary>
         /// Initializes a new <see cref="DoubleBoundaryInterval{TSet,TBuilder,TInterval,T}"/> with two <see cref="Boundary{T}"/>s
@@ -42,28 +44,28 @@ namespace IntervalSet.Interval
             OtherBoundary = other;
             if (Boundary.Location.CompareTo(OtherBoundary.Location) < 0)
             {
-                Min = Boundary;
-                Max = OtherBoundary;
+                _min = Boundary;
+                _max = OtherBoundary;
             }
             else
             {
-                Min = OtherBoundary;
-                Max = Boundary;
+                _min = OtherBoundary;
+                _max = Boundary;
             }
         }
 
         /// <inheritdoc />
         public override bool Contains(T item)
         {
-            if (item.Equals(Min.Location))
+            if (item.Equals(_min.Location))
             {
-                return Min.Inclusive;
+                return _min.Inclusive;
             }
-            if (item.Equals(Max.Location))
+            if (item.Equals(_max.Location))
             {
-                return Max.Inclusive;
+                return _max.Inclusive;
             }
-            if (item.CompareTo(Min.Location) > 0 && item.CompareTo(Max.Location) < 0)
+            if (item.CompareTo(_min.Location) > 0 && item.CompareTo(_max.Location) < 0)
             {
                 return true;
             }
@@ -73,7 +75,7 @@ namespace IntervalSet.Interval
         /// <inheritdoc />
         public override bool ContainsInterval(T from, T to)
         {
-            return from.CompareTo(Min.Location) >= 0 && to.CompareTo(Max.Location) <= 0;
+            return from.CompareTo(_min.Location) >= 0 && to.CompareTo(_max.Location) <= 0;
         }
 
         /// <inheritdoc />
@@ -81,23 +83,23 @@ namespace IntervalSet.Interval
         {
             get
             {
-                yield return Min;
-                yield return Max;
+                yield return _min;
+                yield return _max;
             }
         }
 
         /// <inheritdoc />
         public override BoundaryKind Cross(T location)
         {
-            if (location.Equals(Min.Location))
+            if (location.Equals(_min.Location))
             {
-                return Min.Kind;
+                return _min.Kind;
             }
-            if (location.Equals(Max.Location))
+            if (location.Equals(_max.Location))
             {
-                return Max.Kind;
+                return _max.Kind;
             }
-            if (location.CompareTo(Min.Location) < 0 || location.CompareTo(Max.Location) > 0)
+            if (location.CompareTo(_min.Location) < 0 || location.CompareTo(_max.Location) > 0)
             {
                 return null;
             }
@@ -109,7 +111,7 @@ namespace IntervalSet.Interval
         {
             unchecked
             {
-                return (Min.GetHashCode() * 397) ^ Max.GetHashCode();
+                return (_min.GetHashCode() * 397) ^ _max.GetHashCode();
             }
         }
     }

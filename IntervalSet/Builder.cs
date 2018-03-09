@@ -6,9 +6,15 @@ using IntervalSet.Interval.Boundaries;
 namespace IntervalSet
 {
     /// <inheritdoc />
-    public abstract class IntervalBuilder<TInterval, T> : IIntervalBuilder<TInterval, T>
+    public abstract class Builder<TSet, TInterval, T> : IBuilder<TSet, TInterval, T>
         where T : IEquatable<T>, IComparable<T>
     {
+        /// <inheritdoc />
+        public abstract TSet MakeSet(IList<TInterval> intervals);
+
+        /// <inheritdoc />
+        public abstract TInterval MakeNonEmptySet(IList<TInterval> intervals);
+
         /// <inheritdoc />
         public abstract TInterval MakeStartingInterval(Start<T> from);
 
@@ -106,10 +112,14 @@ namespace IntervalSet
             }
         }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The <typeparamref name="T"/> that is greater than all <typeparamref name="T"/>s
+        /// </summary>
         protected abstract T PositiveInfinity { get; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// The <typeparamref name="T"/> that is less than all <typeparamref name="T"/>s
+        /// </summary>
         protected abstract T NegativeInfinity { get; }
 
         /// <inheritdoc />

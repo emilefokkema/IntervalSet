@@ -6,15 +6,17 @@ using PeriodSet.Period;
 
 namespace PeriodSet
 {
-    /// <inheritdoc />
-    public class OpenPeriodListBuilder : IntervalBuilder<IOpenPeriod, DateTime>, ISetBuilder<OpenPeriodSet, IOpenPeriod, DateTime>
+    /// <inheritdoc cref="Builder{TSet,TInterval,T}"/>
+    public class OpenPeriodListBuilder : Builder<OpenPeriodSet, IOpenPeriod, DateTime>
     {
-        public OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
+        /// <inheritdoc />
+        public override OpenPeriodSet MakeSet(IList<IOpenPeriod> intervals)
         {
             return new OpenPeriodSet(intervals);
         }
 
-        public IOpenPeriod MakeNonEmptySet(IList<IOpenPeriod> intervals)
+        /// <inheritdoc />
+        public override IOpenPeriod MakeNonEmptySet(IList<IOpenPeriod> intervals)
         {
             return new NonEmptyOpenPeriodSet(intervals);
         }
