@@ -16,7 +16,7 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultStartingInterval{TSet, TIntervalBuilder, T}"/> with a given <see cref="Boundaries.Start{T}"/>
+        /// Initializes a new <see cref="DefaultStartingInterval{TSet, TBuilder, T}"/> with a given <see cref="Boundaries.Start{T}"/>
         /// </summary>
         /// <param name="from"></param>
         public DefaultStartingInterval(Start<T> from):base(from)
@@ -31,14 +31,14 @@ namespace IntervalSet.Interval.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultStartingInterval{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// A default implementation of <see cref="DefaultStartingInterval{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
-    public class DefaultStartingInterval<TIntervalBuilder, T> : DefaultStartingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultStartingInterval<TBuilder, T> : DefaultStartingInterval<DefaultIntervalSet<TBuilder, T>, TBuilder, T>
+        where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultStartingInterval{TIntervalBuilder, T}"/> with a given <see cref="Boundaries.Start{T}"/>
+        /// Initializes a new <see cref="DefaultStartingInterval{TBuilder, T}"/> with a given <see cref="Boundaries.Start{T}"/>
         /// </summary>
         /// <param name="from"></param>
         public DefaultStartingInterval(Start<T> from) : base(from)
@@ -47,7 +47,7 @@ namespace IntervalSet.Interval.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultStartingInterval{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// A default implementation of <see cref="DefaultStartingInterval{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
     public class DefaultStartingInterval<T> : DefaultStartingInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>

@@ -22,16 +22,16 @@ namespace IntervalSet.Interval.Default
     }
 
     /// <summary>
-    /// A default impementation of <see cref="DefaultEntireInterval{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// A default impementation of <see cref="DefaultEntireInterval{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
-    public class DefaultEntireInterval<TIntervalBuilder, T> : DefaultEntireInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultEntireInterval<TBuilder, T> : DefaultEntireInterval<DefaultIntervalSet<TBuilder, T>, TBuilder, T>
+        where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
     }
 
     /// <summary>
-    /// A default impementation of <see cref="DefaultEntireInterval{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// A default impementation of <see cref="DefaultEntireInterval{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
     public class DefaultEntireInterval<T> : DefaultEntireInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>

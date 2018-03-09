@@ -27,7 +27,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultNonEmptyIntervalSet{TSet,TIntervalBuilder,T}"/> based on a given <see cref="IIntervalSet{T}"/>
+        /// Initializes a new <see cref="DefaultNonEmptyIntervalSet{TSet,TBuilder,T}"/> based on a given <see cref="IIntervalSet{T}"/>
         /// </summary>
         /// <param name="set"></param>
         public DefaultNonEmptyIntervalSet(IIntervalSet<T> set):base(set)
@@ -54,10 +54,10 @@ namespace IntervalSet.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
-    public class DefaultNonEmptyIntervalSet<TIntervalBuilder, T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultNonEmptyIntervalSet<TBuilder, T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<TBuilder, T>, TBuilder, T>
+        where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
@@ -70,7 +70,7 @@ namespace IntervalSet.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// A default implementation of <see cref="DefaultNonEmptyIntervalSet{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
     public class DefaultNonEmptyIntervalSet<T> : DefaultNonEmptyIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>

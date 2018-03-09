@@ -21,14 +21,14 @@ namespace IntervalSet.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new, empty, <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/>
+        /// Initializes a new, empty, <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/>
         /// </summary>
         public DefaultIntervalSet()
         {
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/> with a given list of <see cref="IDefaultInterval{T}"/>s
+        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> with a given list of <see cref="IDefaultInterval{T}"/>s
         /// </summary>
         /// <param name="intervals"></param>
         public DefaultIntervalSet(IList<IDefaultInterval<T>> intervals):base(intervals)
@@ -36,7 +36,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/> based on a given <see cref="IIntervalSet{T}"/>
+        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> based on a given <see cref="IIntervalSet{T}"/>
         /// </summary>
         /// <param name="set"></param>
         public DefaultIntervalSet(IIntervalSet<T> set):base(set)
@@ -44,7 +44,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/> based on a given <see cref="Start{T}"/>
+        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> based on a given <see cref="Start{T}"/>
         /// </summary>
         /// <param name="start"></param>
         public DefaultIntervalSet(Start<T> start):base(start)
@@ -52,7 +52,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Deserializes a <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/>
+        /// Deserializes a <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/>
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -61,7 +61,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/> with a given start <typeparamref name="T"/> and end <typeparamref name="T"/>
+        /// Initializes a new <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> with a given start <typeparamref name="T"/> and end <typeparamref name="T"/>
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -79,22 +79,22 @@ namespace IntervalSet.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultIntervalSet{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// A default implementation of <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
     [Serializable]
-    public class DefaultIntervalSet<TIntervalBuilder, T> : DefaultIntervalSet<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultIntervalSet<TBuilder, T> : DefaultIntervalSet<DefaultIntervalSet<TBuilder, T>, TBuilder, T>
+        where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new, empty, <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+        /// Initializes a new, empty, <see cref="DefaultIntervalSet{TBuilder,T}"/>
         /// </summary>
         public DefaultIntervalSet()
         {
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/> with a given list of <see cref="IDefaultInterval{T}"/>s
+        /// Initializes a new <see cref="DefaultIntervalSet{TBuilder,T}"/> with a given list of <see cref="IDefaultInterval{T}"/>s
         /// </summary>
         /// <param name="intervals"></param>
         public DefaultIntervalSet(IList<IDefaultInterval<T>> intervals) : base(intervals)
@@ -102,7 +102,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Deserializes a <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+        /// Deserializes a <see cref="DefaultIntervalSet{TBuilder,T}"/>
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -111,7 +111,7 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// Initializes a new <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/> with a given start <typeparamref name="T"/> and end <typeparamref name="T"/>
+        /// Initializes a new <see cref="DefaultIntervalSet{TBuilder,T}"/> with a given start <typeparamref name="T"/> and end <typeparamref name="T"/>
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
@@ -120,18 +120,18 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
-        /// A <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/> representing the entire <typeparamref name="T"/> space
+        /// A <see cref="DefaultIntervalSet{TBuilder,T}"/> representing the entire <typeparamref name="T"/> space
         /// </summary>
-        public static DefaultIntervalSet<TIntervalBuilder,T> All = new DefaultIntervalSet<TIntervalBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TIntervalBuilder,T>()});
+        public static DefaultIntervalSet<TBuilder,T> All = new DefaultIntervalSet<TBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TBuilder,T>()});
 
         /// <summary>
-        /// A <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/> representing the empty set as a set containing only <typeparamref name="T"/>s
+        /// A <see cref="DefaultIntervalSet{TBuilder,T}"/> representing the empty set as a set containing only <typeparamref name="T"/>s
         /// </summary>
-        public static DefaultIntervalSet<TIntervalBuilder,T> Empty = new DefaultIntervalSet<TIntervalBuilder,T>();
+        public static DefaultIntervalSet<TBuilder,T> Empty = new DefaultIntervalSet<TBuilder,T>();
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// A default implementation of <see cref="DefaultIntervalSet{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
     [Serializable]
     public class DefaultIntervalSet<T> : DefaultIntervalSet<DefaultIntervalSet<T>, DefaultBuilder<T>, T>

@@ -16,7 +16,7 @@ namespace IntervalSet.Interval.Default
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultEndingInterval{TSet, TIntervalBuilder, T}"/> with a given <see cref="Boundaries.End{T}"/>
+        /// Initializes a new <see cref="DefaultEndingInterval{TSet, TBuilder, T}"/> with a given <see cref="Boundaries.End{T}"/>
         /// </summary>
         /// <param name="end"></param>
         public DefaultEndingInterval(End<T> end):base(end)
@@ -31,14 +31,14 @@ namespace IntervalSet.Interval.Default
     }
 
     /// <summary>
-    /// A default implementation of an <see cref="DefaultEndingInterval{TSet,TIntervalBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TIntervalBuilder,T}"/>
+    /// A default implementation of an <see cref="DefaultEndingInterval{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
-    public class DefaultEndingInterval<TIntervalBuilder, T> : DefaultEndingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>
-        where TIntervalBuilder : IBuilder<DefaultIntervalSet<TIntervalBuilder, T>, IDefaultInterval<T>, T>, new()
+    public class DefaultEndingInterval<TBuilder, T> : DefaultEndingInterval<DefaultIntervalSet<TBuilder, T>, TBuilder, T>
+        where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
         /// <summary>
-        /// Initializes a new <see cref="DefaultEndingInterval{TIntervalBuilder, T}"/> with a given <see cref="Boundaries.End{T}"/>
+        /// Initializes a new <see cref="DefaultEndingInterval{TBuilder, T}"/> with a given <see cref="Boundaries.End{T}"/>
         /// </summary>
         /// <param name="end"></param>
         public DefaultEndingInterval(End<T> end) : base(end)
@@ -47,7 +47,7 @@ namespace IntervalSet.Interval.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="DefaultEndingInterval{TIntervalBuilder,T}"/> where <c>TIntervalBuilder</c> is <see cref="DefaultBuilder{T}"/>
+    /// A default implementation of <see cref="DefaultEndingInterval{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
     public class DefaultEndingInterval<T> : DefaultEndingInterval<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>
