@@ -13,11 +13,21 @@ namespace IntervalSet.Interval.Default
         /// <summary>
         /// The start of this interval
         /// </summary>
-        Boundary<T> Start { get; }
+        Boundary<T> StartingBoundary { get; }
+
+        /// <summary>
+        /// The start of this interval
+        /// </summary>
+        T Start { get; }
 
         /// <summary>
         /// The end of this interval
         /// </summary>
-        Boundary<T> End { get; }
+        Boundary<T> EndingBoundary { get; }
+
+        /// <summary>
+        /// The end of this interval
+        /// </summary>
+        T End { get; }
     }
 }

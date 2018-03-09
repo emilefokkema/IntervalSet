@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using IntervalSet.Default;
 using IntervalSet.Interval.Boundaries;
 
@@ -9,7 +8,7 @@ namespace IntervalSet.Interval.Default
     /// A default implementation of an <see cref="IDefaultInterval{T}"/> with only a start <typeparamref name="T"/>
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DefaultStartingInterval<TSet, TIntervalBuilder, T> : SingleBoundaryInterval<TSet, TIntervalBuilder, IDefaultInterval<T>, T>, IDefaultInterval<T>
+    public class DefaultStartingInterval<TSet, TIntervalBuilder, T> : SingleBoundaryInterval<TSet, TIntervalBuilder, IDefaultInterval<T>, T>
         where TSet : IIntervalSet<T>
         where TIntervalBuilder : IIntervalBuilder<IDefaultInterval<T>, T>, ISetBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
@@ -27,12 +26,6 @@ namespace IntervalSet.Interval.Default
         {
             return this;
         }
-
-        /// <inheritdoc />
-        public Boundary<T> End => IntervalBuilder.PositiveInfinityBoundary;
-
-        /// <inheritdoc />
-        public Boundary<T> Start => Boundary;
     }
 
     public class DefaultStartingInterval<TIntervalBuilder, T> : DefaultStartingInterval<DefaultIntervalSet<TIntervalBuilder, T>, TIntervalBuilder, T>

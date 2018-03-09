@@ -25,9 +25,9 @@ namespace PeriodSet.Period
         /// <summary>
         /// This <see cref="IOpenPeriod"/> does have an end date
         /// </summary>
-        public DateTime? To => Max.Location;
+        public DateTime? To => EndingBoundary;
 
         /// <inheritdoc />
-        public DateTime Earliest => Min.Location;
+        public DateTime Earliest => StartingBoundary;
     }
 }

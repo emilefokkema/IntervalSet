@@ -69,6 +69,7 @@
     <Compile Include="PeriodSet\PeriodSetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerializationTest\SerializationTest.cs" />
+    <Compile Include="ToStringTest\ToStringTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

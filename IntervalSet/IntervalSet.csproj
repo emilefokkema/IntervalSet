@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Interval\Boundaries\PositiveInfinity.cs" />
     <Compile Include="Interval\Boundaries\NegativeInfinity.cs" />
+    <Compile Include="Interval\Interval.cs" />
     <Compile Include="ISetBuilder.cs" />
     <Compile Include="IntervalBuilder.cs" />
     <Compile Include="Default\DefaultNonEmptyIntervalSet.cs" />

@@ -8,17 +8,11 @@ namespace IntervalSet.Interval
     /// <summary>
     /// A base class for implementations of an <see cref="IIntervalSet{T}"/> representing an interval with a single boundary
     /// </summary>
-    public abstract class SingleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T> : IntervalSet<TSet, TIntervalBuilder, TInterval, T>
+    public abstract class SingleBoundaryInterval<TSet, TIntervalBuilder, TInterval, T> : Interval<TSet, TIntervalBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
         where TIntervalBuilder : IIntervalBuilder<TInterval, T>, ISetBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
-        /// <summary>
-        /// returns a typed version of this instance
-        /// </summary>
-        /// <returns></returns>
-        protected abstract TInterval GetInterval();
-
         /// <inheritdoc />
         public override bool ContainsNegativeInfinity()
         {
@@ -70,23 +64,6 @@ namespace IntervalSet.Interval
         }
 
         /// <inheritdoc />
-        public override bool IsNonEmpty(out TInterval nonEmpty)
-        {
-            nonEmpty = GetInterval();
-            return true;
-        }
-
-        /// <summary>
-        /// An interval is never empty
-        /// </summary>
-        public override bool IsEmpty => false;
-
-        /// <summary>
-        /// Namely, this one
-        /// </summary>
-        public override int IntervalCount => 1;
-
-        /// <inheritdoc />
         public override BoundaryKind Cross(T location)
         {
             if (location.Equals(Boundary.Location))
@@ -101,46 +78,31 @@ namespace IntervalSet.Interval
         }
 
         /// <inheritdoc />
-        public override IEnumerable<TT> Select<TT>(Func<TInterval, TT> selector)
-        {
-            yield return selector(GetInterval());
-        }
-
-        /// <inheritdoc />
-        public override void ForEach(Action<TInterval> what)
-        {
-            what(GetInterval());
-        }
-
-        /// <inheritdoc />
         public override int GetHashCode()
         {
             return Boundary.GetHashCode();
         }
 
-        /// <inheritdoc />
-        public override string ToString(string format, IFormatProvider formatProvider)
-        {
-            string boundaryString = Boundary.ToString(format, formatProvider);
-            string negativeInfinity = IntervalBuilder.NegativeInfinityBoundary.ToString(format, formatProvider);
-            string positiveInfinity = IntervalBuilder.PositiveInfinityBoundary.ToString(format, formatProvider);
-            if (Boundary.IsContinuation)
+        public override Boundary<T> StartingBoundary {
+            get
             {
-                return $"{negativeInfinity}, {positiveInfinity}";
-            }
-            if (Boundary.IsEnd)
-            {
-                if (Boundary.IsStart)
+                if (!Boundary.IsEnd)
                 {
-                    return $"{negativeInfinity}, {boundaryString}, {positiveInfinity}";
+                    return Boundary;
                 }
-                return $"{negativeInfinity}, {boundaryString}";
+                return IntervalBuilder.NegativeInfinityBoundary;
             }
-            if (Boundary.IsStart)
+        }
+
+        public override Boundary<T> EndingBoundary {
+            get
             {
-                return $"{boundaryString}, {positiveInfinity}";
+                if (!Boundary.IsStart)
+                {
+                    return Boundary;
+                }
+                return IntervalBuilder.PositiveInfinityBoundary;
             }
-            return boundaryString;
         }
     }
 }

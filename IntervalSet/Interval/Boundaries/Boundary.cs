@@ -159,9 +159,9 @@ namespace IntervalSet.Interval.Boundaries
             return GetLeftBracket() + result + ", " + result + GetRightBracket();
         }
 
-        //public static implicit operator T(Boundary<T> boundary)
-        //{
-        //    return boundary.Location;
-        //}
+        public static implicit operator T(Boundary<T> boundary)
+        {
+            return boundary.Location;
+        }
     }
 }

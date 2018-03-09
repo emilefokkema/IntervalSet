@@ -25,10 +25,14 @@ namespace IntervalSet.Default
         }
 
         /// <inheritdoc />
-        public Boundary<T> Start => IntervalList.First().Start;
+        public Boundary<T> StartingBoundary => IntervalList.First().StartingBoundary;
 
         /// <inheritdoc />
-        public Boundary<T> End => IntervalList.Last().End;
+        public Boundary<T> EndingBoundary => IntervalList.Last().EndingBoundary;
+
+        public T Start => StartingBoundary;
+
+        public T End => EndingBoundary;
 
         /// <inheritdoc />
         public override string ToString()

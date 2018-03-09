@@ -22,9 +22,9 @@ namespace PeriodSet.Period
         }
 
         /// <inheritdoc />
-        public DateTime To => Max.Location;
+        public DateTime To => EndingBoundary;
 
         /// <inheritdoc />
-        public DateTime Earliest => Min.Location;
+        public DateTime Earliest => StartingBoundary;
     }
 }

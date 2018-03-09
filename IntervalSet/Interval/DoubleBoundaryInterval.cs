@@ -24,15 +24,13 @@ namespace IntervalSet.Interval
         /// </summary>
         protected Boundary<T> OtherBoundary;
 
-        /// <summary>
-        /// The smallest <see cref="Boundary{T}"/> of this interval
-        /// </summary>
-        protected Boundary<T> Min { get; }
+        private readonly Boundary<T> Min;
 
-        /// <summary>
-        /// The largest <see cref="Boundary{T}"/> of this interval
-        /// </summary>
-        protected Boundary<T> Max { get; }
+        private readonly Boundary<T> Max;
+
+        public override Boundary<T> StartingBoundary => Min;
+
+        public override Boundary<T> EndingBoundary => Max;
 
         /// <summary>
         /// Initializes a new <see cref="DoubleBoundaryInterval{TSet,TBuilder,TInterval,T}"/> with two <see cref="Boundary{T}"/>s
@@ -113,12 +111,6 @@ namespace IntervalSet.Interval
             {
                 return (Min.GetHashCode() * 397) ^ Max.GetHashCode();
             }
-        }
-
-        /// <inheritdoc />
-        public override string ToString(string format, IFormatProvider formatProvider)
-        {
-            return Min.ToString(format, formatProvider) + ", " + Max.ToString(format, formatProvider);
         }
     }
 }
