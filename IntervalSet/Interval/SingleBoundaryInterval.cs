@@ -10,6 +10,7 @@ namespace IntervalSet.Interval
     /// </summary>
     public abstract class SingleBoundaryInterval<TSet, TBuilder, TInterval, T> : Interval<TSet, TBuilder, TInterval, T>
         where TSet : IIntervalSet<T>
+        where TInterval : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {

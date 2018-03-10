@@ -12,6 +12,7 @@ namespace IntervalSet
     /// </summary>
     public abstract class IntervalSet<TSet, TBuilder, TInterval, T> : IEnumerableIntervalSet<TInterval, T>, IIntervalSet<TSet, T>, IEmptyOrNot<TInterval>
         where TSet : IIntervalSet<T>
+        where TInterval : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
@@ -74,9 +75,15 @@ namespace IntervalSet
         /// <inheritdoc />
         public TSet Minus(IIntervalSet<T> other)
         {
-            List<Boundary<T>> minusBoundaries = Boundaries.Where(b => !other.Contains(b.Location))
+            List<Boundary<T>> minusBoundaries = Boundaries.Where(b => other.Cross(b.Location) == null)
                 .Concat(MinusBoundaries(other)).ToList();
             return IntervalBuilder.MakeSet(IntervalBuilder.Build(minusBoundaries, !other.ContainsNegativeInfinity() && ContainsNegativeInfinity()).ToList());
+        }
+
+        /// <inheritdoc />
+        public TSet Minus(T other)
+        {
+            return Minus(IntervalBuilder.MakeDegenerate(new Degenerate<T>(other)));
         }
 
         private IEnumerable<Boundary<T>> MinusBoundaries(IIntervalSet<T> other)
@@ -128,6 +135,12 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
+        public TSet Plus(T other)
+        {
+            return Plus(IntervalBuilder.MakeDegenerate(new Degenerate<T>(other)));
+        }
+
+        /// <inheritdoc />
         public TSet Cross(IIntervalSet<T> other)
         {
             List<Boundary<T>> crossBoundaries = CrossBoundaries(this, other).Concat(CrossBoundaries(other, this)).ToList();
@@ -149,7 +162,17 @@ namespace IntervalSet
             return Minus(other);
         }
 
+        IIntervalSet<T> IIntervalSet<T>.Minus(T other)
+        {
+            return Minus(other);
+        }
+
         IIntervalSet<T> IIntervalSet<T>.Plus(IIntervalSet<T> other)
+        {
+            return Plus(other);
+        }
+
+        IIntervalSet<T> IIntervalSet<T>.Plus(T other)
         {
             return Plus(other);
         }

@@ -14,6 +14,7 @@ namespace IntervalSet.Interval
     /// <typeparam name="T"></typeparam>
     public abstract class Interval<TSet, TBuilder, TInterval, T> : IntervalSet<TSet, TBuilder, TInterval, T>, IDefaultInterval<T>
         where TSet : IIntervalSet<T>
+        where TInterval : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, TInterval, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {

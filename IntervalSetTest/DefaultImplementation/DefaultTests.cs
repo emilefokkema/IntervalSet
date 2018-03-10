@@ -29,6 +29,12 @@ namespace IntervalSetTest.DefaultImplementation
             DoubleSet a = new DoubleSet(6, 6);
             a.IsEmpty.Should().BeTrue();
 
+            DoubleSet six = DoubleSet.Empty.Plus(6);
+            six.Contains(6).Should().BeTrue();
+
+            new DoubleSet(1, 2).Plus(new DoubleSet(2, 3)).Plus(2).Should().Be(new DoubleSet(1, 3));
+            new DoubleSet(1, 3).Minus(2).Should().Be(new DoubleSet(1, 2).Plus(new DoubleSet(2, 3)));
+
             DoubleSet fiveSix = new DoubleSet(5, 6);
             fiveSix.Contains(5).Should().BeFalse();
             DoubleSet all = DoubleSet.All;

@@ -25,12 +25,26 @@ namespace IntervalSet
         IIntervalSet<T> Minus(IIntervalSet<T> other);
 
         /// <summary>
+        /// Returns an <see cref="IIntervalSet{T}"/> representing the relative complement of an <see cref="IIntervalSet{T}"/> containing only <paramref name="other"/> in this one
+        /// </summary>
+        /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
+        /// <returns></returns>
+        IIntervalSet<T> Minus(T other);
+
+        /// <summary>
         /// Returns an <see cref="IIntervalSet{T}"/> representing the union of this <see cref="IIntervalSet{T}"/> and another
         /// </summary>
         /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
         /// <returns></returns>
         IIntervalSet<T> Plus(IIntervalSet<T> other);
 
+        /// <summary>
+        /// Returns an <see cref="IIntervalSet{T}"/> representing the union of this <see cref="IIntervalSet{T}"/> and one conaining only the value <paramref name="other"/>
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        IIntervalSet<T> Plus(T other);
+           
         /// <summary>
         /// Returns an <see cref="IIntervalSet{T}"/> representing the intersection of this <see cref="IIntervalSet{T}"/> and another
         /// </summary>
@@ -114,11 +128,25 @@ namespace IntervalSet
         new TSet Minus(IIntervalSet<T> other);
 
         /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the relative complement of an <see cref="IIntervalSet{T}"/> containing only <paramref name="other"/> in this one
+        /// </summary>
+        /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
+        /// <returns></returns>
+        new TSet Minus(T other);
+
+        /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the union of this <see cref="IIntervalSet{T}"/> and another
         /// </summary>
         /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
         /// <returns></returns>
         new TSet Plus(IIntervalSet<T> other);
+
+        /// <summary>
+        /// Returns an <see cref="IIntervalSet{T}"/> representing the union of this <see cref="IIntervalSet{T}"/> and one conaining only the value <paramref name="other"/>
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        new TSet Plus(T other);
 
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the intersection of this <see cref="IIntervalSet{T}"/> and another
