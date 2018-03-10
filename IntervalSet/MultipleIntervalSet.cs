@@ -83,7 +83,10 @@ namespace IntervalSet
         {
             if (from.Location.Equals(to.Location))
             {
-                IntervalList.Add(IntervalBuilder.MakeDegenerate(new Degenerate<T>(from.Location)));
+                if (from.Inclusive || to.Inclusive)
+                {
+                    IntervalList.Add(IntervalBuilder.MakeDegenerate(new Degenerate<T>(from.Location)));
+                }
             }
             else
             {

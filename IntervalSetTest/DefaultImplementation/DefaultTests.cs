@@ -26,6 +26,9 @@ namespace IntervalSetTest.DefaultImplementation
         [Test]
         public void Test_substituting_builder()
         {
+            DoubleSet a = new DoubleSet(6, 6);
+            a.IsEmpty.Should().BeTrue();
+
             DoubleSet fiveSix = new DoubleSet(5, 6);
             fiveSix.Contains(5).Should().BeFalse();
             DoubleSet all = DoubleSet.All;
