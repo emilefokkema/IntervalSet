@@ -24,6 +24,12 @@ namespace IntervalSet
         IIntervalSet<T> Complement();
 
         /// <summary>
+        /// Returns an <see cref="IIntervalSet{T}"/> representing the union of all open subsets of this <see cref="IIntervalSet{T}"/>
+        /// </summary>
+        /// <returns></returns>
+        IIntervalSet<T> Interior();
+
+        /// <summary>
         /// Returns an <see cref="IIntervalSet{T}"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one
         /// </summary>
         /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
@@ -131,6 +137,12 @@ namespace IntervalSet
         /// </summary>
         /// <returns></returns>
         new TSet Complement();
+
+        /// <summary>
+        /// Returns a <typeparamref name="TSet"/> representing the union of all open subsets of this <see cref="IIntervalSet{T}"/>
+        /// </summary>
+        /// <returns></returns>
+        new TSet Interior();
 
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one

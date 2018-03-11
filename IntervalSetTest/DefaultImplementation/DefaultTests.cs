@@ -104,5 +104,23 @@ namespace IntervalSetTest.DefaultImplementation
 
             DoubleSet.All.Minus(5).Complement().Should().Be(DoubleSet.Empty.Plus(5));
         }
+
+        [Test]
+        public void Test_interior()
+        {
+            DoubleSet degenerate = DoubleSet.Empty.Plus(7);
+            degenerate.Interior().Should().Be(DoubleSet.Empty);
+
+            DoubleSet closed = new DoubleSet(5, 6).Plus(5).Plus(6);
+            closed.Interior().Should().Be(new DoubleSet(5, 6));
+
+            closed.Plus(degenerate).Interior().Should().Be(new DoubleSet(5, 6));
+
+            new DoubleSet(5, 6).Interior().Should().Be(new DoubleSet(5, 6));
+
+            IntSet intSet = new IntSet(3,3);
+            intSet.IsEmpty.Should().BeFalse();
+            intSet.Interior().IsEmpty.Should().BeTrue();
+        }
     }
 }

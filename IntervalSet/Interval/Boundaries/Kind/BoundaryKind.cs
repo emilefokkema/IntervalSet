@@ -49,6 +49,19 @@ namespace IntervalSet.Interval.Boundaries.Kind
         }
 
         /// <summary>
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d (if any) of the interior of an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
+        /// </summary>
+        /// <returns></returns>
+        public BoundaryKind Open()
+        {
+            if (Direction == BoundaryDirection.None)
+            {
+                return null;
+            }
+            return new BoundaryKind(Direction, Inclusivity.Exclusive);
+        }
+
+        /// <summary>
         /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the result of adding another <see cref="IIntervalSet{T}"/>
         /// with a <see cref="Boundary{T}"/> at d to an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
         /// </summary>

@@ -81,6 +81,23 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
+        public TSet Interior()
+        {
+            List<Boundary<T>> interiorBoundaries = new List<Boundary<T>>();
+            foreach (Boundary<T> boundary in IntervalBuilder.GroupBoundaries(Boundaries))
+            {
+                BoundaryKind openKind = boundary.Kind.Open();
+                if (openKind != null)
+                {
+                    interiorBoundaries.Add(new Boundary<T>(boundary.Location, openKind));
+                }
+            }
+
+            return IntervalBuilder.MakeSet(IntervalBuilder.Build(interiorBoundaries, ContainsNegativeInfinity())
+                .ToList());
+        }
+
+        /// <inheritdoc />
         public TSet Minus(IIntervalSet<T> other)
         {
             return Cross(other.Complement());
@@ -154,6 +171,11 @@ namespace IntervalSet
         IIntervalSet<T> IIntervalSet<T>.Complement()
         {
             return Complement();
+        }
+
+        IIntervalSet<T> IIntervalSet<T>.Interior()
+        {
+            return Interior();
         }
 
         IIntervalSet<T> IIntervalSet<T>.Minus(IIntervalSet<T> other)
