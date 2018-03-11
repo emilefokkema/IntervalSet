@@ -36,6 +36,13 @@ namespace IntervalSet
         IEnumerable<TInterval> Build(IList<Boundary<T>> boundaries, bool containsNegativeInfinity);
 
         /// <summary>
+        /// Returns a list of <see cref="Boundary{T}"/>s that each have a different <see cref="Boundary{T}.Location"/>
+        /// </summary>
+        /// <param name="boundaries"></param>
+        /// <returns></returns>
+        List<Boundary<T>> GroupBoundaries(IEnumerable<Boundary<T>> boundaries);
+
+        /// <summary>
         /// Returns a <typeparamref name="TInterval"/> starting at <paramref name="from"/>
         /// </summary>
         /// <param name="from"></param>

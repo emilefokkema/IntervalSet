@@ -18,6 +18,12 @@ namespace IntervalSet
         bool IsEmpty { get; }
 
         /// <summary>
+        /// Returns an <see cref="IIntervalSet{T}"/> representing the complement of this one in the <typeparamref name="T"/> space
+        /// </summary>
+        /// <returns></returns>
+        IIntervalSet<T> Complement();
+
+        /// <summary>
         /// Returns an <see cref="IIntervalSet{T}"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one
         /// </summary>
         /// <param name="other">the other <see cref="IIntervalSet{T}"/></param>
@@ -120,6 +126,12 @@ namespace IntervalSet
     public interface IIntervalSet<TSet, T> : IIntervalSet<T>
         where T : IComparable<T>, IEquatable<T>
     {
+        /// <summary>
+        /// Returns a <typeparamref name="TSet" /> representing the complement of this one in the <typeparamref name="T"/> space
+        /// </summary>
+        /// <returns></returns>
+        new TSet Complement();
+
         /// <summary>
         /// Returns a <typeparamref name="TSet"/> representing the relative complement of another <see cref="IIntervalSet{T}"/> in this one
         /// </summary>

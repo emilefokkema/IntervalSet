@@ -30,21 +30,15 @@ namespace IntervalSetTest.PeriodSet
         }
 
         [Test]
-        public void Test_boundary_kind_minus()
+        public void Test_boundary_kind_complement()
         {
-            inclusiveStart.Minus(exclusiveStart).Should().Be(degenerate);
-            inclusiveEnd.Minus(exclusiveEnd).Should().Be(degenerate);
+            inclusiveStart.Complement().Should().Be(exclusiveEnd);
+            inclusiveEnd.Complement().Should().Be(exclusiveStart);
 
-            inclusiveStart.Minus(inclusiveEnd).Should().Be(exclusiveStart);
-            inclusiveStart.Minus(exclusiveEnd).Should().Be(inclusiveStart);
+            exclusiveStart.Complement().Should().Be(inclusiveEnd);
+            exclusiveEnd.Complement().Should().Be(inclusiveStart);
 
-            inclusiveEnd.Minus(inclusiveStart).Should().Be(exclusiveEnd);
-            inclusiveEnd.Minus(exclusiveStart).Should().Be(inclusiveEnd);
-
-            continuation.Minus(inclusiveStart).Should().Be(exclusiveEnd);
-            continuation.Minus(exclusiveStart).Should().Be(inclusiveEnd);
-            continuation.Minus(inclusiveEnd).Should().Be(exclusiveStart);
-            continuation.Minus(exclusiveEnd).Should().Be(inclusiveStart);
+            degenerate.Complement().Should().Be(exclusiveStart.Plus(exclusiveEnd));
         }
 
         [Test]

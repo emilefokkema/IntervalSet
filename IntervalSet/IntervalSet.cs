@@ -73,29 +73,23 @@ namespace IntervalSet
         }
 
         /// <inheritdoc />
+        public TSet Complement()
+        {
+            return IntervalBuilder.MakeSet(IntervalBuilder
+                .Build(IntervalBuilder.GroupBoundaries(Boundaries).Select(b => new Boundary<T>(b.Location, b.Kind.Complement())).ToList(),
+                    !ContainsNegativeInfinity()).ToList());
+        }
+
+        /// <inheritdoc />
         public TSet Minus(IIntervalSet<T> other)
         {
-            List<Boundary<T>> minusBoundaries = Boundaries.Where(b => other.Cross(b.Location) == null)
-                .Concat(MinusBoundaries(other)).ToList();
-            return IntervalBuilder.MakeSet(IntervalBuilder.Build(minusBoundaries, !other.ContainsNegativeInfinity() && ContainsNegativeInfinity()).ToList());
+            return Cross(other.Complement());
         }
 
         /// <inheritdoc />
         public TSet Minus(T other)
         {
             return Minus(IntervalBuilder.MakeDegenerate(new Degenerate<T>(other)));
-        }
-
-        private IEnumerable<Boundary<T>> MinusBoundaries(IIntervalSet<T> other)
-        {
-            foreach (Boundary<T> otherBoundary in other.Boundaries)
-            {
-                BoundaryKind minusKind = Cross(otherBoundary.Location)?.Minus(otherBoundary.Kind);
-                if (minusKind != null)
-                {
-                    yield return new Boundary<T>(otherBoundary.Location, minusKind);
-                }
-            }
         }
 
         private static IEnumerable<Boundary<T>> PlusBoundaries(IIntervalSet<T> one, IIntervalSet<T> other)
@@ -155,6 +149,11 @@ namespace IntervalSet
         IIntervalSet<T> IIntervalSet<T>.Where(Func<T, T, bool> trueEverywhereBetween, IList<T> changes)
         {
             return Where(trueEverywhereBetween, changes);
+        }
+
+        IIntervalSet<T> IIntervalSet<T>.Complement()
+        {
+            return Complement();
         }
 
         IIntervalSet<T> IIntervalSet<T>.Minus(IIntervalSet<T> other)

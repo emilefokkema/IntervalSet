@@ -36,7 +36,8 @@ namespace IntervalSet
         /// <inheritdoc />
         public abstract End<T> MakeEnd(T to);
 
-        private List<Boundary<T>> OrderBoundaries(IList<Boundary<T>> boundaries)
+        /// <inheritdoc />
+        public List<Boundary<T>> GroupBoundaries(IEnumerable<Boundary<T>> boundaries)
         {
             return boundaries
                 .GroupBy(b => b.Location)
@@ -51,7 +52,7 @@ namespace IntervalSet
         {
             bool currentlyTrue = containsNegativeInfinity;
             Start<T> mostRecentStart = null;
-            foreach (Boundary<T> boundary in OrderBoundaries(boundaries))
+            foreach (Boundary<T> boundary in GroupBoundaries(boundaries))
             {
                 if (boundary.IsStart)
                 {

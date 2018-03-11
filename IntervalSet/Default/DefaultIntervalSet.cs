@@ -47,7 +47,7 @@ namespace IntervalSet.Default
         /// Initializes a new <see cref="DefaultIntervalSet{TSet,TBuilder,T}"/> based on a given <see cref="Start{T}"/>
         /// </summary>
         /// <param name="start"></param>
-        public DefaultIntervalSet(Start<T> start):base(start)
+        public DefaultIntervalSet(T start):base(new TBuilder().MakeStart(start))
         {
         }
 
@@ -120,6 +120,14 @@ namespace IntervalSet.Default
         }
 
         /// <summary>
+        /// Initializes a new <see cref="DefaultIntervalSet{TBuilder,T}"/> with a given start <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="from"></param>
+        public DefaultIntervalSet(T from) : base(from)
+        {
+        }
+
+        /// <summary>
         /// A <see cref="DefaultIntervalSet{TBuilder,T}"/> representing the entire <typeparamref name="T"/> space
         /// </summary>
         public static DefaultIntervalSet<TBuilder,T> All = new DefaultIntervalSet<TBuilder,T>(new List<IDefaultInterval<T>> {new DefaultEntireInterval<TBuilder,T>()});
@@ -167,6 +175,14 @@ namespace IntervalSet.Default
         /// <param name="from"></param>
         /// <param name="to"></param>
         public DefaultIntervalSet(T from, T to) : base(from, to)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new <see cref="DefaultIntervalSet{T}"/> with a given start <typeparamref name="T"/>
+        /// </summary>
+        /// <param name="from"></param>
+        public DefaultIntervalSet(T from) : base(from)
         {
         }
 

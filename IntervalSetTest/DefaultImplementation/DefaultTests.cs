@@ -74,5 +74,35 @@ namespace IntervalSetTest.DefaultImplementation
             nonEmptySet2.Start.Should().Be(5);
             nonEmptySet2.End.Should().Be(7);
         }
+
+        [Test]
+        public void Test_complement()
+        {
+            IntSet complement = new IntSet(1, 3).Complement();
+            complement.ContainsNegativeInfinity().Should().BeTrue();
+            complement.Contains(3).Should().BeTrue();
+            complement.Contains(1).Should().BeFalse();
+            complement.Contains(2).Should().BeFalse();
+
+            complement = new IntSet(5).Complement();
+            complement.Contains(5).Should().BeFalse();
+            complement.ContainsNegativeInfinity().Should().BeTrue();
+            complement.Contains(6).Should().BeFalse();
+            complement.Contains(4).Should().BeTrue();
+
+            DoubleSet set = new DoubleSet(1, 2).Plus(new DoubleSet(2, 3));
+            DoubleSet doubleComplement = set.Complement();
+            doubleComplement.Contains(2).Should().BeTrue();
+            doubleComplement.Contains(1.5).Should().BeFalse();
+            doubleComplement.Contains(2.5).Should().BeFalse();
+
+            DoubleSet degenerate = DoubleSet.Empty.Plus(4);
+            doubleComplement = degenerate.Complement();
+            doubleComplement.Contains(4).Should().BeFalse();
+            doubleComplement.Contains(5).Should().BeTrue();
+            doubleComplement.Contains(3).Should().BeTrue();
+
+            DoubleSet.All.Minus(5).Complement().Should().Be(DoubleSet.Empty.Plus(5));
+        }
     }
 }

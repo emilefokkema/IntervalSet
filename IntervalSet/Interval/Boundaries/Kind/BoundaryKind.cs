@@ -40,17 +40,12 @@ namespace IntervalSet.Interval.Boundaries.Kind
         }
 
         /// <summary>
-        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the result of subtracting another <see cref="IIntervalSet{T}"/>
-        /// with a <see cref="Boundary{T}"/> at d from an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
+        /// Returns the <see cref="BoundaryKind"/> of the <see cref="Boundary{T}"/> at location d of the complement of an <see cref="IIntervalSet{T}"/> with this kind of <see cref="Boundary{T}"/> at d
         /// </summary>
         /// <returns></returns>
-        public BoundaryKind Minus(BoundaryKind other)
+        public BoundaryKind Complement()
         {
-            if (Equals(other))
-            {
-                return null;
-            }
-            return new BoundaryKind(Direction & ~other.Direction, Inclusivity & ~other.Inclusivity);
+            return new BoundaryKind((BoundaryDirection.Start | BoundaryDirection.End) & ~Direction, (Inclusivity.Inclusive|Inclusivity.Exclusive) & ~Inclusivity);
         }
 
         /// <summary>
