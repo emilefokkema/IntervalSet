@@ -44,7 +44,7 @@ namespace IntervalSetTest.DefaultImplementation
             nonEmptyAll.End.Should().Be(double.PositiveInfinity);
             DoubleSet difference = all.Minus(fiveSix);
             DoubleSet product = difference.Cross(new DoubleSet(4, 7));
-            //product.Should().Be(new DoubleSet(4, 5).Plus(new DoubleSet(6, 7)));
+            product.Should().Be(new DoubleSet(4, 5).Plus(new DoubleSet(6, 7)).Plus(5).Plus(6));
 
             IDefaultInterval<double> nonEmptyProduct;
             product.IsNonEmpty(out nonEmptyProduct).Should().BeTrue();
