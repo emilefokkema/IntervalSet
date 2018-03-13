@@ -92,7 +92,7 @@ namespace IntervalSet.Interval
                 {
                     return Boundary;
                 }
-                return IntervalBuilder.NegativeInfinityBoundary;
+                return Builder.NegativeInfinityBoundary;
             }
         }
 
@@ -104,7 +104,7 @@ namespace IntervalSet.Interval
                 {
                     return Boundary;
                 }
-                return IntervalBuilder.PositiveInfinityBoundary;
+                return Builder.PositiveInfinityBoundary;
             }
         }
     }

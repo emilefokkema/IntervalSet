@@ -44,7 +44,7 @@ namespace IntervalSet
         /// <param name="set"></param>
         protected MultipleIntervalSet(IIntervalSet<T> set) : this()
         {
-            _intervalList = IntervalBuilder.Build(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
+            _intervalList = Builder.Build(set.Boundaries.ToList(), set.ContainsNegativeInfinity()).ToList();
         }
 
         /// <summary>
@@ -85,12 +85,12 @@ namespace IntervalSet
             {
                 if (from.Inclusive || to.Inclusive)
                 {
-                    IntervalList.Add(IntervalBuilder.MakeDegenerate(new Degenerate<T>(from.Location)));
+                    IntervalList.Add(Builder.MakeDegenerate(new Degenerate<T>(from.Location)));
                 }
             }
             else
             {
-                IntervalList.Add(IntervalBuilder.MakeStartEndingInterval(from, to));
+                IntervalList.Add(Builder.MakeStartEndingInterval(from, to));
             }
         }
 
@@ -99,7 +99,7 @@ namespace IntervalSet
         /// </summary>
         protected MultipleIntervalSet(Start<T> from) : this()
         {
-            IntervalList.Add(IntervalBuilder.MakeStartingInterval(from));
+            IntervalList.Add(Builder.MakeStartingInterval(from));
         }
 
         /// <inheritdoc />
@@ -142,7 +142,7 @@ namespace IntervalSet
         {
             if (IntervalList.Any())
             {
-                nonEmpty = IntervalBuilder.MakeNonEmptySet(IntervalList);
+                nonEmpty = Builder.MakeNonEmptySet(IntervalList);
                 return true;
             }
             nonEmpty = default(TInterval);

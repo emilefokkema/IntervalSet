@@ -6,7 +6,7 @@ using IntervalSet.Interval.Default;
 namespace PeriodSet
 {
     /// <inheritdoc />
-    public class BoundedPeriodListBuilder : AbstractDefaultBuilder<BoundedPeriodSet, BoundedPeriodListBuilder, DateTime>
+    public class BoundedPeriodListBuilder : DefaultBuilder<BoundedPeriodSet, BoundedPeriodListBuilder, DateTime>
     {
         /// <inheritdoc />
         public override BoundedPeriodSet MakeSet(IList<IDefaultInterval<DateTime>> intervals)

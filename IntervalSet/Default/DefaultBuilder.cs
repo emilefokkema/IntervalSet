@@ -12,7 +12,7 @@ namespace IntervalSet.Default
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="TSet"></typeparam>
     /// <typeparam name="TBuilder"></typeparam>
-    public abstract class AbstractDefaultBuilder<TSet, TBuilder, T> : Builder<TSet, IDefaultInterval<T>, T>
+    public abstract class DefaultBuilder<TSet, TBuilder, T> : Builder<TSet, IDefaultInterval<T>, T>
         where TSet : IIntervalSet<T>
         where TBuilder : IBuilder<TSet, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
@@ -67,9 +67,9 @@ namespace IntervalSet.Default
     }
 
     /// <summary>
-    /// A default implementation of <see cref="AbstractDefaultBuilder{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
+    /// A default implementation of <see cref="DefaultBuilder{TSet,TBuilder,T}"/> where <c>TSet</c> is <see cref="DefaultIntervalSet{TBuilder,T}"/>
     /// </summary>
-    public class DefaultBuilder<TBuilder, T> : AbstractDefaultBuilder<DefaultIntervalSet<TBuilder, T>, DefaultBuilder<TBuilder, T>, T>
+    public class DefaultBuilder<TBuilder, T> : DefaultBuilder<DefaultIntervalSet<TBuilder, T>, DefaultBuilder<TBuilder, T>, T>
         where TBuilder : IBuilder<DefaultIntervalSet<TBuilder, T>, IDefaultInterval<T>, T>, new()
         where T : IComparable<T>, IEquatable<T>
     {
@@ -119,7 +119,7 @@ namespace IntervalSet.Default
     /// <summary>
     /// A default implementation of <see cref="DefaultBuilder{TBuilder,T}"/> where <c>TBuilder</c> is <see cref="DefaultBuilder{T}"/>
     /// </summary>
-    public class DefaultBuilder<T> : AbstractDefaultBuilder<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
+    public class DefaultBuilder<T> : DefaultBuilder<DefaultIntervalSet<T>, DefaultBuilder<T>, T>
         where T : IComparable<T>, IEquatable<T>
     {
         /// <inheritdoc />

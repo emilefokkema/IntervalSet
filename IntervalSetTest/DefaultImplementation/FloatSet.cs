@@ -6,7 +6,7 @@ using IntervalSet.Interval.Default;
 
 namespace IntervalSetTest.DefaultImplementation
 {
-    public class FloatBuilder : AbstractDefaultBuilder<FloatSet, FloatBuilder, float>
+    public class FloatBuilder : DefaultBuilder<FloatSet, FloatBuilder, float>
     {
         public override FloatSet MakeSet(IList<IDefaultInterval<float>> intervals)
         {

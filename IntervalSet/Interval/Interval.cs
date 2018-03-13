@@ -54,10 +54,10 @@ namespace IntervalSet.Interval
         }
 
         /// <inheritdoc />
-        public virtual Boundary<T> StartingBoundary => IntervalBuilder.NegativeInfinityBoundary;
+        public virtual Boundary<T> StartingBoundary => Builder.NegativeInfinityBoundary;
 
         /// <inheritdoc />
-        public virtual Boundary<T> EndingBoundary => IntervalBuilder.PositiveInfinityBoundary;
+        public virtual Boundary<T> EndingBoundary => Builder.PositiveInfinityBoundary;
 
         /// <inheritdoc />
         public T Start => StartingBoundary;
