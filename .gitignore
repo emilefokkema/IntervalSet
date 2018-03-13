@@ -7,3 +7,5 @@ packages/
 *.user
 *.userosscache
 *.sln.docstates
+
+*.nupkg
